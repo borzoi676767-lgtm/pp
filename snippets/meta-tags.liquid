@@ -1,0 +1,95 @@
+{%- comment -%}
+  SEO: canonical, meta description, Open Graph, Twitter cards, JSON-LD.
+  Rendered inside <head>.
+{%- endcomment -%}
+<link rel="canonical" href="{{ canonical_url }}">
+
+{%- liquid
+  assign og_title = page_title
+  assign og_desc = page_description | default: shop.description | default: shop.name
+  assign og_image = settings.share_image
+  if template contains 'product' and product.featured_media
+    assign og_image_url = product.featured_media | image_url: width: 1200
+  elsif template contains 'collection' and collection.image
+    assign og_image_url = collection.image | image_url: width: 1200
+  elsif settings.share_image
+    assign og_image_url = settings.share_image | image_url: width: 1200
+  endif
+-%}
+
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:type" content="{% if template contains 'product' %}product{% elsif template contains 'article' %}article{% else %}website{% endif %}">
+<meta property="og:title" content="{{ og_title | escape }}">
+<meta property="og:description" content="{{ og_desc | escape }}">
+<meta property="og:url" content="{{ canonical_url }}">
+{%- if og_image_url -%}
+  <meta property="og:image" content="https:{{ og_image_url }}">
+  <meta property="og:image:width" content="1200">
+{%- endif -%}
+
+<meta name="twitter:card" content="summary_large_image">
+{%- if settings.social_twitter_handle != blank -%}<meta name="twitter:site" content="@{{ settings.social_twitter_handle }}">{%- endif -%}
+<meta name="twitter:title" content="{{ og_title | escape }}">
+<meta name="twitter:description" content="{{ og_desc | escape }}">
+{%- if og_image_url -%}<meta name="twitter:image" content="https:{{ og_image_url }}">{%- endif -%}
+
+{%- comment -%} ---- JSON-LD: Organization (site-wide) ---- {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  "url": {{ shop.url | append: '/' | json }},
+  {% if settings.brand_emblem %}"logo": "https:{{ settings.brand_emblem | image_url: width: 400 }}",{% endif %}
+  "slogan": "Nature Calls, Coffee Answers.",
+  "sameAs": [
+    {%- assign socials = '' -%}
+    {%- if settings.social_instagram != blank -%}{{ settings.social_instagram | json }}{%- assign socials = 'y' -%}{%- endif -%}
+    {%- if settings.social_tiktok != blank -%}{% if socials == 'y' %},{% endif %}{{ settings.social_tiktok | json }}{%- assign socials = 'y' -%}{%- endif -%}
+    {%- if settings.social_facebook != blank -%}{% if socials == 'y' %},{% endif %}{{ settings.social_facebook | json }}{%- assign socials = 'y' -%}{%- endif -%}
+    {%- if settings.social_youtube != blank -%}{% if socials == 'y' %},{% endif %}{{ settings.social_youtube | json }}{%- endif -%}
+  ]
+}
+</script>
+
+{%- if template contains 'product' and product -%}
+  {%- assign p_desc = product.description | strip_html | truncatewords: 60 -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "description": {{ p_desc | json }},
+    "brand": { "@type": "Brand", "name": {{ product.vendor | default: shop.name | json }} },
+    {% if product.featured_media %}"image": ["https:{{ product.featured_media | image_url: width: 1200 }}"],{% endif %}
+    "url": {{ product.url | prepend: shop.url | json }},
+    "sku": {{ product.selected_or_first_available_variant.sku | default: product.id | json }},
+    "offers": {
+      "@type": "{% if product.variants.size > 1 %}AggregateOffer{% else %}Offer{% endif %}",
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      {% if product.variants.size > 1 %}"lowPrice": "{{ product.price_min | money_without_currency | strip_html }}","highPrice": "{{ product.price_max | money_without_currency | strip_html }}","offerCount": {{ product.variants.size }},{% else %}"price": "{{ product.price | money_without_currency | strip_html }}",{% endif %}
+      "availability": "https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}",
+      "url": {{ product.url | prepend: shop.url | json }}
+    }
+    {%- if product.metafields.reviews.rating.value != blank and product.metafields.reviews.rating_count.value != blank -%}
+    ,"aggregateRating": { "@type": "AggregateRating", "ratingValue": "{{ product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value }}", "reviewCount": "{{ product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count }}" }
+    {%- endif -%}
+  }
+  </script>
+{%- endif -%}
+
+{%- if template == 'index' -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": {{ shop.name | json }},
+    "url": {{ shop.url | append: '/' | json }},
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "{{ shop.url }}/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+{%- endif -%}

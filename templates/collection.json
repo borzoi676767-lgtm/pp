@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "banner": { "type": "main-collection-banner", "settings": {} },
+    "grid": { "type": "main-collection-product-grid", "settings": { "per_page": 24, "enable_filtering": true } },
+    "reassurance": {
+      "type": "trust-badges",
+      "blocks": {
+        "b1": { "type": "badge", "settings": { "icon": "fire", "title": "Roasted to Order", "text": "Small batches over real fire" } },
+        "b2": { "type": "badge", "settings": { "icon": "truck", "title": "Free Shipping", "text": "On orders over $45" } },
+        "b3": { "type": "badge", "settings": { "icon": "leaf", "title": "Ethically Sourced", "text": "Specialty-grade beans" } },
+        "b4": { "type": "badge", "settings": { "icon": "shield", "title": "Happiness Guarantee", "text": "Love it or we'll fix it" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    }
+  },
+  "order": ["banner", "grid", "reassurance"]
+}

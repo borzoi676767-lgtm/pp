@@ -1,0 +1,80 @@
+{%- paginate collection.products by section.settings.per_page -%}
+<section class="section" aria-label="{{ collection.title }} products">
+  <div class="page-width">
+    <div class="collection-toolbar">
+      <span class="collection-count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'find', 'finds' }}</span>
+
+      <div class="collection-filters">
+        {%- if section.settings.enable_filtering and collection.filters.size > 0 -%}
+          <form class="facets" id="facet-form" method="get">
+            {%- for filter in collection.filters -%}
+              <details class="facet">
+                <summary class="facet__summary">{{ filter.label }} {% render 'icon', name: 'chevron-down', size: 14 %}</summary>
+                <div class="facet__panel">
+                  {%- case filter.type -%}
+                    {%- when 'list', 'boolean' -%}
+                      {%- for value in filter.values -%}
+                        <label><input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %} onchange="this.form.submit()"> {{ value.label }} ({{ value.count }})</label>
+                      {%- endfor -%}
+                    {%- when 'price_range' -%}
+                      <label>Min <input class="input" type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" placeholder="0"></label>
+                      <label>Max <input class="input" type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" placeholder="{{ filter.range_max | money_without_currency | round }}"></label>
+                      <button type="submit" class="btn btn--ghost">Apply</button>
+                  {%- endcase -%}
+                </div>
+              </details>
+            {%- endfor -%}
+            {%- if collection.sort_options.size > 0 -%}
+              <label class="visually-hidden" for="SortBy">Sort</label>
+              <select id="SortBy" name="sort_by" onchange="this.form.submit()">
+                {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value }}" {% if option.value == current_sort %}selected{% endif %}>{{ option.name }}</option>
+                {%- endfor -%}
+              </select>
+            {%- endif -%}
+          </form>
+        {%- elsif collection.sort_options.size > 0 -%}
+          <form method="get">
+            <select name="sort_by" onchange="this.form.submit()" aria-label="Sort">
+              {%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}" {% if option.value == current_sort %}selected{% endif %}>{{ option.name }}</option>
+              {%- endfor -%}
+            </select>
+          </form>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if collection.filters.size > 0 and collection.products.size > 0 and current_tags == null -%}{%- endif -%}
+
+    {%- if collection.products.size > 0 -%}
+      <div class="product-grid" data-reveal-stagger>
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product, lazy: forloop.index > 4 %}
+        {%- endfor -%}
+      </div>
+      {% render 'pagination', paginate: paginate %}
+    {%- else -%}
+      <div class="empty-state text-center" style="padding:4rem 0">
+        {% render 'icon', name: 'pine', size: 48 %}
+        <h3>This trail's quiet right now</h3>
+        <p class="muted">No products match. Try clearing filters or wander another trail.</p>
+        <a href="{{ collection.url }}" class="btn btn--accent">Clear filters</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+{%- endpaginate -%}
+{% schema %}
+{
+  "name": "Product grid",
+  "tag": "section",
+  "settings": [
+    { "type": "range", "id": "per_page", "min": 8, "max": 48, "step": 4, "label": "Products per page", "default": 24 },
+    { "type": "checkbox", "id": "enable_filtering", "label": "Enable filters", "default": true }
+  ],
+  "enabled_on": { "templates": ["collection"] }
+}
+{% endschema %}

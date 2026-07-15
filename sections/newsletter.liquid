@@ -1,0 +1,40 @@
+<section class="section" aria-label="Newsletter">
+  <div class="page-width page-width--narrow">
+    <div class="newsletter-card" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow" style="justify-content:center">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="lede">{{ section.settings.text }}</p>{%- endif -%}
+      {%- form 'customer', class: 'newsletter-form newsletter-form--big' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="input-group">
+          <input class="input" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.placeholder' | t }}" aria-label="{{ 'general.newsletter.label' | t }}" required>
+          <button type="submit" class="btn btn--accent btn--lg">{{ section.settings.button_label | default: 'Join the Camp' }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}<p class="form-success">{{ 'general.newsletter.success' | t }}</p>{%- endif -%}
+        {%- if form.errors -%}<p class="form-error" style="color:#b23b2b">{{ form.errors | default_errors }}</p>{%- endif -%}
+      {%- endform -%}
+      <p class="muted" style="font-size:.82rem;margin-top:.8rem">{{ section.settings.disclaimer }}</p>
+    </div>
+  </div>
+</section>
+<style>
+  #shopify-section-{{ section.id }} .newsletter-card { text-align: center; background: linear-gradient(160deg, var(--forest-700), var(--forest-900)); color: var(--cream-100); border-radius: var(--r-lg); padding: clamp(2rem,5vw,3.5rem); box-shadow: var(--shadow-lg); position: relative; overflow: hidden; }
+  #shopify-section-{{ section.id }} .newsletter-card h2 { color: #fff; }
+  #shopify-section-{{ section.id }} .newsletter-card .lede { color: color-mix(in srgb, var(--cream-100) 88%, transparent); }
+  #shopify-section-{{ section.id }} .newsletter-form--big { max-width: 480px; margin: 1.4rem auto 0; }
+  #shopify-section-{{ section.id }} .newsletter-card::before { content: ""; position: absolute; inset: -40% -10% auto; height: 200px; background: radial-gradient(closest-side, rgba(242,193,78,.25), transparent); }
+</style>
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Trail dispatches" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Get 10% off your first bag" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Join the camp for new roasts, seasonal drops, and the occasional secret from Simon's notebook." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Join the Camp" },
+    { "type": "text", "id": "disclaimer", "label": "Disclaimer", "default": "No spam — just good coffee. Unsubscribe anytime." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

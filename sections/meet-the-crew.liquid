@@ -1,0 +1,96 @@
+<section id="meet-the-crew" class="crew section" aria-label="Meet the crew">
+  <div class="page-width">
+    <div class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="lede">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+
+    {%- if section.settings.banner_image or section.settings.show_default_banner -%}
+      <div class="crew__banner framed" data-reveal>
+        <img src="{% if section.settings.banner_image %}{{ section.settings.banner_image | image_url: width: 1600 }}{% else %}{{ 'forest-world.webp' | asset_url }}{% endif %}"
+             alt="The Sasquatch Coffee crew gathered around the campfire" width="1264" height="848" loading="lazy">
+        <p class="crew__banner-cap">{{ section.settings.banner_caption | default: 'Every evening the whole camp gathers around the fire. Tap a character to say hello.' }}</p>
+      </div>
+    {%- endif -%}
+
+    <div class="crew__stage" data-reveal-stagger>
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign lines = block.settings.dialogue | newline_to_br | strip_newlines | split: '<br />'
+          assign fallback = block.settings.default_image
+        -%}
+        <button type="button" class="character" data-character
+          data-lines='[{% for l in lines %}{{ l | strip | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]'
+          aria-label="Talk to {{ block.settings.name | escape }}, {{ block.settings.role | escape }}"
+          {{ block.shopify_attributes }}>
+          <span class="speech" aria-live="polite"></span>
+          <span class="character__figure">
+            <span class="character__glow" aria-hidden="true"></span>
+            {%- if block.settings.image -%}
+              <img class="character__img" src="{{ block.settings.image | image_url: width: 520 }}" alt="{{ block.settings.name | escape }}" width="300" height="400" loading="lazy">
+            {%- elsif fallback != 'none' -%}
+              <img class="character__img" src="{{ fallback | append: '.webp' | asset_url }}" alt="{{ block.settings.name | escape }}" width="300" height="400" loading="lazy">
+            {%- endif -%}
+          </span>
+          <span class="character__name">{{ block.settings.name }}</span>
+          <span class="character__role">{{ block.settings.role }}</span>
+        </button>
+      {%- endfor -%}
+    </div>
+    <p class="text-center muted" style="margin-top:1.2rem;font-size:.9rem">Psst — some of the crew only appear after dark. Try the moon toggle. 🌙</p>
+  </div>
+  {% render 'hidden-bean', bean_id: 'crew', pos: 'right:5%;bottom:18%' %}
+</section>
+
+<style>
+  #shopify-section-{{ section.id }} .crew__banner { position: relative; margin-bottom: clamp(2rem,5vw,3.5rem); }
+  #shopify-section-{{ section.id }} .crew__banner img { width: 100%; height: auto; display: block; }
+  #shopify-section-{{ section.id }} .crew__banner-cap { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; padding: 2.4rem 1.4rem 1.2rem; color: #fff; font-weight: 600; text-align: center; background: linear-gradient(transparent, rgba(8,16,10,.75)); font-size: clamp(.85rem,1.6vw,1rem); }
+</style>
+
+{% schema %}
+{
+  "name": "Meet the crew",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The cryptids behind the counter" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Meet the Crew" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "A charming band of forest cryptids runs this roastery. Tap anyone to hear them out." },
+    { "type": "checkbox", "id": "show_default_banner", "label": "Show campfire banner", "default": true },
+    { "type": "image_picker", "id": "banner_image", "label": "Banner image (optional)" },
+    { "type": "text", "id": "banner_caption", "label": "Banner caption" }
+  ],
+  "blocks": [
+    {
+      "type": "character",
+      "name": "Character",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Custom image (transparent PNG best)" },
+        { "type": "select", "id": "default_image", "label": "Built-in character art", "default": "char-sasquatch", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "char-sasquatch", "label": "Sasquatch" },
+          { "value": "char-simon", "label": "Simon the Platypus" },
+          { "value": "char-yeti", "label": "Yeti" },
+          { "value": "char-mothman", "label": "Mothman" },
+          { "value": "char-jackalope", "label": "Jackalope" }
+        ]},
+        { "type": "text", "id": "name", "label": "Name", "default": "Sasquatch" },
+        { "type": "text", "id": "role", "label": "Role", "default": "Founder & Master Roaster" },
+        { "type": "textarea", "id": "dialogue", "label": "Dialogue lines (one per line)", "default": "Welcome to the forest.\nWe roast every batch over the perfect fire.\nNature Calls. Coffee Answers." }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [{
+    "name": "Meet the crew",
+    "blocks": [
+      { "type": "character", "settings": { "default_image": "char-sasquatch", "name": "Sasquatch", "role": "Founder & Master Roaster", "dialogue": "Welcome to the forest.\nWe roast every batch over the perfect fire.\nNature Calls. Coffee Answers." } },
+      { "type": "character", "settings": { "default_image": "char-simon", "name": "Simon", "role": "Coffee Scientist & Flavor Engineer", "dialogue": "I tested this roast 143 times.\nScience says: another cup.\nTrust the process." } },
+      { "type": "character", "settings": { "default_image": "char-yeti", "name": "Yeti", "role": "Head of Operations", "dialogue": "Crates in, crates out. All day.\nInventory's looking good today.\nMind the fresh stack!" } },
+      { "type": "character", "settings": { "default_image": "char-mothman", "name": "Mothman", "role": "Night Shift Manager", "dialogue": "I keep the campfire burning.\nRoast schedule's on track.\nThe night is cozy out here." } },
+      { "type": "character", "settings": { "default_image": "char-jackalope", "name": "Jackalope", "role": "Trail Guide", "dialogue": "This way to the good stuff!\nFollow my footprints.\nHop hop — let's explore!" } }
+    ]
+  }]
+}
+{% endschema %}

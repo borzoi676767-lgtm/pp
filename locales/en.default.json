@@ -1,0 +1,71 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "close": "Close",
+      "menu": "Menu",
+      "next": "Next",
+      "previous": "Previous",
+      "loading": "Loading",
+      "star_reviews": "{{ rating }} out of 5 stars"
+    },
+    "search": {
+      "search": "Search",
+      "placeholder": "Search the camp store…",
+      "no_results": "No trails found for “{{ terms }}”. Try another word.",
+      "results_for": "Results for “{{ terms }}”",
+      "suggestions": "Suggestions"
+    },
+    "newsletter": {
+      "label": "Email",
+      "placeholder": "you@trail.com",
+      "button": "Join the Camp",
+      "success": "Welcome to the forest — check your inbox!"
+    },
+    "pagination": { "previous": "Previous", "next": "Next", "page": "Page {{ number }}" },
+    "404": { "title": "This trail went cold", "subtext": "The page you followed has drifted off like campfire smoke.", "link": "Back to the clearing" }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Basket",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "quantity": "Quantity",
+      "on_sale": "Sale",
+      "from_price": "From {{ price }}",
+      "regular_price": "Regular price",
+      "sale_price": "Sale price",
+      "vendor": "Roaster",
+      "sku": "SKU",
+      "view_full_details": "View full details",
+      "choose_options": "Choose Options",
+      "quick_add": "Quick Add",
+      "low_stock": "Only {{ count }} left by the fire",
+      "in_stock": "In stock · roasted to order",
+      "share": "Share this find"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Your Basket",
+      "empty": "Your basket is empty by the campfire.",
+      "continue_shopping": "Keep exploring",
+      "subtotal": "Subtotal",
+      "checkout": "Check Out",
+      "remove": "Remove",
+      "taxes_and_shipping": "Taxes and shipping calculated at checkout",
+      "free_shipping_progress": "You're {{ amount }} away from free shipping!",
+      "free_shipping_reached": "🎉 You've unlocked free shipping!",
+      "note": "Add a note for the crew"
+    }
+  },
+  "customer": {
+    "account": { "title": "Your Camp Account", "details": "Account details", "view_addresses": "View addresses", "orders": "Order history", "logout": "Log out" },
+    "login": { "title": "Log in", "email": "Email", "password": "Password", "sign_in": "Sign in", "forgot": "Forgot password?", "create": "Create account", "guest": "Continue as guest" },
+    "register": { "title": "Create account", "first_name": "First name", "last_name": "Last name", "submit": "Create" },
+    "orders": { "order_number": "Order", "date": "Date", "payment_status": "Payment", "fulfillment_status": "Fulfillment", "total": "Total" },
+    "addresses": { "title": "Addresses", "add": "Add address", "edit": "Edit", "delete": "Delete", "default": "Default" }
+  },
+  "blogs": { "article": { "read_more": "Read the story", "by": "by {{ author }}", "comments": "Comments" } },
+  "onboarding": { "product_title": "Example roast", "collection_title": "Example collection" }
+}

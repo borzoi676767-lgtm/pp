@@ -1,0 +1,47 @@
+<section class="section" aria-label="Reviews">
+  <div class="page-width">
+    <div class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+    </div>
+    <div class="testimonials" data-reveal-stagger>
+      {%- for block in section.blocks -%}
+        <figure class="testimonial" {{ block.shopify_attributes }}>
+          <div class="testimonial__stars" aria-label="{{ block.settings.stars }} out of 5">{% for i in (1..block.settings.stars) %}★{% endfor %}</div>
+          <blockquote class="testimonial__quote">“{{ block.settings.quote }}”</blockquote>
+          <figcaption><span class="testimonial__author">{{ block.settings.author }}</span><span class="testimonial__meta"> · {{ block.settings.meta }}</span></figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Word around the woods" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Loved by Trailblazers" }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "range", "id": "stars", "min": 1, "max": 5, "step": 1, "label": "Stars", "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Best coffee I've had. Tastes like a crisp morning in the mountains." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Jordan M." },
+        { "type": "text", "id": "meta", "label": "Meta", "default": "Verified buyer" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Testimonials",
+    "blocks": [
+      { "type": "quote", "settings": { "quote": "Best coffee I've had in years. Tastes like a crisp morning in the mountains.", "author": "Jordan M.", "meta": "Fireside Blend" } },
+      { "type": "quote", "settings": { "quote": "The whole shop experience is magical. My kids ask to 'visit Simon' every week.", "author": "Priya K.", "meta": "Verified buyer" } },
+      { "type": "quote", "settings": { "quote": "Roasted-to-order really is a different league. Won't go back to grocery beans.", "author": "Marcus T.", "meta": "Six Summits Espresso" } }
+    ]
+  }]
+}
+{% endschema %}

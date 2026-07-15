@@ -1,0 +1,33 @@
+<article class="section" aria-label="{{ article.title }}">
+  <div class="page-width page-width--narrow" data-reveal>
+    <div class="section-head" style="margin-bottom:1.4rem">
+      <p class="article-card__meta">{{ article.published_at | date: '%B %d, %Y' }}{% if article.author %} · {{ article.author }}{% endif %}</p>
+      <h1>{{ article.title }}</h1>
+    </div>
+    {%- if article.image -%}
+      <div class="framed" style="margin-bottom:2rem"><img src="{{ article.image | image_url: width: 1200 }}" alt="{{ article.image.alt | escape | default: article.title }}" width="900" height="500" style="width:100%;height:auto" loading="eager"></div>
+    {%- endif -%}
+    <div class="rte article-content">{{ article.content }}</div>
+
+    {%- if blog.comments_enabled? -%}
+      <hr class="divider" style="margin:2.5rem 0">
+      <h2>{{ 'blogs.article.comments' | t }} ({{ article.comments_count }})</h2>
+      {%- for comment in article.comments -%}
+        <div class="comment card" style="padding:1.2rem;margin-bottom:1rem">
+          <p style="margin:0">{{ comment.content }}</p>
+          <p class="muted" style="font-size:.85rem;margin:.4rem 0 0">— {{ comment.author }}</p>
+        </div>
+      {%- endfor -%}
+      {%- form 'new_comment', article -%}
+        <div class="stack" style="margin-top:1rem">
+          <div class="input-group"><input class="input" name="comment[author]" placeholder="Name" required><input class="input" type="email" name="comment[email]" placeholder="Email" required></div>
+          <textarea class="input" name="comment[body]" rows="4" placeholder="Leave a note by the fire…" required></textarea>
+          <button class="btn btn--accent" type="submit" style="justify-self:start">Post comment</button>
+        </div>
+      {%- endform -%}
+    {%- endif -%}
+  </div>
+</article>
+{% schema %}
+{ "name": "Article", "tag": "section", "settings": [], "enabled_on": { "templates": ["article"] } }
+{% endschema %}

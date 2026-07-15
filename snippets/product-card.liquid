@@ -1,0 +1,81 @@
+{%- comment -%}
+  Product card.  Params:
+    product        (required)
+    show_quick_add (bool, default true)
+    lazy           (bool, default true)
+{%- endcomment -%}
+{%- liquid
+  assign show_quick_add = show_quick_add | default: true, allow_false: true
+  assign loading = 'lazy'
+  if lazy == false
+    assign loading = 'eager'
+  endif
+  assign first_available = product.selected_or_first_available_variant
+  assign has_options = false
+  if product.variants.size > 1
+    assign has_options = true
+  endif
+  assign second_image = product.images[1]
+  assign notes = product.metafields.custom.tasting_notes | default: product.description | strip_html | truncatewords: 16
+-%}
+<article class="product-card" data-product-handle="{{ product.handle }}">
+  <div class="product-card__media">
+    <a href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+      {%- if product.featured_media -%}
+        <img class="is-first"
+             src="{{ product.featured_media | image_url: width: 600 }}"
+             srcset="{{ product.featured_media | image_url: width: 300 }} 300w, {{ product.featured_media | image_url: width: 600 }} 600w, {{ product.featured_media | image_url: width: 900 }} 900w"
+             sizes="(max-width:749px) 45vw, 300px"
+             width="{{ product.featured_media.width }}" height="{{ product.featured_media.height }}"
+             alt="{{ product.featured_media.alt | escape | default: product.title }}"
+             loading="{{ loading }}">
+        {%- if second_image -%}
+          <img class="is-second" src="{{ second_image | image_url: width: 600 }}" alt="" loading="lazy" width="{{ second_image.width }}" height="{{ second_image.height }}">
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'product-card__placeholder' }}
+      {%- endif -%}
+    </a>
+
+    <div class="product-card__badges">
+      {%- if product.compare_at_price > product.price -%}
+        {%- assign save = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+        <span class="badge badge--sale">Save {{ save }}%</span>
+      {%- endif -%}
+      {%- unless product.available -%}<span class="badge badge--soldout">Sold Out</span>{%- endunless -%}
+      {%- if product.tags contains 'new' or product.tags contains 'New' -%}<span class="badge badge--new">New</span>{%- endif -%}
+      {%- if product.tags contains 'seasonal' or product.tags contains 'Seasonal' -%}<span class="badge badge--gold">Seasonal</span>{%- endif -%}
+    </div>
+
+    <button type="button" class="product-card__wish" data-wish="{{ product.handle }}" aria-label="Save {{ product.title | escape }} to your trail pack">
+      {% render 'icon', name: 'heart', size: 18 %}
+    </button>
+  </div>
+
+  <div class="product-card__body">
+    {%- if product.vendor and product.vendor != blank -%}
+      <span class="product-card__vendor">{{ product.vendor }}</span>
+    {%- endif -%}
+    <h3 class="product-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    {%- if notes != blank -%}<p class="product-card__notes">{{ notes }}</p>{%- endif -%}
+
+    {%- if product.metafields.reviews.rating.value != blank -%}
+      <span class="product-card__rating"><span class="stars">★</span> {{ product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value }} · {{ product.metafields.reviews.rating_count | default: '' }}</span>
+    {%- endif -%}
+
+    <div class="product-card__meta">
+      {% render 'price', product: product, show_from: true %}
+      {%- if show_quick_add -%}
+        <div class="product-card__add">
+          {%- if has_options -%}
+            <a class="quick-add-btn" href="{{ product.url }}">{% render 'icon', name: 'plus', size: 15 %}<span>Options</span></a>
+          {%- elsif first_available and first_available.available -%}
+            <button type="button" class="quick-add-btn" data-quick-add="{{ first_available.id }}" aria-label="Quick add {{ product.title | escape }}">{% render 'icon', name: 'plus', size: 15 %}<span>Add</span></button>
+          {%- else -%}
+            <a class="quick-add-btn" href="{{ product.url }}" aria-disabled="true">Sold out</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

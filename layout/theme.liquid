@@ -1,0 +1,121 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}" data-time="day">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content="{{ settings.color_forest }}">
+  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+
+  <title>{% if page_title %}{{ page_title }}{% else %}{{ shop.name }}{% endif %}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &middot; {{ shop.name }}{% endunless %}</title>
+
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+
+  {% render 'meta-tags' %}
+
+  <script>document.documentElement.className = document.documentElement.className.replace('no-js','js');</script>
+
+  {%- comment -%} Design tokens driven by theme settings {%- endcomment -%}
+  {%- assign hf = settings.font_heading -%}
+  {%- assign bf = settings.font_body -%}
+  {{ hf | font_face: font_display: 'swap' }}
+  {{ bf | font_face: font_display: 'swap' }}
+  {{ hf | font_modify: 'weight', '700' | font_face: font_display: 'swap' }}
+  <style>
+    :root{
+      --forest-700: {{ settings.color_forest }};
+      --forest-800: {{ settings.color_forest | color_darken: 6 }};
+      --forest-900: {{ settings.color_forest | color_darken: 12 }};
+      --forest-600: {{ settings.color_forest | color_lighten: 8 }};
+      --moss-500: {{ settings.color_moss }};
+      --cedar-600: {{ settings.color_cedar }};
+      --cream-100: {{ settings.color_cream }};
+      --cream-200: {{ settings.color_cream | color_darken: 4 }};
+      --ember-500: {{ settings.color_ember }};
+      --ember-400: {{ settings.color_ember | color_lighten: 6 }};
+      --gold-500: {{ settings.color_gold }};
+      --gold-400: {{ settings.color_gold | color_lighten: 6 }};
+      --ink: {{ settings.color_ink }};
+      --brand: {{ settings.color_forest }};
+      --accent: {{ settings.color_ember }};
+      --font-head: {{ hf.family }}, {{ hf.fallback_families }};
+      --font-body: {{ bf.family }}, {{ bf.fallback_families }};
+      --page: {{ settings.page_width }}px;
+      --r-sm: {{ settings.corner_radius | divided_by: 2 }}px;
+      --r-md: {{ settings.corner_radius }}px;
+      --r-lg: {{ settings.corner_radius | plus: 8 }}px;
+    }
+    {%- if settings.heading_scale != 100 -%}
+      h1,h2,h3,h4{ font-size: calc(var(--_fs, 1em) * {{ settings.heading_scale | divided_by: 100.0 }}); }
+    {%- endif -%}
+    .no-scroll{ overflow: hidden; }
+  </style>
+
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  {{ 'forest.css' | asset_url | stylesheet_tag }}
+  {{ 'components.css' | asset_url | stylesheet_tag }}
+
+  <script>
+    window.theme = window.theme || {};
+    window.theme.moneyFormat = {{ shop.money_format | json }};
+    window.theme.routes = { cart: {{ routes.cart_url | json }}, cartAdd: '/cart/add.js', cartChange: '/cart/change.js', predictiveSearch: {{ routes.predictive_search_url | json }} };
+    window.theme.strings = { addToCart: {{ 'products.product.add_to_cart' | t | json }}, soldOut: {{ 'products.product.sold_out' | t | json }}, unavailable: {{ 'products.product.unavailable' | t | json }} };
+    window.theme.settings = { defaultTime: {{ settings.default_time | json }}, particles: {{ settings.enable_particles | json }} };
+  </script>
+  <script src="{{ 'global.js' | asset_url }}" defer></script>
+  <script src="{{ 'forest.js' | asset_url }}" defer></script>
+
+  {{ content_for_header }}
+</head>
+
+<body class="template-{{ request.page_type | handle }}"
+      {% if template contains 'product' %}data-product-handle="{{ product.handle }}"{% endif %}>
+  <a class="skip-link" href="#main-content">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  {% section 'announcement-bar' %}
+  {% sections 'header-group' %}
+
+  <main id="main-content" role="main">
+    {{ content_for_layout }}
+  </main>
+
+  {% sections 'footer-group' %}
+
+  {%- comment -%} Persistent world elements {%- endcomment -%}
+  {% render 'cart-drawer' %}
+
+  {%- if settings.enable_world_controls -%}
+    <div class="world-controls" role="group" aria-label="Forest ambiance controls">
+      <button class="world-btn" data-toggle-time aria-pressed="false" aria-label="Toggle day and night" title="Day / Night">
+        <span class="world-btn__day">{% render 'icon', name: 'moon', size: 22 %}</span>
+      </button>
+      {%- if settings.enable_ambient_sound -%}
+        <button class="world-btn" data-toggle-sound aria-pressed="false" aria-label="Toggle forest sounds" title="Forest sounds">{% render 'icon', name: 'sound-off', size: 22 %}</button>
+      {%- endif -%}
+      {%- if settings.enable_weather -%}
+        <button class="world-btn" data-weather="rain" aria-pressed="false" aria-label="Toggle rain" title="Rain">{% render 'icon', name: 'rain', size: 22 %}</button>
+        <button class="world-btn" data-weather="snow" aria-pressed="false" aria-label="Toggle snow" title="Snow">{% render 'icon', name: 'snow', size: 22 %}</button>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if settings.enable_simon -%}
+    <aside class="simon-float" aria-label="Simon the Platypus helper">
+      <div class="simon-float__bubble" data-simon-bubble hidden>Need a hand finding your roast? Tap me!</div>
+      <button class="simon-float__btn" data-character data-simon
+        data-lines='["I tested this roast 143 times.","Science says: another cup.","Trust the process. ☕","Psst — try the campfire for our story!"]'
+        aria-label="Talk to Simon the Platypus">
+        {%- if settings.simon_image -%}
+          <img src="{{ settings.simon_image | image_url: width: 160 }}" alt="Simon the Platypus, coffee scientist" width="78" height="78">
+        {%- else -%}
+          <img src="{{ 'char-simon.webp' | asset_url }}" alt="Simon the Platypus, coffee scientist" width="78" height="78" onerror="this.style.display='none'">
+        {%- endif -%}
+        <span class="speech" aria-live="polite"></span>
+      </button>
+    </aside>
+  {%- endif -%}
+
+  <div class="bean-toast" data-bean-toast hidden></div>
+</body>
+</html>

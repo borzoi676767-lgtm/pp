@@ -1,0 +1,22 @@
+<section class="section" aria-label="{{ section.settings.heading | default: 'Text' | escape }}">
+  <div class="page-width page-width--narrow text-center" data-reveal>
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow" style="justify-content:center">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.text != blank -%}<div class="rte lede">{{ section.settings.text }}</div>{%- endif -%}
+    {%- if section.settings.button_label != blank -%}<a href="{{ section.settings.button_link }}" class="btn btn--accent btn--lg" style="margin-top:1.2rem">{{ section.settings.button_label }}</a>{%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Rich text",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Nature Calls, Coffee Answers." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>A hidden roastery, a crew of cryptids, and coffee worth the hike.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Rich text" }]
+}
+{% endschema %}

@@ -1,0 +1,12 @@
+<div class="page-width section">
+  <div class="auth-card">
+    <div class="section-head" style="margin-bottom:1rem"><h1 style="margin:0">Activate your account</h1></div>
+    {%- form 'activate_customer_password' -%}
+      {{ form.errors | default_errors }}
+      <div class="field"><label for="ap">Password</label><input class="input" type="password" name="customer[password]" id="ap" required></div>
+      <div class="field"><label for="ap2">Confirm password</label><input class="input" type="password" name="customer[password_confirmation]" id="ap2" required></div>
+      <button type="submit" class="btn btn--accent btn--full">Activate account</button>
+      <button type="submit" name="decline" class="btn btn--ghost btn--full" style="margin-top:.6rem">Decline invitation</button>
+    {%- endform -%}
+  </div>
+</div>

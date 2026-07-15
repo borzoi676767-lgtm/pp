@@ -1,0 +1,42 @@
+<section class="section section--tight" aria-label="Why shop with us">
+  <div class="page-width">
+    <div class="trust-row" data-reveal-stagger>
+      {%- for block in section.blocks -%}
+        <div class="trust-item" {{ block.shopify_attributes }}>
+          <span class="trust-item__icon">{% render 'icon', name: block.settings.icon, size: 24 %}</span>
+          <span class="trust-item__title">{{ block.settings.title }}</span>
+          <span class="trust-item__text">{{ block.settings.text }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Trust badges",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "fire", "options": [
+          {"value":"fire","label":"Fire"},{"value":"truck","label":"Truck"},{"value":"shield","label":"Shield"},{"value":"leaf","label":"Leaf"},{"value":"seed","label":"Bean"},{"value":"star","label":"Star"},{"value":"pine","label":"Pine"}
+        ]},
+        { "type": "text", "id": "title", "label": "Title", "default": "Roasted to Order" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Never sits on a shelf" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{
+    "name": "Trust badges",
+    "blocks": [
+      { "type": "badge", "settings": { "icon": "fire", "title": "Roasted to Order", "text": "Small batches over real fire" } },
+      { "type": "badge", "settings": { "icon": "truck", "title": "Fast, Free Shipping", "text": "On orders over $45" } },
+      { "type": "badge", "settings": { "icon": "leaf", "title": "Ethically Sourced", "text": "Specialty-grade beans" } },
+      { "type": "badge", "settings": { "icon": "shield", "title": "Happiness Guarantee", "text": "Love it or we'll make it right" } }
+    ]
+  }]
+}
+{% endschema %}

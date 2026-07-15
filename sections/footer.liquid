@@ -1,0 +1,100 @@
+<footer class="site-footer">
+  <div class="site-footer__top page-width">
+    <div class="site-footer__brand">
+      {%- if settings.brand_emblem -%}
+        <img src="{{ settings.brand_emblem | image_url: width: 160 }}" alt="{{ shop.name }}" width="72" height="72" class="site-footer__emblem" loading="lazy">
+      {%- endif -%}
+      <p class="site-footer__tagline">{{ section.settings.tagline | default: 'Premium small-batch coffee, roasted over the perfect fire deep in the old-growth forest.' }}</p>
+      <p class="site-footer__slogan">“Nature Calls, Coffee Answers.”</p>
+      <div class="site-footer__social">
+        {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" aria-label="Instagram">{% render 'icon', name: 'instagram', size: 22 %}</a>{%- endif -%}
+        {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" aria-label="TikTok">{% render 'icon', name: 'tiktok', size: 22 %}</a>{%- endif -%}
+        {%- if settings.social_facebook != blank -%}<a href="{{ settings.social_facebook }}" aria-label="Facebook">{% render 'icon', name: 'facebook', size: 22 %}</a>{%- endif -%}
+        {%- if settings.social_youtube != blank -%}<a href="{{ settings.social_youtube }}" aria-label="YouTube">{% render 'icon', name: 'youtube', size: 22 %}</a>{%- endif -%}
+      </div>
+    </div>
+
+    <div class="site-footer__menus">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'menu' -%}
+          <div class="site-footer__col" {{ block.shopify_attributes }}>
+            <h3 class="site-footer__heading">{{ block.settings.heading }}</h3>
+            <ul>
+              {%- for link in block.settings.menu.links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="site-footer__signup">
+      <h3 class="site-footer__heading">{{ section.settings.newsletter_heading | default: 'Join the Camp' }}</h3>
+      <p>{{ section.settings.newsletter_text | default: 'Trail dispatches, new roasts, and the occasional secret from Simon.' }}</p>
+      {%- form 'customer', class: 'newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="hidden" name="contact[context]" value="footer">
+        <div class="input-group">
+          <input class="input" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.placeholder' | t }}" aria-label="{{ 'general.newsletter.label' | t }}" required>
+          <button type="submit" class="btn btn--accent">{{ 'general.newsletter.button' | t }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}<p class="form-success">{{ 'general.newsletter.success' | t }}</p>{%- endif -%}
+        {%- if form.errors -%}<p class="form-error">{{ form.errors | default_errors }}</p>{%- endif -%}
+      {%- endform -%}
+      {%- if settings.enable_bean_hunt -%}
+        <div class="footer-badges">
+          <span class="footer-badges__label">Camp badges</span>
+          <div class="badge-tray">
+            <span class="badge-chip" data-badge="first-brew" title="First Brew">☕</span>
+            <span class="badge-chip" data-badge="collector" title="Trail Collector">🎒</span>
+            <span class="badge-chip" data-badge="storyteller" title="Story Seeker">📖</span>
+            <span class="badge-chip" data-badge="night-owl" title="Night Owl">🦉</span>
+            <span class="badge-chip" data-badge="bean-hunter" title="Bean Hunter">🫘</span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="site-footer__bottom">
+    <div class="page-width site-footer__bottom-inner">
+      <p>© {{ 'now' | date: '%Y' }} {{ shop.name }} · Roasted with care in the forest.</p>
+      <ul class="site-footer__legal">
+        {%- for link in section.settings.policy_menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+      </ul>
+      {%- if settings.enable_payment_icons -%}<div class="site-footer__payments">{{ shop.enabled_payment_types | payment_type_svg_tag }}</div>{%- endif -%}
+    </div>
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "textarea", "id": "tagline", "label": "Tagline" },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join the Camp" },
+    { "type": "textarea", "id": "newsletter_text", "label": "Newsletter text" },
+    { "type": "link_list", "id": "policy_menu", "label": "Legal / policy menu", "default": "footer" }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Menu column",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Explore" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "default": {
+    "settings": {},
+    "blocks": [
+      { "type": "menu", "settings": { "heading": "Browse Coffee" } },
+      { "type": "menu", "settings": { "heading": "The Camp" } },
+      { "type": "menu", "settings": { "heading": "Support" } }
+    ]
+  },
+  "enabled_on": { "groups": ["footer"] }
+}
+{% endschema %}

@@ -1,0 +1,46 @@
+<section class="section" aria-label="Shopping cart">
+  <div class="page-width">
+    <div class="section-head" style="text-align:left;margin-bottom:1.5rem">
+      <h1 style="margin:0">{{ 'cart.general.title' | t }}</h1>
+    </div>
+    <div class="cart-page">
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form" class="cart-page__form">
+        {% render 'cart-contents' %}
+      </form>
+      {%- if settings.enable_cart_upsell and cart.item_count > 0 -%}
+        <aside class="cart-page__upsell">
+          <h2 class="cart-upsell__title">Add to your haul</h2>
+          {%- assign rec = collections.all.products -%}
+          <div class="cart-upsell__items">
+            {%- assign added = 0 -%}
+            {%- for p in rec -%}
+              {%- if added < 3 and p.available -%}
+                <div class="cart-upsell__item">
+                  {%- if p.featured_media -%}<img src="{{ p.featured_media | image_url: width: 120 }}" alt="{{ p.title | escape }}" width="56" height="56">{%- endif -%}
+                  <div><a href="{{ p.url }}" class="cart-upsell__name">{{ p.title | truncate: 30 }}</a><div class="muted" style="font-size:.85rem">{{ p.price | money }}</div></div>
+                  {%- if p.variants.first.available and p.variants.size == 1 -%}<button class="quick-add-btn" data-quick-add="{{ p.variants.first.id }}">{% render 'icon', name: 'plus', size: 14 %}</button>{%- else -%}<a class="quick-add-btn" href="{{ p.url }}">View</a>{%- endif -%}
+                </div>
+                {%- assign added = added | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </aside>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+<style>
+  .cart-page { display: grid; grid-template-columns: 1.6fr 1fr; gap: 2rem; align-items: start; }
+  @media (max-width: 899px){ .cart-page { grid-template-columns: 1fr; } }
+  .cart-page__form .cart-contents { min-height: auto; }
+  .cart-page__form .cart-foot { position: static; }
+  .cart-page__upsell { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.4rem; }
+  .cart-upsell__title { font-family: var(--font-head); font-size: 1.2rem; margin-bottom: 1rem; }
+  .cart-upsell__items { display: grid; gap: 1rem; }
+  .cart-upsell__item { display: grid; grid-template-columns: 56px 1fr auto; gap: .8rem; align-items: center; }
+  .cart-upsell__item img { border-radius: var(--r-sm); }
+  .cart-upsell__name { font-weight: 600; color: var(--ink); text-decoration: none; font-size: .92rem; }
+</style>
+{% schema %}
+{ "name": "Cart", "tag": "section", "settings": [], "enabled_on": { "templates": ["cart"] } }
+{% endschema %}

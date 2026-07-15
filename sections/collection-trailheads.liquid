@@ -1,0 +1,73 @@
+<section id="trailheads" class="trailheads section" aria-label="Explore collections">
+  <div class="page-width">
+    <div class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="lede">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+
+    <div class="trailheads__grid" data-reveal-stagger>
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign coll = collections[block.settings.collection]
+          assign img = block.settings.image
+          if img == blank and coll.featured_image
+            assign img = coll.featured_image
+          endif
+        -%}
+        <a href="{{ coll.url | default: '#' }}" class="trailcard" {{ block.shopify_attributes }}>
+          {%- if img -%}
+            <img class="trailcard__img" src="{{ img | image_url: width: 700 }}" alt="{{ coll.title | default: block.settings.title | escape }}" width="400" height="300" loading="lazy">
+          {%- elsif coll.products.first.featured_image -%}
+            <img class="trailcard__img" src="{{ coll.products.first.featured_image | image_url: width: 700 }}" alt="{{ coll.title | escape }}" width="400" height="300" loading="lazy">
+          {%- else -%}
+            <img class="trailcard__img" src="{{ 'beans-table.webp' | asset_url }}" alt="" width="400" height="300" loading="lazy">
+          {%- endif -%}
+          {%- if block.settings.marker != blank -%}<span class="trailcard__marker">{{ block.settings.marker }}</span>{%- endif -%}
+          <div class="trailcard__body">
+            {%- if coll -%}<span class="trailcard__count">{{ coll.products_count }} {{ coll.products_count | pluralize: 'find', 'finds' }} on this trail</span>{%- endif -%}
+            <h3 class="trailcard__title">{{ block.settings.title | default: coll.title | default: 'Collection' }}</h3>
+            <span class="link-arrow" style="color:#fff">{{ block.settings.cta | default: 'Follow the trail' }} {% render 'icon', name: 'arrow-right', size: 16 %}</span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection trailheads",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Choose your trail" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Explore the Camp" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Every collection is its own corner of the forest. Let the Jackalope guide you." }
+  ],
+  "blocks": [
+    {
+      "type": "trail",
+      "name": "Trailhead",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "image_picker", "id": "image", "label": "Image (optional)" },
+        { "type": "text", "id": "title", "label": "Title override" },
+        { "type": "text", "id": "marker", "label": "Corner marker", "default": "🌲" },
+        { "type": "text", "id": "cta", "label": "CTA text", "default": "Follow the trail" }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{
+    "name": "Collection trailheads",
+    "blocks": [
+      { "type": "trail", "settings": { "marker": "🫘", "title": "Single Origin", "cta": "Follow the trail" } },
+      { "type": "trail", "settings": { "marker": "🔥", "title": "Blends", "cta": "Follow the trail" } },
+      { "type": "trail", "settings": { "marker": "☕", "title": "Coffee Pods", "cta": "Follow the trail" } },
+      { "type": "trail", "settings": { "marker": "🍂", "title": "Seasonal & Specialty", "cta": "Follow the trail" } },
+      { "type": "trail", "settings": { "marker": "🍵", "title": "Tea & Matcha", "cta": "Follow the trail" } },
+      { "type": "trail", "settings": { "marker": "🎁", "title": "Sample Packs", "cta": "Follow the trail" } }
+    ]
+  }]
+}
+{% endschema %}

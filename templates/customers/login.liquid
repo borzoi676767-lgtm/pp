@@ -1,0 +1,28 @@
+<div class="page-width section">
+  <div class="auth-card" data-reveal>
+    <div class="section-head" style="margin-bottom:1.2rem"><p class="eyebrow" style="justify-content:center">Welcome back to camp</p><h1 style="margin:0">{{ 'customer.login.title' | t }}</h1></div>
+
+    {%- form 'customer_login', novalidate: 'novalidate' -%}
+      {{ form.errors | default_errors }}
+      <div class="field"><label for="cl-email">{{ 'customer.login.email' | t }}</label><input class="input" type="email" name="customer[email]" id="cl-email" autocomplete="email" required></div>
+      {%- if form.password_needed -%}
+        <div class="field"><label for="cl-pass">{{ 'customer.login.password' | t }}</label><input class="input" type="password" name="customer[password]" id="cl-pass" autocomplete="current-password" required></div>
+        <p><a href="#recover" onclick="document.getElementById('recover').hidden=false;return false;">{{ 'customer.login.forgot' | t }}</a></p>
+      {%- endif -%}
+      <button type="submit" class="btn btn--accent btn--full btn--lg">{{ 'customer.login.sign_in' | t }}</button>
+    {%- endform -%}
+
+    <div id="recover" hidden style="margin-top:1.2rem">
+      {%- form 'recover_customer_password' -%}
+        {{ form.errors | default_errors }}
+        {%- if form.posted_successfully? -%}<p class="form-success" style="color:var(--forest-700)">We've sent you a reset link.</p>{%- endif -%}
+        <div class="field"><label for="rec-email">Reset password — email</label><input class="input" type="email" name="email" id="rec-email" required></div>
+        <button type="submit" class="btn btn--ghost btn--full">Send reset link</button>
+      {%- endform -%}
+    </div>
+
+    {%- if shop.customer_accounts_optional -%}
+      <p class="text-center" style="margin-top:1.2rem">New here? <a href="{{ routes.account_register_url }}">{{ 'customer.login.create' | t }}</a></p>
+    {%- endif -%}
+  </div>
+</div>

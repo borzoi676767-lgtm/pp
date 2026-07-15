@@ -1,0 +1,63 @@
+<section class="section" aria-label="Frequently asked questions">
+  <div class="page-width page-width--narrow">
+    <div class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+    </div>
+    <div class="faq" data-reveal>
+      {%- for block in section.blocks -%}
+        <details class="faq__item" {{ block.shopify_attributes }}{% if forloop.first %} open{% endif %}>
+          <summary class="faq__summary">{{ block.settings.question }} <span class="plus">{% render 'icon', name: 'plus', size: 20 %}</span></summary>
+          <div class="faq__body rte">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- comment -%} FAQ structured data for SEO {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for block in section.blocks -%}
+    {
+      "@type": "Question",
+      "name": {{ block.settings.question | json }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "From the trail journal" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions by the Campfire" }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "How fresh is the coffee?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Every bag is roasted to order in small batches and shipped within 1–2 days, so it reaches you at peak flavor.</p>" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "FAQ",
+    "blocks": [
+      { "type": "qa", "settings": { "question": "How fresh is the coffee?", "answer": "<p>Every bag is roasted to order in small batches and shipped within 1–2 days — never off a warehouse shelf.</p>" } },
+      { "type": "qa", "settings": { "question": "Which grind should I choose?", "answer": "<p>Whole bean for the freshest cup, or pick your brewer's grind at checkout. Simon recommends coarse for cold brew, standard for drip.</p>" } },
+      { "type": "qa", "settings": { "question": "Do you offer subscriptions?", "answer": "<p>Yes — save on every order and never run out. Look for the subscribe option on any coffee product.</p>" } },
+      { "type": "qa", "settings": { "question": "What's your return policy?", "answer": "<p>If you're not happy with your roast, reach out and we'll make it right. That's the camp promise.</p>" } }
+    ]
+  }]
+}
+{% endschema %}

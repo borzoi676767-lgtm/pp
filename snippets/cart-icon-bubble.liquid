@@ -1,0 +1,8 @@
+{%- comment -%} Cart count bubble, refreshed via Section Rendering API. {%- endcomment -%}
+<span data-cart-section="cart-icon-bubble" class="cart-bubble-wrap">
+  {% render 'icon', name: 'cart', size: 22 %}
+  {%- if cart.item_count > 0 -%}
+    <span class="cart-bubble" aria-hidden="true">{{ cart.item_count }}</span>
+  {%- endif -%}
+  <span class="visually-hidden">{{ 'cart.general.title' | t }} ({{ cart.item_count }})</span>
+</span>

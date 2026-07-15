@@ -1,0 +1,38 @@
+<div class="page-width section" style="max-width:820px">
+  <div class="section-head" style="text-align:left"><p class="eyebrow">Trail addresses</p><h1 style="margin:0">{{ 'customer.addresses.title' | t }}</h1></div>
+
+  <details class="card" style="padding:1.4rem;margin-bottom:1.5rem">
+    <summary style="cursor:pointer;font-weight:700">{{ 'customer.addresses.add' | t }}</summary>
+    {%- form 'customer_address', customer.new_address -%}
+      <div class="stack" style="margin-top:1rem">
+        <div class="input-group"><input class="input" name="address[first_name]" placeholder="First name"><input class="input" name="address[last_name]" placeholder="Last name"></div>
+        <input class="input" name="address[address1]" placeholder="Address">
+        <input class="input" name="address[address2]" placeholder="Apartment, suite, etc.">
+        <div class="input-group"><input class="input" name="address[city]" placeholder="City"><input class="input" name="address[province]" placeholder="State/Province"></div>
+        <div class="input-group"><input class="input" name="address[zip]" placeholder="ZIP/Postal"><input class="input" name="address[country]" placeholder="Country"></div>
+        <input class="input" name="address[phone]" placeholder="Phone">
+        <button type="submit" class="btn btn--accent" style="justify-self:start">Save address</button>
+      </div>
+    {%- endform -%}
+  </details>
+
+  {%- for address in customer.addresses -%}
+    <div class="card" style="padding:1.2rem;margin-bottom:1rem">
+      {%- if address == customer.default_address -%}<span class="badge badge--new">{{ 'customer.addresses.default' | t }}</span>{%- endif -%}
+      <p class="muted" style="margin:.6rem 0">{{ address | format_address }}</p>
+      <a href="#" class="link-arrow" onclick="document.getElementById('edit-{{ address.id }}').hidden=false;return false;">{{ 'customer.addresses.edit' | t }}</a>
+      <details id="edit-{{ address.id }}" hidden style="margin-top:1rem">
+        {%- form 'customer_address', address -%}
+          <div class="stack">
+            <div class="input-group"><input class="input" name="address[first_name]" value="{{ address.first_name }}"><input class="input" name="address[last_name]" value="{{ address.last_name }}"></div>
+            <input class="input" name="address[address1]" value="{{ address.address1 }}">
+            <div class="input-group"><input class="input" name="address[city]" value="{{ address.city }}"><input class="input" name="address[zip]" value="{{ address.zip }}"></div>
+            <div style="display:flex;gap:.6rem"><button type="submit" class="btn btn--accent">Update</button></div>
+          </div>
+        {%- endform -%}
+        {%- form 'delete_customer_address', address -%}<button type="submit" class="btn btn--ghost" style="margin-top:.6rem">{{ 'customer.addresses.delete' | t }}</button>{%- endform -%}
+      </details>
+    </div>
+  {%- endfor -%}
+  <p><a href="{{ routes.account_url }}" class="link-arrow">← Back to account</a></p>
+</div>

@@ -1,0 +1,12 @@
+<section class="section" aria-label="{{ page.title }}">
+  <div class="page-width page-width--narrow" data-reveal>
+    <div class="section-head" style="margin-bottom:1.6rem">
+      <p class="eyebrow" style="justify-content:center">{% render 'icon', name: 'pine', size: 15 %} From the camp</p>
+      <h1>{{ page.title }}</h1>
+    </div>
+    <div class="rte page-content">{{ page.content }}</div>
+  </div>
+</section>
+{% schema %}
+{ "name": "Page", "tag": "section", "settings": [], "enabled_on": { "templates": ["page"] } }
+{% endschema %}

@@ -1,0 +1,5 @@
+{%- comment -%} AJAX target: /products/{handle}?section_id=recently-viewed-card {%- endcomment -%}
+{% render 'product-card', product: product %}
+{% schema %}
+{ "name": "Recently viewed card", "settings": [] }
+{% endschema %}

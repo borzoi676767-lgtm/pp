@@ -1,0 +1,16 @@
+<div class="page-width section">
+  <div class="auth-card" data-reveal>
+    <div class="section-head" style="margin-bottom:1.2rem"><p class="eyebrow" style="justify-content:center">Join the camp</p><h1 style="margin:0">{{ 'customer.register.title' | t }}</h1></div>
+    {%- form 'create_customer', novalidate: 'novalidate' -%}
+      {{ form.errors | default_errors }}
+      <div class="input-group" style="gap:.6rem">
+        <div class="field" style="flex:1"><label for="rf">{{ 'customer.register.first_name' | t }}</label><input class="input" name="customer[first_name]" id="rf" autocomplete="given-name"></div>
+        <div class="field" style="flex:1"><label for="rl">{{ 'customer.register.last_name' | t }}</label><input class="input" name="customer[last_name]" id="rl" autocomplete="family-name"></div>
+      </div>
+      <div class="field"><label for="re">{{ 'customer.login.email' | t }}</label><input class="input" type="email" name="customer[email]" id="re" autocomplete="email" required></div>
+      <div class="field"><label for="rp">{{ 'customer.login.password' | t }}</label><input class="input" type="password" name="customer[password]" id="rp" autocomplete="new-password" required></div>
+      <button type="submit" class="btn btn--accent btn--full btn--lg">{{ 'customer.register.submit' | t }}</button>
+    {%- endform -%}
+    <p class="text-center" style="margin-top:1.2rem">Already have an account? <a href="{{ routes.account_login_url }}">{{ 'customer.login.sign_in' | t }}</a></p>
+  </div>
+</div>

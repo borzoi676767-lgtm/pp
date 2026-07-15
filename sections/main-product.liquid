@@ -1,0 +1,189 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign notes = product.metafields.custom.tasting_notes
+-%}
+<section class="section" data-product-root>
+  <div class="page-width">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Camp</a> <span aria-hidden="true">/</span>
+      {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a> <span aria-hidden="true">/</span>{%- endif -%}
+      <span aria-current="page">{{ product.title }}</span>
+    </nav>
+
+    <div class="product">
+      {%- comment -%} ---------------- Gallery ---------------- {%- endcomment -%}
+      <div class="product-gallery" data-product-gallery>
+        <div class="product-gallery__main">
+          {%- if product.featured_media -%}
+            <div class="media" data-gallery-main data-media-id="{{ product.featured_media.id }}">
+              <img src="{{ product.featured_media | image_url: width: 1000 }}"
+                   srcset="{{ product.featured_media | image_url: width: 600 }} 600w, {{ product.featured_media | image_url: width: 1000 }} 1000w, {{ product.featured_media | image_url: width: 1400 }} 1400w"
+                   sizes="(max-width:899px) 100vw, 55vw"
+                   alt="{{ product.featured_media.alt | escape | default: product.title }}"
+                   width="{{ product.featured_media.width }}" height="{{ product.featured_media.height }}" fetchpriority="high" id="gallery-main-img">
+            </div>
+          {%- else -%}
+            <div class="media">{{ 'product-1' | placeholder_svg_tag }}</div>
+          {%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="product-gallery__thumbs" role="list">
+            {%- for media in product.media -%}
+              <button type="button" class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}" data-media-id="{{ media.id }}" data-full="{{ media | image_url: width: 1000 }}" aria-label="View image {{ forloop.index }}">
+                <img src="{{ media | image_url: width: 140 }}" alt="" width="68" height="68" loading="lazy">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} ---------------- Info ---------------- {%- endcomment -%}
+      <div class="product-info">
+        {%- if product.vendor != blank -%}<span class="product-info__vendor">{{ product.vendor }}</span>{%- endif -%}
+        <h1 class="product-info__title">{{ product.title }}</h1>
+
+        {%- if product.metafields.reviews.rating.value != blank -%}
+          <div class="product-info__rating"><span class="stars">★★★★★</span> {{ product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value }} · {{ product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count }} reviews</div>
+        {%- endif -%}
+
+        <div class="product-info__price" data-price-target>
+          {%- if current.compare_at_price > current.price -%}
+            <span class="price price--on-sale"><span class="price__was">{{ current.compare_at_price | money }}</span><span class="price__now">{{ current.price | money }}</span></span>
+          {%- else -%}
+            <span class="price">{{ current.price | money }}</span>
+          {%- endif -%}
+        </div>
+
+        {%- if notes != blank -%}
+          <p class="product-info__desc"><strong>Tasting notes:</strong> {{ notes }}</p>
+        {%- elsif product.description != blank -%}
+          <div class="product-info__desc">{{ product.description | strip_html | truncatewords: 40 }}</div>
+        {%- endif -%}
+
+        {%- comment -%} ---------------- Buy form ---------------- {%- endcomment -%}
+        <form data-product-form class="product-buy" novalidate>
+          <div class="variant-picker" data-variant-picker>
+            <script type="application/json" data-variant-json>{{ product.variants | json }}</script>
+            {%- unless product.has_only_default_variant -%}
+              {%- for option in product.options_with_values -%}
+                <div class="variant-option-group">
+                  <span class="variant-option-group__label">{{ option.name }}</span>
+                  <div class="variant-pills">
+                    {%- for value in option.values -%}
+                      <label class="variant-pill">
+                        <input type="radio" name="option{{ option.position }}" value="{{ value | escape }}" data-option-index="{{ forloop.index0 }}" {% if option.selected_value == value %}checked{% endif %}>
+                        <span>{{ value }}</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endfor -%}
+            {%- endunless -%}
+          </div>
+
+          {%- if product.selling_plan_groups.size > 0 -%}
+            <div class="variant-option-group selling-plans">
+              <span class="variant-option-group__label">Delivery</span>
+              <div class="variant-pills">
+                <label class="variant-pill"><input type="radio" name="selling_plan" value="" checked><span>One-time</span></label>
+                {%- for group in product.selling_plan_groups -%}
+                  {%- for plan in group.selling_plans -%}
+                    <label class="variant-pill"><input type="radio" name="selling_plan" value="{{ plan.id }}"><span>{{ plan.name }}</span></label>
+                  {%- endfor -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <input type="hidden" name="id" value="{{ current.id }}">
+
+          {%- if settings.enable_inventory_notice -%}
+            <p class="inventory-note" data-inventory {% unless current.inventory_management and current.inventory_quantity <= 10 and current.inventory_quantity > 0 %}hidden{% endunless %}>
+              {% render 'icon', name: 'fire', size: 15 %} <span>Only {{ current.inventory_quantity }} left by the fire — order soon</span>
+            </p>
+          {%- endif -%}
+
+          <div class="product-buy__row">
+            <div class="qty-stepper" data-qty>
+              <button type="button" class="qty-stepper__btn" data-qty-step="-1" aria-label="Decrease quantity">{% render 'icon', name: 'minus', size: 16 %}</button>
+              <input class="qty-stepper__input" type="number" name="quantity" value="1" min="1" aria-label="{{ 'products.product.quantity' | t }}">
+              <button type="button" class="qty-stepper__btn" data-qty-step="1" aria-label="Increase quantity">{% render 'icon', name: 'plus', size: 16 %}</button>
+            </div>
+            <button type="submit" class="btn btn--accent btn--lg btn--block" style="flex:1" {% unless current.available %}disabled{% endunless %}>
+              <span class="btn__text">{% if current.available %}{{ 'products.product.add_to_cart' | t }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+              <span class="spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          {{ form | payment_button }}
+        </form>
+
+        {%- if settings.enable_delivery_estimate -%}
+          <p class="delivery-note">{% render 'icon', name: 'truck', size: 16 %} Roasts & ships in 1–2 days · Free shipping over ${{ settings.free_ship_threshold }}</p>
+        {%- endif -%}
+
+        <div class="product-trust">
+          <span class="product-trust__item">{% render 'icon', name: 'fire', size: 16 %} Roasted to order</span>
+          <span class="product-trust__item">{% render 'icon', name: 'leaf', size: 16 %} Specialty-grade</span>
+          <span class="product-trust__item">{% render 'icon', name: 'shield', size: 16 %} Happiness guarantee</span>
+        </div>
+
+        {%- comment -%} ---------------- Accordion ---------------- {%- endcomment -%}
+        <div class="product-accordion">
+          <details class="product-accordion__item" open>
+            <summary class="product-accordion__summary">Description <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte">{{ product.description }}</div>
+          </details>
+          {%- if product.metafields.custom.brew_guide != blank -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">Brew guide <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte">{{ product.metafields.custom.brew_guide }}</div>
+          </details>
+          {%- endif -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">Shipping & returns <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte"><p>Roasted to order and shipped within 1–2 business days. Free shipping over ${{ settings.free_ship_threshold }}. Not happy? We'll make it right — that's the camp promise.</p></div>
+          </details>
+        </div>
+
+        <p class="muted" style="font-size:.85rem;margin-top:1rem">Simon's note: “{{ product.metafields.custom.simon_note | default: 'I tested this one plenty. Trust me — it's a keeper.' }}”</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Sticky add-to-cart {%- endcomment -%}
+{%- if settings.enable_sticky_atc -%}
+  <div class="sticky-atc" data-sticky-atc aria-hidden="true">
+    <div class="sticky-atc__inner">
+      {%- if product.featured_media -%}<img class="sticky-atc__media" src="{{ product.featured_media | image_url: width: 96 }}" alt="" width="46" height="46">{%- endif -%}
+      <div class="sticky-atc__info">
+        <div class="sticky-atc__title">{{ product.title }}</div>
+        <div class="sticky-atc__price" data-price-target>{{ current.price | money }}</div>
+      </div>
+      <button type="button" class="btn btn--accent" onclick="document.querySelector('[data-product-form] [type=submit]').click()">{{ 'products.product.add_to_cart' | t }}</button>
+    </div>
+  </div>
+  <span data-atc-anchor style="position:absolute"></span>
+{%- endif -%}
+
+<script>
+  // Gallery thumbnail switching
+  (function(){
+    var main = document.getElementById('gallery-main-img');
+    document.querySelectorAll('.product-gallery__thumb').forEach(function(t){
+      t.addEventListener('click', function(){
+        if(!main) return;
+        main.src = t.getAttribute('data-full');
+        document.querySelectorAll('.product-gallery__thumb').forEach(function(x){x.classList.remove('is-active');});
+        t.classList.add('is-active');
+        var wrap = document.querySelector('[data-gallery-main]');
+        if(wrap) wrap.setAttribute('data-media-id', t.getAttribute('data-media-id'));
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{ "name": "Product", "tag": "section", "settings": [], "enabled_on": { "templates": ["product"] } }
+{% endschema %}

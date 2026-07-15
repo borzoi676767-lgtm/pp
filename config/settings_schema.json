@@ -1,0 +1,98 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Sasquatch Coffee — The Hidden Forest",
+    "theme_version": "1.0.0",
+    "theme_author": "Sasquatch Coffee Crew",
+    "theme_documentation_url": "https://sasquatchcoffee.store",
+    "theme_support_url": "https://sasquatchcoffee.store/pages/contact"
+  },
+  {
+    "name": "Brand & Colors",
+    "settings": [
+      { "type": "header", "content": "Logo" },
+      { "type": "image_picker", "id": "logo", "label": "Logo image" },
+      { "type": "range", "id": "logo_width", "min": 80, "max": 240, "step": 10, "unit": "px", "label": "Logo width", "default": 150 },
+      { "type": "text", "id": "logo_wordmark", "label": "Wordmark (used if no logo image)", "default": "Sasquatch Coffee" },
+      { "type": "image_picker", "id": "brand_emblem", "label": "Brand emblem / badge" },
+      { "type": "header", "content": "Palette" },
+      { "type": "color", "id": "color_forest", "label": "Forest green", "default": "#1f3d2b" },
+      { "type": "color", "id": "color_moss", "label": "Moss", "default": "#6a7f4f" },
+      { "type": "color", "id": "color_cedar", "label": "Cedar brown", "default": "#7a4f2b" },
+      { "type": "color", "id": "color_cream", "label": "Warm cream", "default": "#faf3e4" },
+      { "type": "color", "id": "color_ember", "label": "Campfire orange", "default": "#e07a3c" },
+      { "type": "color", "id": "color_gold", "label": "Golden light", "default": "#e8b84b" },
+      { "type": "color", "id": "color_ink", "label": "Body text", "default": "#2a2016" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "font_picker", "id": "font_heading", "label": "Heading font", "default": "assistant_n7" },
+      { "type": "font_picker", "id": "font_body", "label": "Body font", "default": "assistant_n4" },
+      { "type": "range", "id": "heading_scale", "min": 90, "max": 130, "step": 5, "unit": "%", "label": "Heading size scale", "default": 100 }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "min": 1100, "max": 1600, "step": 20, "unit": "px", "label": "Max page width", "default": 1320 },
+      { "type": "range", "id": "corner_radius", "min": 0, "max": 28, "step": 2, "unit": "px", "label": "Corner radius", "default": 14 },
+      { "type": "select", "id": "product_card_style", "label": "Product card image ratio", "options": [
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" }
+      ], "default": "square" }
+    ]
+  },
+  {
+    "name": "The Living World",
+    "settings": [
+      { "type": "paragraph", "content": "Controls for the immersive forest layer. Everything here is optional and honors reduced-motion preferences." },
+      { "type": "checkbox", "id": "enable_world_controls", "label": "Show world controls (day/night, sound, weather)", "default": true },
+      { "type": "checkbox", "id": "enable_ambient_sound", "label": "Allow forest ambient sound toggle", "default": true },
+      { "type": "checkbox", "id": "enable_weather", "label": "Allow weather modes (rain / snow)", "default": true },
+      { "type": "checkbox", "id": "enable_particles", "label": "Enable drifting leaves & fireflies", "default": true },
+      { "type": "checkbox", "id": "enable_bean_hunt", "label": "Enable hidden coffee-bean easter egg hunt", "default": true },
+      { "type": "checkbox", "id": "enable_simon", "label": "Show Simon the Platypus helper", "default": true },
+      { "type": "image_picker", "id": "simon_image", "label": "Simon helper image" },
+      { "type": "select", "id": "default_time", "label": "Default time of day", "options": [
+        { "value": "auto", "label": "Auto (by visitor clock)" },
+        { "value": "day", "label": "Always day" },
+        { "value": "night", "label": "Always night" }
+      ], "default": "auto" }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      { "type": "select", "id": "cart_type", "label": "Cart type", "options": [
+        { "value": "drawer", "label": "Slide-out drawer" },
+        { "value": "page", "label": "Page" }
+      ], "default": "drawer" },
+      { "type": "checkbox", "id": "enable_free_ship_bar", "label": "Show free-shipping progress bar", "default": true },
+      { "type": "range", "id": "free_ship_threshold", "min": 0, "max": 200, "step": 5, "unit": "$", "label": "Free-shipping threshold", "default": 45 },
+      { "type": "checkbox", "id": "enable_cart_upsell", "label": "Show cart upsell recommendations", "default": true },
+      { "type": "textarea", "id": "cart_trust", "label": "Cart trust note", "default": "Roasted to order · Ships in 1–2 days · 100% happiness guarantee" }
+    ]
+  },
+  {
+    "name": "Product",
+    "settings": [
+      { "type": "checkbox", "id": "enable_sticky_atc", "label": "Sticky add-to-cart bar", "default": true },
+      { "type": "checkbox", "id": "enable_inventory_notice", "label": "Low-inventory notice", "default": true },
+      { "type": "checkbox", "id": "enable_delivery_estimate", "label": "Estimated delivery note", "default": true },
+      { "type": "checkbox", "id": "enable_payment_icons", "label": "Show payment icons", "default": true }
+    ]
+  },
+  {
+    "name": "Social & SEO",
+    "settings": [
+      { "type": "image_picker", "id": "share_image", "label": "Default social share image" },
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok URL" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook URL" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube URL" },
+      { "type": "text", "id": "social_twitter_handle", "label": "X / Twitter handle (no @)" }
+    ]
+  }
+]

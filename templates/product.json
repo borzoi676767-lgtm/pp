@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": { "type": "main-product", "settings": {} },
+    "related": { "type": "related-products", "settings": { "heading": "You might also like", "limit": 4 } },
+    "recently_viewed": { "type": "recently-viewed", "settings": {} },
+    "reassurance": {
+      "type": "trust-badges",
+      "blocks": {
+        "b1": { "type": "badge", "settings": { "icon": "fire", "title": "Roasted to Order", "text": "Never off a shelf" } },
+        "b2": { "type": "badge", "settings": { "icon": "truck", "title": "Ships in 1–2 Days", "text": "Free over $45" } },
+        "b3": { "type": "badge", "settings": { "icon": "seed", "title": "Specialty Grade", "text": "Top 5% of beans" } },
+        "b4": { "type": "badge", "settings": { "icon": "shield", "title": "Happiness Guarantee", "text": "We'll make it right" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    }
+  },
+  "order": ["main", "reassurance", "related", "recently_viewed"]
+}

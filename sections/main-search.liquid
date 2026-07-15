@@ -1,0 +1,41 @@
+{%- paginate search.results by 24 -%}
+<section class="section" aria-label="Search">
+  <div class="page-width">
+    <div class="section-head">
+      <p class="eyebrow" style="justify-content:center">Follow the tracks</p>
+      <h1>Search the Camp</h1>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="search-page__form" style="max-width:560px;margin:1.2rem auto 0">
+        <div class="input-group">
+          <input class="input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="Search">
+          <button type="submit" class="btn btn--accent">{% render 'icon', name: 'search', size: 18 %}</button>
+        </div>
+      </form>
+    </div>
+
+    {%- if search.performed -%}
+      {%- if search.results.size > 0 -%}
+        <p class="collection-count text-center" style="margin-bottom:1.4rem">{{ 'general.search.results_for' | t: terms: search.terms }} · {{ search.results_count }}</p>
+        <div class="product-grid" data-reveal-stagger>
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <a class="card" href="{{ item.url }}" style="padding:1.2rem;text-decoration:none;color:var(--ink)">
+                <span class="product-card__vendor">{{ item.object_type }}</span>
+                <h3 class="product-card__title" style="margin:.3rem 0">{{ item.title }}</h3>
+                <p class="product-card__notes">{{ item.content | strip_html | truncatewords: 20 }}</p>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        {% render 'pagination', paginate: paginate %}
+      {%- else -%}
+        <p class="text-center muted">{{ 'general.search.no_results' | t: terms: search.terms }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+{%- endpaginate -%}
+{% schema %}
+{ "name": "Search", "tag": "section", "settings": [], "enabled_on": { "templates": ["search"] } }
+{% endschema %}

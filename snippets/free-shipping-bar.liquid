@@ -1,0 +1,26 @@
+{%- comment -%} Free-shipping progress. Uses cart total vs settings.free_ship_threshold {%- endcomment -%}
+{%- if settings.enable_free_ship_bar -%}
+  {%- liquid
+    assign threshold = settings.free_ship_threshold | times: 100
+    assign remaining = threshold | minus: cart.total_price
+    assign pct = 0
+    if threshold > 0
+      assign pct = cart.total_price | times: 100.0 | divided_by: threshold
+    endif
+    if pct > 100
+      assign pct = 100
+    endif
+  -%}
+  <div class="free-ship" data-free-ship>
+    <p class="free-ship__label">
+      {%- if remaining > 0 -%}
+        {% render 'icon', name: 'truck', size: 18 %}
+        {{ 'cart.general.free_shipping_progress' | t: amount: remaining | money }}
+      {%- else -%}
+        {% render 'icon', name: 'check', size: 18 %}
+        {{ 'cart.general.free_shipping_reached' | t }}
+      {%- endif -%}
+    </p>
+    <div class="free-ship__track"><span class="free-ship__fill" style="width: {{ pct }}%"></span></div>
+  </div>
+{%- endif -%}

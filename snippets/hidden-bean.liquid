@@ -1,0 +1,6 @@
+{%- comment -%} A collectible hidden coffee bean. Params: bean_id, pos (inline CSS) {%- endcomment -%}
+{%- if settings.enable_bean_hunt -%}
+  <button type="button" class="hidden-bean" data-hidden-bean="{{ bean_id }}" aria-label="You found a hidden coffee bean — collect it" style="{{ pos }}">
+    {% render 'icon', name: 'seed', size: 20 %}
+  </button>
+{%- endif -%}

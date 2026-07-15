@@ -1,0 +1,89 @@
+<section id="our-story" class="campfire-section section" aria-label="Our story">
+  <div class="page-width">
+    <div class="campfire-grid">
+      <div class="campfire-copy" data-reveal>
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="lede rte">{{ section.settings.text }}</div>{%- endif -%}
+        <button type="button" class="btn btn--gold btn--lg" data-story-open>{% render 'icon', name: 'fire', size: 18 %} {{ section.settings.button_label | default: 'Gather round the fire' }}</button>
+      </div>
+
+      <div class="campfire-visual" data-reveal>
+        <button type="button" class="campfire" data-campfire aria-label="Open our story" aria-haspopup="dialog">
+          <span class="campfire__light" aria-hidden="true"></span>
+          {%- if section.settings.image -%}
+            <img class="campfire__img" src="{{ section.settings.image | image_url: width: 900 }}" alt="A crackling campfire ringed with logs" width="460" height="460" loading="lazy">
+          {%- else -%}
+            <img class="campfire__img" src="{{ 'campfire.webp' | asset_url }}" alt="A crackling campfire ringed with logs" width="460" height="460" loading="lazy">
+          {%- endif -%}
+          <span class="flames" aria-hidden="true"><span class="flame"></span><span class="flame f2"></span><span class="flame f3"></span></span>
+          {%- if settings.enable_particles -%}<canvas class="fx-canvas" data-particles="embers" data-density="24" aria-hidden="true"></canvas>{%- endif -%}
+        </button>
+        <p class="campfire__hint">Tap the fire to hear our story</p>
+      </div>
+    </div>
+  </div>
+  {% render 'hidden-bean', bean_id: 'campfire', pos: 'left:4%;top:24%' %}
+</section>
+
+<dialog id="story-modal" class="story-modal" aria-label="Our story">
+  <div class="story-modal__card">
+    <button type="button" class="modal-close" data-story-close aria-label="Close">{% render 'icon', name: 'close', size: 20 %}</button>
+    <div class="story-modal__head">
+      <p class="eyebrow">Around the fire</p>
+      <h2 style="margin:0">{{ section.settings.modal_heading | default: 'Our Story' }}</h2>
+    </div>
+    <div class="story-modal__body rte">
+      {%- for block in section.blocks -%}
+        <div class="story-chapter" {{ block.shopify_attributes }}>
+          <h3>{% if block.settings.icon != 'none' %}{% render 'icon', name: block.settings.icon, size: 20 %} {% endif %}{{ block.settings.title }}</h3>
+          <div>{{ block.settings.body }}</div>
+        </div>
+      {%- endfor -%}
+      <p class="story-slogan">“Nature Calls, Coffee Answers.”</p>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  #story-modal .story-chapter { margin-bottom: 1.4rem; }
+  #story-modal .story-chapter h3 { display: flex; align-items: center; gap: .5rem; color: var(--forest-700); }
+  #story-modal .story-slogan { font-family: var(--font-head); font-style: italic; font-size: 1.3rem; color: var(--accent); text-align: center; margin-top: 1.5rem; }
+</style>
+
+{% schema %}
+{
+  "name": "Campfire story",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The heart of the camp" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pull up a log" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Every great cup starts with a story. Tap the campfire and we'll tell you ours — how a shy Sasquatch and a curious platypus turned a forest clearing into a roastery.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Gather round the fire" },
+    { "type": "image_picker", "id": "image", "label": "Campfire image" },
+    { "type": "text", "id": "modal_heading", "label": "Modal heading", "default": "Our Story" }
+  ],
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "Story chapter",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "fire", "options": [
+          {"value":"none","label":"None"},{"value":"fire","label":"Fire"},{"value":"pine","label":"Pine"},{"value":"leaf","label":"Leaf"},{"value":"seed","label":"Bean"},{"value":"shield","label":"Shield"}
+        ]},
+        { "type": "text", "id": "title", "label": "Title", "default": "Our Mission" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>To roast premium, small-batch coffee with the care of a crew that lives where the trees are oldest and the mornings are quiet.</p>" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{
+    "name": "Campfire story",
+    "blocks": [
+      { "type": "chapter", "settings": { "icon": "seed", "title": "The Origin", "body": "<p>It started with a single sack of green beans and a fire that wouldn't quit. Sasquatch roasted through the night; the forest woke up to the smell of it.</p>" } },
+      { "type": "chapter", "settings": { "icon": "fire", "title": "Our Mission", "body": "<p>Premium, small-batch coffee roasted over the perfect fire — and shared with anyone who wanders down the trail.</p>" } },
+      { "type": "chapter", "settings": { "icon": "leaf", "title": "Coffee Philosophy", "body": "<p>Slow roasts, honest sourcing, and a deep respect for the woods that raised us. Simon insists on testing every batch. Repeatedly.</p>" } }
+    ]
+  }]
+}
+{% endschema %}

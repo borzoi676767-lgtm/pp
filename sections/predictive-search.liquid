@@ -1,0 +1,27 @@
+{%- comment -%} AJAX target for predictive search suggestions {%- endcomment -%}
+{%- if predictive_search.performed -%}
+  {%- if predictive_search.resources.products.size > 0 -%}
+    <p class="predictive-heading">Products</p>
+    {%- for product in predictive_search.resources.products -%}
+      <a href="{{ product.url }}" class="search-result-card">
+        {%- if product.featured_media -%}<img src="{{ product.featured_media | image_url: width: 100 }}" alt="" width="52" height="52" loading="lazy">{%- endif -%}
+        <span>
+          <strong>{{ product.title }}</strong><br>
+          <span class="muted" style="font-size:.85rem">{% render 'price', product: product, show_from: true %}</span>
+        </span>
+      </a>
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if predictive_search.resources.collections.size > 0 -%}
+    <p class="predictive-heading">Trails</p>
+    {%- for collection in predictive_search.resources.collections -%}
+      <a href="{{ collection.url }}" class="search-result-card"><span><strong>{{ collection.title }}</strong></span></a>
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if predictive_search.resources.products.size == 0 and predictive_search.resources.collections.size == 0 -%}
+    <p class="predictive-heading">No matches — try another word.</p>
+  {%- endif -%}
+{%- endif -%}
+{% schema %}
+{ "name": "Predictive search", "settings": [] }
+{% endschema %}

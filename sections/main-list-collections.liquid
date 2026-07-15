@@ -1,0 +1,40 @@
+<section class="section" aria-label="Collections">
+  <div class="page-width">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow" style="justify-content:center">The whole camp</p>
+      <h1>{{ section.settings.heading | default: 'Explore Every Trail' }}</h1>
+      {%- if section.settings.subheading != blank -%}<p class="lede">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+    <div class="trailheads__grid" data-reveal-stagger>
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'frontpage' -%}
+          <a href="{{ collection.url }}" class="trailcard">
+            {%- if collection.image -%}
+              <img class="trailcard__img" src="{{ collection.image | image_url: width: 700 }}" alt="{{ collection.title | escape }}" width="400" height="300" loading="lazy">
+            {%- elsif collection.products.first.featured_image -%}
+              <img class="trailcard__img" src="{{ collection.products.first.featured_image | image_url: width: 700 }}" alt="{{ collection.title | escape }}" width="400" height="300" loading="lazy">
+            {%- else -%}
+              <img class="trailcard__img" src="{{ 'beans-table.webp' | asset_url }}" alt="" width="400" height="300" loading="lazy">
+            {%- endif -%}
+            <div class="trailcard__body">
+              <span class="trailcard__count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'find', 'finds' }}</span>
+              <h3 class="trailcard__title">{{ collection.title }}</h3>
+              <span class="link-arrow" style="color:#fff">Follow the trail {% render 'icon', name: 'arrow-right', size: 16 %}</span>
+            </div>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "List collections",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Explore Every Trail" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Every collection is its own corner of the forest." }
+  ],
+  "enabled_on": { "templates": ["list-collections"] }
+}
+{% endschema %}

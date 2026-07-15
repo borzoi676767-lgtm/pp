@@ -1,0 +1,101 @@
+{%- liquid
+  assign shop_img = section.settings.image
+  assign coll = collections[section.settings.collection]
+  assign limit = section.settings.products_to_show | default: 8
+-%}
+<section id="the-coffee-shop" class="coffee-shop section" aria-label="The coffee shop">
+  <div class="page-width">
+    <div class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="lede">{{ section.settings.subheading }}</p>{%- endif -%}
+    </div>
+
+    <div class="coffee-shop__scene" data-reveal data-parallax-scene>
+      {%- if shop_img -%}
+        <img class="coffee-shop__img" src="{{ shop_img | image_url: width: 1600 }}" alt="{{ section.settings.image_alt | escape | default: 'The Sasquatch Coffee cabin at dusk' }}" width="1600" height="900" loading="lazy">
+      {%- else -%}
+        <img class="coffee-shop__img" src="{{ 'coffee-shop.webp' | asset_url }}" alt="The Sasquatch Coffee cabin, warm windows glowing at dusk" width="1600" height="900" loading="lazy">
+      {%- endif -%}
+      <div class="coffee-shop__glow" aria-hidden="true"></div>
+      <div class="smoke" style="left: 60%; top: 8%;" aria-hidden="true"><span></span><span></span><span></span></div>
+
+      <div class="hanging-sign" aria-hidden="true">
+        <span class="hanging-sign__plate">{{ section.settings.sign_text | default: 'Pine Hollow Coffee' }}</span>
+      </div>
+
+      {%- if section.settings.enable_string_lights -%}<div class="string-lights" aria-hidden="true"></div>{%- endif -%}
+
+      <div class="coffee-shop__door">
+        <button type="button" class="enter-btn" data-enter-shop="#shop-interior" aria-controls="shop-interior">
+          {% render 'icon', name: 'fire', size: 20 %} {{ section.settings.enter_label | default: 'Enter the Shop' }}
+        </button>
+        <span class="coffee-shop__hint">{{ section.settings.hint | default: 'Step onto the porch — the coffee is on' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="shop-interior" class="page-width shop-interior section--tight" hidden>
+    <div class="shop-interior__head" data-reveal>
+      <p class="eyebrow">Inside the cabin</p>
+      <h3>{{ section.settings.interior_heading | default: 'Fresh off the roaster' }}</h3>
+      <p class="lede">{{ section.settings.interior_text | default: 'Simon lined these up on the counter for you. Add to your basket or wander deeper into the camp.' }}</p>
+    </div>
+
+    {%- if coll and coll.products.size > 0 -%}
+      <div class="product-grid" data-reveal-stagger>
+        {%- for product in coll.products limit: limit -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      </div>
+      <div class="text-center" style="margin-top:2rem">
+        <a href="{{ coll.url }}" class="btn btn--gold btn--lg">Browse all {{ coll.title | downcase }} {% render 'icon', name: 'arrow-right', size: 18 %}</a>
+      </div>
+    {%- else -%}
+      <div class="product-grid" data-reveal-stagger>
+        {%- for i in (1..4) -%}
+          <div class="product-card"><div class="product-card__media">{{ 'product-1' | placeholder_svg_tag }}</div><div class="product-card__body"><h3 class="product-card__title">Example roast</h3><span class="price">$23.00</span></div></div>
+        {%- endfor -%}
+      </div>
+      <p class="text-center muted" style="margin-top:1rem">Choose a collection in the theme editor to fill the shelves.</p>
+    {%- endif -%}
+  </div>
+
+  {% render 'hidden-bean', bean_id: 'shop', pos: 'right:4%;top:30%' %}
+</section>
+
+<style>
+  #shopify-section-{{ section.id }} .hanging-sign { position: absolute; top: 6%; left: 12%; z-index: 5; transform-origin: top center; animation: sign-sway 4.5s ease-in-out infinite; }
+  #shopify-section-{{ section.id }} .hanging-sign__plate { display: inline-block; padding: .5rem 1.1rem; background: linear-gradient(180deg,#5b3d24,#3d2817); color: var(--gold-400); font-family: var(--font-head); font-weight: 700; border-radius: 6px; box-shadow: 0 6px 14px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.15); border: 2px solid #2a1c10; font-size: clamp(.8rem, 1.6vw, 1.1rem); white-space: nowrap; }
+  @keyframes sign-sway { 0%,100%{ transform: rotate(-2.5deg);} 50%{ transform: rotate(2.5deg);} }
+  #shopify-section-{{ section.id }} .string-lights { position:absolute; top:34%; left:0; right:0; height:2px; background: repeating-linear-gradient(90deg, transparent 0 26px, rgba(0,0,0,.25) 26px 28px); z-index:4; }
+  #shopify-section-{{ section.id }} .string-lights::before { content:""; position:absolute; inset:-4px 0; background: radial-gradient(circle 4px at 14px 8px, rgba(255,220,140,.9), transparent 60%); background-size: 28px 100%; animation: lights-twinkle 3s ease-in-out infinite; }
+  @keyframes lights-twinkle { 50%{ opacity:.55; } }
+  @media (prefers-reduced-motion: reduce){ #shopify-section-{{ section.id }} .hanging-sign{ animation:none; } }
+  #shop-interior.revealed { animation: interior-in .6s var(--ease-out) both; }
+  @keyframes interior-in { from { opacity:0; transform: translateY(20px) scale(.99);} to { opacity:1; transform:none;} }
+</style>
+
+{% schema %}
+{
+  "name": "Coffee shop",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The centerpiece of the camp" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Coffee Shop" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Smoke curling from the chimney, lanterns swaying on the porch. Step inside to see what's fresh off the roaster." },
+    { "type": "image_picker", "id": "image", "label": "Shop image" },
+    { "type": "text", "id": "image_alt", "label": "Shop image alt text" },
+    { "type": "text", "id": "sign_text", "label": "Hanging sign text", "default": "Pine Hollow Coffee" },
+    { "type": "checkbox", "id": "enable_string_lights", "label": "String lights", "default": true },
+    { "type": "text", "id": "enter_label", "label": "Enter button label", "default": "Enter the Shop" },
+    { "type": "text", "id": "hint", "label": "Enter hint" },
+    { "type": "header", "content": "Inside the shop" },
+    { "type": "text", "id": "interior_heading", "label": "Interior heading", "default": "Fresh off the roaster" },
+    { "type": "text", "id": "interior_text", "label": "Interior text" },
+    { "type": "collection", "id": "collection", "label": "Featured collection" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 12, "step": 1, "label": "Products to show", "default": 8 }
+  ],
+  "presets": [{ "name": "Coffee shop" }]
+}
+{% endschema %}

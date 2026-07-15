@@ -1,0 +1,27 @@
+<div class="page-width section">
+  <div class="section-head" style="text-align:left"><p class="eyebrow">Order</p><h1 style="margin:0">{{ order.name }}</h1><p class="muted">Placed {{ order.created_at | date: '%B %d, %Y' }}</p></div>
+  <div style="overflow-x:auto"><table class="data-table">
+    <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
+    <tbody>
+      {%- for line in order.line_items -%}
+        <tr>
+          <td><a href="{{ line.product.url }}">{{ line.title }}</a></td>
+          <td>{{ line.price | money }}</td>
+          <td>{{ line.quantity }}</td>
+          <td>{{ line.final_line_price | money }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+    <tfoot>
+      <tr><td colspan="3">Subtotal</td><td>{{ order.line_items_subtotal_price | money }}</td></tr>
+      {%- for shipping in order.shipping_methods -%}<tr><td colspan="3">Shipping ({{ shipping.title }})</td><td>{{ shipping.price | money }}</td></tr>{%- endfor -%}
+      {%- for tax in order.tax_lines -%}<tr><td colspan="3">Tax ({{ tax.title }})</td><td>{{ tax.price | money }}</td></tr>{%- endfor -%}
+      <tr><td colspan="3"><strong>Total</strong></td><td><strong>{{ order.total_price | money }}</strong></td></tr>
+    </tfoot>
+  </table></div>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem">
+    <div class="card" style="padding:1.2rem"><h3 style="font-size:1rem">Shipping address</h3><p class="muted">{{ order.shipping_address | format_address }}</p></div>
+    <div class="card" style="padding:1.2rem"><h3 style="font-size:1rem">Billing address</h3><p class="muted">{{ order.billing_address | format_address }}</p></div>
+  </div>
+  <p style="margin-top:1.5rem"><a href="{{ routes.account_url }}" class="link-arrow">← Back to account</a></p>
+</div>

@@ -1,0 +1,35 @@
+<section class="collection-banner" data-parallax-scene>
+  <div class="collection-banner__bg" aria-hidden="true">
+    {%- if collection.image -%}
+      <img data-parallax="0.1" src="{{ collection.image | image_url: width: 2000 }}" alt="" width="1920" height="520" loading="eager" fetchpriority="high">
+    {%- else -%}
+      <img data-parallax="0.1" src="{{ 'beans-table.webp' | asset_url }}" alt="" width="1400" height="788" loading="eager">
+    {%- endif -%}
+    <div class="collection-banner__scrim"></div>
+    {%- if settings.enable_particles -%}<canvas class="fx-canvas" data-particles="leaves" data-density="14" aria-hidden="true"></canvas>{%- endif -%}
+  </div>
+  <div class="collection-banner__inner page-width" data-reveal>
+    <nav class="breadcrumbs breadcrumbs--light" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Camp</a> <span aria-hidden="true">/</span>
+      <a href="{{ routes.collections_url }}">Trails</a> <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ collection.title }}</span>
+    </nav>
+    <p class="eyebrow">{% render 'icon', name: 'pine', size: 15 %} A trail through the camp</p>
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}<div class="collection-banner__desc rte">{{ collection.description }}</div>{%- endif -%}
+  </div>
+</section>
+<style>
+  #shopify-section-{{ section.id }} .collection-banner { position: relative; overflow: hidden; color: #fff; min-height: 320px; display: flex; align-items: flex-end; }
+  #shopify-section-{{ section.id }} .collection-banner__bg { position: absolute; inset: -8% 0 0; }
+  #shopify-section-{{ section.id }} .collection-banner__bg img { width: 100%; height: 120%; object-fit: cover; }
+  #shopify-section-{{ section.id }} .collection-banner__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,20,12,.15), rgba(10,20,12,.72)); }
+  #shopify-section-{{ section.id }} .collection-banner__inner { position: relative; padding-block: clamp(2rem,5vw,3.5rem); }
+  #shopify-section-{{ section.id }} .collection-banner h1 { color: #fff; text-shadow: 0 2px 20px rgba(0,0,0,.4); }
+  #shopify-section-{{ section.id }} .collection-banner__desc { max-width: 60ch; color: rgba(255,255,255,.92); }
+  #shopify-section-{{ section.id }} .breadcrumbs--light a, #shopify-section-{{ section.id }} .breadcrumbs--light span { color: rgba(255,255,255,.85); }
+  #shopify-section-{{ section.id }} .collection-banner .eyebrow { color: var(--gold-400); }
+</style>
+{% schema %}
+{ "name": "Collection banner", "tag": "section", "settings": [], "enabled_on": { "templates": ["collection"] } }
+{% endschema %}

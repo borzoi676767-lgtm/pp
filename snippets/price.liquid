@@ -1,0 +1,26 @@
+{%- comment -%}
+  Price display.  Params: product (or variant), show_from (bool)
+{%- endcomment -%}
+{%- liquid
+  assign target = product | default: variant
+  assign on_sale = false
+  if target.compare_at_price > target.price
+    assign on_sale = true
+  endif
+  assign price = target.price
+  if product and product.price_varies and show_from
+    assign price = product.price_min
+  endif
+-%}
+<span class="price {% if on_sale %}price--on-sale{% endif %}">
+  {%- if show_from and product.price_varies -%}
+    <span class="price__from">{{ 'products.product.from_price' | t: price: price | money }}</span>
+  {%- else -%}
+    {%- if on_sale -%}
+      <span class="price__was">{{ target.compare_at_price | money }}</span>
+      <span class="price__now">{{ price | money }}</span>
+    {%- else -%}
+      <span>{{ price | money }}</span>
+    {%- endif -%}
+  {%- endif -%}
+</span>

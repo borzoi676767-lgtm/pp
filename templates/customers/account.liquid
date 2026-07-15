@@ -1,0 +1,42 @@
+<div class="page-width section">
+  <div class="section-head" style="text-align:left;margin-bottom:1.5rem">
+    <p class="eyebrow">Base camp</p>
+    <h1 style="margin:0">Welcome back{% if customer.first_name %}, {{ customer.first_name }}{% endif %}</h1>
+  </div>
+  <div class="account-grid">
+    <aside class="card" style="padding:1.4rem">
+      <h2 style="font-size:1.1rem">{{ 'customer.account.title' | t }}</h2>
+      <ul style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.5rem">
+        <li><a href="{{ routes.account_addresses_url }}">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a></li>
+        <li><a href="{{ routes.account_logout_url }}">{{ 'customer.account.logout' | t }}</a></li>
+      </ul>
+      {%- if customer.default_address -%}
+        <div style="margin-top:1.2rem;border-top:1px solid var(--line);padding-top:1rem">
+          <h3 style="font-size:.95rem">Default address</h3>
+          <p class="muted" style="font-size:.9rem">{{ customer.default_address | format_address }}</p>
+        </div>
+      {%- endif -%}
+    </aside>
+    <div>
+      <h2 style="font-size:1.2rem">{{ 'customer.account.orders' | t }}</h2>
+      {%- if customer.orders.size > 0 -%}
+        <div style="overflow-x:auto"><table class="data-table">
+          <thead><tr><th>{{ 'customer.orders.order_number' | t }}</th><th>{{ 'customer.orders.date' | t }}</th><th>{{ 'customer.orders.payment_status' | t }}</th><th>{{ 'customer.orders.fulfillment_status' | t }}</th><th>{{ 'customer.orders.total' | t }}</th></tr></thead>
+          <tbody>
+            {%- for order in customer.orders -%}
+              <tr>
+                <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                <td>{{ order.created_at | date: '%b %d, %Y' }}</td>
+                <td>{{ order.financial_status_label }}</td>
+                <td>{{ order.fulfillment_status_label }}</td>
+                <td>{{ order.total_price | money }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table></div>
+      {%- else -%}
+        <p class="muted">No orders yet. <a href="{{ routes.all_products_collection_url }}">Time for your first roast →</a></p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

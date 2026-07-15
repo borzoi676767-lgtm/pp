@@ -1,0 +1,43 @@
+{
+  "current": {
+    "logo_width": 150,
+    "logo_wordmark": "Sasquatch Coffee",
+    "color_forest": "#1f3d2b",
+    "color_moss": "#6a7f4f",
+    "color_cedar": "#7a4f2b",
+    "color_cream": "#faf3e4",
+    "color_ember": "#e07a3c",
+    "color_gold": "#e8b84b",
+    "color_ink": "#2a2016",
+    "font_heading": "assistant_n7",
+    "font_body": "assistant_n4",
+    "heading_scale": 100,
+    "page_width": 1320,
+    "corner_radius": 14,
+    "product_card_style": "square",
+    "enable_world_controls": true,
+    "enable_ambient_sound": true,
+    "enable_weather": true,
+    "enable_particles": true,
+    "enable_bean_hunt": true,
+    "enable_simon": true,
+    "default_time": "auto",
+    "cart_type": "drawer",
+    "enable_free_ship_bar": true,
+    "free_ship_threshold": 45,
+    "enable_cart_upsell": true,
+    "cart_trust": "Roasted to order · Ships in 1–2 days · 100% happiness guarantee",
+    "enable_sticky_atc": true,
+    "enable_inventory_notice": true,
+    "enable_delivery_estimate": true,
+    "enable_payment_icons": true,
+    "social_instagram": "",
+    "social_tiktok": "",
+    "social_facebook": "",
+    "social_youtube": "",
+    "social_twitter_handle": "sasquatchcoffee"
+  },
+  "presets": {
+    "The Hidden Forest": {}
+  }
+}

@@ -1,0 +1,18 @@
+<section class="section" aria-label="Page not found">
+  <div class="page-width text-center" style="padding-block:clamp(3rem,8vw,6rem)">
+    <div class="not-found" data-reveal>
+      <div style="font-size:clamp(4rem,14vw,9rem);line-height:1">🌲</div>
+      <p class="eyebrow" style="justify-content:center">Off the trail</p>
+      <h1>{{ 'general.404.title' | t }}</h1>
+      <p class="lede" style="max-width:46ch;margin-inline:auto">{{ 'general.404.subtext' | t }}</p>
+      <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:1.4rem">
+        <a href="{{ routes.root_url }}" class="btn btn--accent btn--lg">{{ 'general.404.link' | t }}</a>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--ghost btn--lg">Browse coffee</a>
+      </div>
+      <p class="muted" style="margin-top:1.5rem">Simon says: “Even I get lost out here sometimes. Let's get you back to the fire.”</p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "404", "tag": "section", "settings": [] }
+{% endschema %}

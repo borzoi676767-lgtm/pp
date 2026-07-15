@@ -1,0 +1,36 @@
+<section class="section" aria-label="{{ section.settings.heading | escape }}">
+  <div class="page-width">
+    <div class="image-with-text {% if section.settings.reverse %}image-with-text--reverse{% endif %}" data-reveal>
+      <div class="image-with-text__media">
+        {%- if section.settings.image -%}
+          <img src="{{ section.settings.image | image_url: width: 900 }}" alt="{{ section.settings.image_alt | escape }}" width="720" height="560" loading="lazy" style="width:100%;height:auto;display:block">
+        {%- else -%}
+          <img src="{{ 'beans-table.webp' | asset_url }}" alt="" width="720" height="405" loading="lazy" style="width:100%;height:auto;display:block">
+        {%- endif -%}
+      </div>
+      <div class="image-with-text__body">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="rte lede">{{ section.settings.text }}</div>{%- endif -%}
+        {%- if section.settings.button_label != blank -%}<a href="{{ section.settings.button_link }}" class="btn btn--accent" style="margin-top:1rem">{{ section.settings.button_label }} {% render 'icon', name: 'arrow-right', size: 16 %}</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Image with text",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text" },
+    { "type": "checkbox", "id": "reverse", "label": "Reverse layout", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The craft" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Roasted over the perfect fire" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>We roast in small batches so every bean hits its sweet spot. No shortcuts, no stale shelves — just coffee the way the forest intended.</p>" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop fresh roasts" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Image with text" }]
+}
+{% endschema %}

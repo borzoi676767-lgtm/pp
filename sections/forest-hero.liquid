@@ -1,0 +1,72 @@
+{%- liquid
+  assign img = section.settings.image
+  assign img_mobile = section.settings.image_mobile | default: section.settings.image
+-%}
+<section class="forest-hero" data-parallax-scene aria-label="{{ section.settings.heading | strip_html | default: 'Welcome to the forest' }}">
+  <div class="forest-hero__layers" aria-hidden="true">
+    {%- if img -%}
+      <picture>
+        {%- if img_mobile -%}<source media="(max-width: 749px)" srcset="{{ 'hero-forest-sm.webp' | asset_url }}">{%- endif -%}
+        <img class="forest-hero__photo" data-parallax="0.14" src="{{ img | image_url: width: 2000 }}" alt="" width="1920" height="800" fetchpriority="high">
+      </picture>
+    {%- else -%}
+      <picture>
+        <source media="(max-width: 749px)" srcset="{{ 'hero-forest-sm.webp' | asset_url }}">
+        <img class="forest-hero__photo" data-parallax="0.14" src="{{ 'hero-forest.webp' | asset_url }}" alt="" width="1920" height="692" fetchpriority="high">
+      </picture>
+    {%- endif -%}
+    <div class="hero-sun" data-mouse-depth="14"></div>
+    <div class="hero-rays"><span></span><span></span><span></span><span></span></div>
+  </div>
+  <div class="forest-hero__scrim"></div>
+
+  {%- if section.settings.enable_particles and settings.enable_particles -%}
+    <canvas class="fx-canvas" data-particles="leaves" data-density="18" aria-hidden="true"></canvas>
+    <canvas class="fx-canvas fx-fireflies" data-particles="fireflies" data-density="30" aria-hidden="true"></canvas>
+  {%- endif -%}
+
+  <div class="forest-hero__inner">
+    <div class="forest-hero__content" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h1>{{ section.settings.heading }}</h1>{%- endif -%}
+      {%- if section.settings.subheading != blank -%}<p class="forest-hero__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+      <div class="forest-hero__cta">
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link | default: '#the-coffee-shop' }}" class="btn btn--accent btn--lg" {% if section.settings.button_link == blank %}data-enter-shop="#shop-interior"{% endif %}>{{ section.settings.button_label }} {% render 'icon', name: 'arrow-right', size: 18 %}</a>
+        {%- endif -%}
+        {%- if section.settings.button2_label != blank -%}
+          <a href="{{ section.settings.button2_link | default: '#meet-the-crew' }}" class="btn btn--ghost btn--lg" style="--btn-ink:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.6)">{{ section.settings.button2_label }}</a>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.slogan != blank -%}<p class="hero-slogan">“{{ section.settings.slogan }}”</p>{%- endif -%}
+    </div>
+  </div>
+
+  <a href="#the-coffee-shop" class="scroll-cue" aria-label="Scroll to explore">
+    <span class="mouse"></span><span>Explore</span>
+  </a>
+
+  {% render 'hidden-bean', bean_id: 'hero', pos: 'left:6%;bottom:22%' %}
+</section>
+
+{% schema %}
+{
+  "name": "Forest hero",
+  "tag": "section",
+  "class": "section-forest-hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image", "info": "Ships with a painted forest hero. 21:9 works best." },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile background (optional)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A hidden roastery deep in the old-growth forest" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Welcome to the Forest</p>" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Follow the winding trail to a cabin where a crew of cryptids roasts every batch over the perfect fire. Pull up a log — the coffee's on." },
+    { "type": "text", "id": "button_label", "label": "Primary button", "default": "Enter the Coffee Shop" },
+    { "type": "url", "id": "button_link", "label": "Primary link", "info": "Leave blank to open the shop scene on this page." },
+    { "type": "text", "id": "button2_label", "label": "Secondary button", "default": "Meet the Crew" },
+    { "type": "url", "id": "button2_link", "label": "Secondary link" },
+    { "type": "text", "id": "slogan", "label": "Slogan", "default": "Nature Calls, Coffee Answers." },
+    { "type": "checkbox", "id": "enable_particles", "label": "Drifting leaves & fireflies", "default": true }
+  ],
+  "presets": [{ "name": "Forest hero" }]
+}
+{% endschema %}

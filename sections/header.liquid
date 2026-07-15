@@ -1,0 +1,114 @@
+<header class="site-header" data-header>
+  <div class="site-header__bar page-width">
+    <button class="site-header__burger" data-nav-toggle aria-expanded="false" aria-controls="mobile-nav" aria-label="{{ 'general.accessibility.menu' | t }}">
+      {% render 'icon', name: 'menu', size: 24 %}
+    </button>
+
+    <a href="{{ routes.root_url }}" class="site-header__logo" aria-label="{{ shop.name }} — home">
+      {%- if settings.logo -%}
+        <img src="{{ settings.logo | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo_width }}" style="width: {{ settings.logo_width }}px" loading="eager">
+      {%- else -%}
+        <span class="site-header__wordmark">
+          {%- if settings.brand_emblem -%}<img class="site-header__emblem" src="{{ settings.brand_emblem | image_url: width: 96 }}" alt="" width="40" height="40">{%- else -%}{% render 'icon', name: 'pine', size: 26 %}{%- endif -%}
+          {{ settings.logo_wordmark }}
+        </span>
+      {%- endif -%}
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      <ul class="site-nav__list">
+        {%- for link in section.settings.menu.links -%}
+          {%- if link.links != blank -%}
+            <li class="site-nav__item" data-has-mega>
+              <a href="{{ link.url }}" class="site-nav__link" aria-expanded="false">{{ link.title }} {% render 'icon', name: 'chevron-down', size: 14 %}</a>
+              <div class="mega">
+                <div class="mega__inner page-width">
+                  <ul class="mega__cols">
+                    {%- for child in link.links -%}
+                      <li class="mega__col">
+                        <a href="{{ child.url }}" class="mega__head">{{ child.title }}</a>
+                        {%- if child.links != blank -%}
+                          <ul class="mega__sub">
+                            {%- for gc in child.links -%}<li><a href="{{ gc.url }}">{{ gc.title }}</a></li>{%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                  {%- if section.settings.mega_image -%}
+                    <a href="{{ section.settings.mega_link }}" class="mega__feature">
+                      <img src="{{ section.settings.mega_image | image_url: width: 520 }}" alt="" loading="lazy">
+                      <span class="mega__feature-label">{{ section.settings.mega_label | default: 'Featured' }}</span>
+                    </a>
+                  {%- endif -%}
+                </div>
+              </div>
+            </li>
+          {%- else -%}
+            <li class="site-nav__item"><a href="{{ link.url }}" class="site-nav__link">{{ link.title }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a href="{{ routes.search_url }}" class="header-action" data-search-open aria-label="{{ 'general.search.search' | t }}">{% render 'icon', name: 'search', size: 22 %}</a>
+      <a href="{% if shop.customer_accounts_enabled %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="header-action hide-mobile" aria-label="{{ 'customer.account.title' | t }}">{% render 'icon', name: 'user', size: 22 %}</a>
+      <button type="button" class="header-action header-action--cart" data-cart-open aria-label="{{ 'cart.general.title' | t }}">
+        {% render 'cart-icon-bubble' %}
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Search flyout {%- endcomment -%}
+  <div class="header-search" data-search-panel hidden>
+    <form action="{{ routes.search_url }}" method="get" class="header-search__form page-width" role="search">
+      <input type="search" name="q" class="input" placeholder="{{ 'general.search.placeholder' | t }}" data-predictive-input aria-label="{{ 'general.search.search' | t }}" autocomplete="off">
+      <input type="hidden" name="options[prefix]" value="last">
+      <button type="submit" class="btn btn--accent">{% render 'icon', name: 'search', size: 18 %}</button>
+      <button type="button" class="header-search__close" data-search-close aria-label="{{ 'general.accessibility.close' | t }}">{% render 'icon', name: 'close', size: 20 %}</button>
+      <div class="header-search__results" data-predictive-results hidden></div>
+    </form>
+  </div>
+</header>
+
+{%- comment -%} Mobile nav drawer {%- endcomment -%}
+<div class="mobile-nav" id="mobile-nav" data-mobile-nav>
+  <ul class="mobile-nav__list">
+    {%- for link in section.settings.menu.links -%}
+      <li class="mobile-nav__item">
+        <a href="{{ link.url }}" class="mobile-nav__link">{{ link.title }}</a>
+        {%- if link.links != blank -%}
+          <ul class="mobile-nav__sub">
+            {%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+    <li class="mobile-nav__item"><a href="{{ routes.account_url }}" class="mobile-nav__link">{{ 'customer.account.title' | t }}</a></li>
+  </ul>
+</div>
+
+<script>
+  // Header search + mobile drawer wiring (progressive, lightweight)
+  (function(){
+    var open=document.querySelector('[data-search-open]'), panel=document.querySelector('[data-search-panel]');
+    var close=document.querySelector('[data-search-close]');
+    if(open&&panel){open.addEventListener('click',function(e){e.preventDefault();panel.hidden=!panel.hidden;if(!panel.hidden){var i=panel.querySelector('input');i&&i.focus();}});}
+    if(close&&panel){close.addEventListener('click',function(){panel.hidden=true;});}
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "header", "content": "Mega-menu feature" },
+    { "type": "image_picker", "id": "mega_image", "label": "Feature image" },
+    { "type": "text", "id": "mega_label", "label": "Feature label", "default": "Limited Release" },
+    { "type": "url", "id": "mega_link", "label": "Feature link" }
+  ],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

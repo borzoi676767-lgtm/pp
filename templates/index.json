@@ -1,0 +1,100 @@
+{
+  "sections": {
+    "hero": {
+      "type": "forest-hero",
+      "settings": {
+        "eyebrow": "A hidden roastery deep in the old-growth forest",
+        "heading": "<p>Welcome to the Forest</p>",
+        "subheading": "Follow the winding trail to a cabin where a crew of cryptids roasts every batch over the perfect fire. Pull up a log — the coffee's on.",
+        "button_label": "Enter the Coffee Shop",
+        "button2_label": "Meet the Crew",
+        "button2_link": "#meet-the-crew",
+        "slogan": "Nature Calls, Coffee Answers.",
+        "enable_particles": true
+      }
+    },
+    "trust": {
+      "type": "trust-badges",
+      "blocks": {
+        "b1": { "type": "badge", "settings": { "icon": "fire", "title": "Roasted to Order", "text": "Small batches over real fire" } },
+        "b2": { "type": "badge", "settings": { "icon": "truck", "title": "Fast, Free Shipping", "text": "On orders over $45" } },
+        "b3": { "type": "badge", "settings": { "icon": "leaf", "title": "Ethically Sourced", "text": "Specialty-grade beans" } },
+        "b4": { "type": "badge", "settings": { "icon": "shield", "title": "Happiness Guarantee", "text": "Love it or we'll make it right" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    },
+    "coffee_shop": {
+      "type": "the-coffee-shop",
+      "settings": {
+        "collection": "seasonal-specialty",
+        "products_to_show": 8,
+        "sign_text": "Pine Hollow Coffee",
+        "interior_heading": "Fresh off the roaster"
+      }
+    },
+    "trailheads": {
+      "type": "collection-trailheads",
+      "blocks": {
+        "t1": { "type": "trail", "settings": { "collection": "single-origin", "marker": "🫘", "title": "Single Origin" } },
+        "t2": { "type": "trail", "settings": { "collection": "blends", "marker": "🔥", "title": "Blends" } },
+        "t3": { "type": "trail", "settings": { "collection": "coffee-pods", "marker": "☕", "title": "Coffee Pods" } },
+        "t4": { "type": "trail", "settings": { "collection": "seasonal-specialty", "marker": "🍂", "title": "Seasonal & Specialty" } },
+        "t5": { "type": "trail", "settings": { "collection": "tea-matcha", "marker": "🍵", "title": "Tea & Matcha" } },
+        "t6": { "type": "trail", "settings": { "collection": "sample-packs", "marker": "🎁", "title": "Sample Packs" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6"]
+    },
+    "crew": {
+      "type": "meet-the-crew",
+      "blocks": {
+        "c1": { "type": "character", "settings": { "default_image": "char-sasquatch", "name": "Sasquatch", "role": "Founder & Master Roaster", "dialogue": "Welcome to the forest.\nWe roast every batch over the perfect fire.\nNature Calls. Coffee Answers." } },
+        "c2": { "type": "character", "settings": { "default_image": "char-simon", "name": "Simon", "role": "Coffee Scientist & Flavor Engineer", "dialogue": "I tested this roast 143 times.\nScience says: another cup.\nTrust the process." } },
+        "c3": { "type": "character", "settings": { "default_image": "char-yeti", "name": "Yeti", "role": "Head of Operations", "dialogue": "Crates in, crates out. All day.\nInventory's looking good today.\nMind the fresh stack!" } },
+        "c4": { "type": "character", "settings": { "default_image": "char-mothman", "name": "Mothman", "role": "Night Shift Manager", "dialogue": "I keep the campfire burning.\nRoast schedule's on track.\nThe night is cozy out here." } },
+        "c5": { "type": "character", "settings": { "default_image": "char-jackalope", "name": "Jackalope", "role": "Trail Guide", "dialogue": "This way to the good stuff!\nFollow my footprints.\nHop hop — let's explore!" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5"]
+    },
+    "featured": {
+      "type": "featured-collection",
+      "settings": { "eyebrow": "Camp favorites", "heading": "Best Sellers by the Fire", "collection": "blends", "products_to_show": 8, "layout": "carousel" }
+    },
+    "campfire": {
+      "type": "campfire-story",
+      "blocks": {
+        "s1": { "type": "chapter", "settings": { "icon": "seed", "title": "The Origin", "body": "<p>It started with a single sack of green beans and a fire that wouldn't quit. Sasquatch roasted through the night; the forest woke up to the smell of it.</p>" } },
+        "s2": { "type": "chapter", "settings": { "icon": "fire", "title": "Our Mission", "body": "<p>Premium, small-batch coffee roasted over the perfect fire — and shared with anyone who wanders down the trail.</p>" } },
+        "s3": { "type": "chapter", "settings": { "icon": "leaf", "title": "Coffee Philosophy", "body": "<p>Slow roasts, honest sourcing, and a deep respect for the woods that raised us. Simon insists on testing every batch. Repeatedly.</p>" } }
+      },
+      "block_order": ["s1", "s2", "s3"]
+    },
+    "image_text": {
+      "type": "image-with-text",
+      "settings": { "reverse": false, "eyebrow": "The craft", "heading": "Roasted over the perfect fire", "text": "<p>We roast in small batches so every bean hits its sweet spot. No shortcuts, no stale shelves — just coffee the way the forest intended.</p>", "button_label": "Shop fresh roasts", "button_link": "shopify://collections/blends" }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "r1": { "type": "quote", "settings": { "quote": "Best coffee I've had in years. Tastes like a crisp morning in the mountains.", "author": "Jordan M.", "meta": "Fireside Blend" } },
+        "r2": { "type": "quote", "settings": { "quote": "The whole shop experience is magical. My kids ask to 'visit Simon' every week.", "author": "Priya K.", "meta": "Verified buyer" } },
+        "r3": { "type": "quote", "settings": { "quote": "Roasted-to-order really is a different league. Won't go back to grocery beans.", "author": "Marcus T.", "meta": "Six Summits Espresso" } }
+      },
+      "block_order": ["r1", "r2", "r3"]
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "f1": { "type": "qa", "settings": { "question": "How fresh is the coffee?", "answer": "<p>Every bag is roasted to order in small batches and shipped within 1–2 days — never off a warehouse shelf.</p>" } },
+        "f2": { "type": "qa", "settings": { "question": "Which grind should I choose?", "answer": "<p>Whole bean for the freshest cup, or pick your brewer's grind at checkout. Simon recommends coarse for cold brew, standard for drip.</p>" } },
+        "f3": { "type": "qa", "settings": { "question": "Do you offer subscriptions?", "answer": "<p>Yes — save on every order and never run out. Look for the subscribe option on any coffee product.</p>" } },
+        "f4": { "type": "qa", "settings": { "question": "What's your return policy?", "answer": "<p>If you're not happy with your roast, reach out and we'll make it right. That's the camp promise.</p>" } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": { "heading": "Get 10% off your first bag", "text": "Join the camp for new roasts, seasonal drops, and the occasional secret from Simon's notebook." }
+    }
+  },
+  "order": ["hero", "trust", "coffee_shop", "trailheads", "crew", "featured", "campfire", "image_text", "testimonials", "faq", "newsletter"]
+}
