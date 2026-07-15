@@ -249,7 +249,8 @@ button { font: inherit; cursor: pointer; }
 
 /* --------------------------------------------------------- Announcement */
 .announcement { background: var(--forest-800); color: var(--cream-100); font-size: var(--fs-300); }
-.announcement__track { display: flex; align-items: center; justify-content: center; gap: 2rem; padding: .55rem var(--pad); text-align: center; }
+.announcement__track { display: flex; align-items: center; justify-content: center; gap: 2rem; padding: .55rem var(--pad); text-align: center; flex-wrap: wrap; }
+@media (max-width: 749px) { .announcement__track { gap: .9rem; font-size: .78rem; } .announcement__item:nth-child(n+2) { display: none; } }
 .announcement a { color: var(--gold-400); }
 
 /* ------------------------------------------------------------- Utilities */

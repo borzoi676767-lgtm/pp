@@ -85,6 +85,17 @@
     ]
   },
   {
+    "name": "Marketing",
+    "settings": [
+      { "type": "header", "content": "Email capture popup" },
+      { "type": "checkbox", "id": "enable_email_popup", "label": "Enable exit-intent email popup", "default": true },
+      { "type": "text", "id": "popup_heading", "label": "Heading", "default": "Wait — grab 10% off" },
+      { "type": "textarea", "id": "popup_text", "label": "Text", "default": "Before you head back down the trail, join the camp and we'll send a code for 10% off your first bag." },
+      { "type": "text", "id": "popup_button", "label": "Button label", "default": "Send my code" },
+      { "type": "image_picker", "id": "popup_image", "label": "Popup image" }
+    ]
+  },
+  {
     "name": "Social & SEO",
     "settings": [
       { "type": "image_picker", "id": "share_image", "label": "Default social share image" },

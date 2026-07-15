@@ -1,0 +1,55 @@
+{%- if settings.enable_email_popup -%}
+<dialog id="email-popup" class="email-popup" aria-label="{{ settings.popup_heading | escape }}">
+  <div class="email-popup__card">
+    <button type="button" class="modal-close" data-popup-close aria-label="{{ 'general.accessibility.close' | t }}">{% render 'icon', name: 'close', size: 20 %}</button>
+    <div class="email-popup__art" aria-hidden="true">
+      {%- if settings.popup_image -%}
+        <img src="{{ settings.popup_image | image_url: width: 400 }}" alt="" width="200" height="260">
+      {%- else -%}
+        <img src="{{ 'char-simon.webp' | asset_url }}" alt="" width="180" height="230">
+      {%- endif -%}
+    </div>
+    <div class="email-popup__body">
+      <p class="eyebrow">Trail dispatches</p>
+      <h2>{{ settings.popup_heading }}</h2>
+      <p>{{ settings.popup_text }}</p>
+      {%- form 'customer', class: 'newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="popup,newsletter">
+        <div class="input-group">
+          <input class="input" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.placeholder' | t }}" aria-label="{{ 'general.newsletter.label' | t }}" required>
+          <button type="submit" class="btn btn--accent">{{ settings.popup_button | default: 'Send my code' }}</button>
+        </div>
+        {%- if form.posted_successfully? -%}<p class="form-success" style="color:var(--forest-700)">You're in! Check your inbox for your code.</p>{%- endif -%}
+      {%- endform -%}
+      <button type="button" class="email-popup__decline" data-popup-close>No thanks, I'll pay full price</button>
+    </div>
+  </div>
+</dialog>
+<style>
+  .email-popup { border: 0; padding: 0; background: transparent; max-width: 620px; width: calc(100% - 2rem); }
+  .email-popup::backdrop { background: rgba(8,14,9,.7); backdrop-filter: blur(6px); }
+  .email-popup__card { display: grid; grid-template-columns: 200px 1fr; background: var(--surface); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-lg); border: 1px solid var(--line); position: relative; }
+  .email-popup__art { background: linear-gradient(160deg, var(--forest-600), var(--forest-800)); display: grid; place-items: end center; }
+  .email-popup__art img { width: 100%; height: auto; }
+  .email-popup__body { padding: clamp(1.4rem, 4vw, 2.2rem); }
+  .email-popup__body h2 { margin: .2rem 0 .5rem; }
+  .email-popup__decline { display: block; margin-top: .8rem; background: none; border: 0; color: var(--ink-mute); text-decoration: underline; font-size: .85rem; cursor: pointer; }
+  @media (max-width: 599px){ .email-popup__card { grid-template-columns: 1fr; } .email-popup__art { display: none; } }
+</style>
+<script>
+  (function(){
+    var dlg = document.getElementById('email-popup');
+    if(!dlg) return;
+    var KEY='sq_popup_seen';
+    var seen; try{ seen = localStorage.getItem(KEY); }catch(e){}
+    if(seen) return;
+    var shown=false;
+    function show(){ if(shown||!dlg.showModal) return; shown=true; try{localStorage.setItem(KEY,'1');}catch(e){} dlg.showModal(); }
+    // Exit intent (desktop) + timed fallback
+    document.addEventListener('mouseout', function(e){ if(e.clientY<=0 && !e.relatedTarget) show(); });
+    setTimeout(show, 35000);
+    dlg.querySelectorAll('[data-popup-close]').forEach(function(b){ b.addEventListener('click', function(){ dlg.close(); }); });
+    dlg.addEventListener('click', function(e){ if(e.target===dlg) dlg.close(); });
+  })();
+</script>
+{%- endif -%}
