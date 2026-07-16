@@ -19,9 +19,14 @@
   {%- comment -%} Design tokens driven by theme settings {%- endcomment -%}
   {%- assign hf = settings.font_heading -%}
   {%- assign bf = settings.font_body -%}
-  {{ hf | font_face: font_display: 'swap' }}
-  {{ bf | font_face: font_display: 'swap' }}
-  {{ hf | font_modify: 'weight', '700' | font_face: font_display: 'swap' }}
+  {%- if hf.family -%}
+    {{ hf | font_face: font_display: 'swap' }}
+    {%- assign hf_bold = hf | font_modify: 'weight', '700' -%}
+    {%- if hf_bold %}{{ hf_bold | font_face: font_display: 'swap' }}{% endif -%}
+  {%- endif -%}
+  {%- if bf.family -%}
+    {{ bf | font_face: font_display: 'swap' }}
+  {%- endif -%}
   <style>
     :root{
       --forest-700: {{ settings.color_forest }};
@@ -39,8 +44,8 @@
       --ink: {{ settings.color_ink }};
       --brand: {{ settings.color_forest }};
       --accent: {{ settings.color_ember }};
-      --font-head: {{ hf.family }}, {{ hf.fallback_families }};
-      --font-body: {{ bf.family }}, {{ bf.fallback_families }};
+      --font-head: {% if hf.family %}{{ hf.family }}, {{ hf.fallback_families }}{% else %}Georgia, "Times New Roman", serif{% endif %};
+      --font-body: {% if bf.family %}{{ bf.family }}, {{ bf.fallback_families }}{% else %}-apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif{% endif %};
       --page: {{ settings.page_width }}px;
       --r-sm: {{ settings.corner_radius | divided_by: 2 }}px;
       --r-md: {{ settings.corner_radius }}px;
