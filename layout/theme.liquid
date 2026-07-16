@@ -19,14 +19,16 @@
   {%- comment -%} Design tokens driven by theme settings {%- endcomment -%}
   {%- assign hf = settings.font_heading -%}
   {%- assign bf = settings.font_body -%}
-  {%- if hf.family -%}
-    {{ hf | font_face: font_display: 'swap' }}
-    {%- assign hf_bold = hf | font_modify: 'weight', '700' -%}
-    {%- if hf_bold %}{{ hf_bold | font_face: font_display: 'swap' }}{% endif -%}
-  {%- endif -%}
-  {%- if bf.family -%}
-    {{ bf | font_face: font_display: 'swap' }}
-  {%- endif -%}
+  <style>
+    {%- if hf.family -%}
+      {{ hf | font_face: font_display: 'swap' }}
+      {%- assign hf_bold = hf | font_modify: 'weight', '700' -%}
+      {%- if hf_bold %}{{ hf_bold | font_face: font_display: 'swap' }}{% endif -%}
+    {%- endif -%}
+    {%- if bf.family -%}
+      {{ bf | font_face: font_display: 'swap' }}
+    {%- endif -%}
+  </style>
   <style>
     :root{
       --forest-700: {{ settings.color_forest }};
@@ -60,6 +62,13 @@
   {{ 'base.css' | asset_url | stylesheet_tag }}
   {{ 'forest.css' | asset_url | stylesheet_tag }}
   {{ 'components.css' | asset_url | stylesheet_tag }}
+  <style>
+    /* Header: grow with long menus; keep items on the bar, never over content */
+    .site-header__bar{min-height:var(--header-h);height:auto;padding-block:.35rem}
+    .site-nav__list{flex-wrap:wrap;row-gap:.05rem}
+    .site-nav__link{white-space:nowrap;padding:.45rem .7rem;font-size:.92rem}
+    @media (min-width:990px) and (max-width:1279px){.site-nav__link{padding:.4rem .5rem;font-size:.86rem}}
+  </style>
 
   <script>
     window.theme = window.theme || {};

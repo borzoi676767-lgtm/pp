@@ -6,7 +6,7 @@
 .site-header { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: saturate(1.2) blur(10px); border-bottom: 1px solid transparent; transition: box-shadow .3s, background .3s, border-color .3s, transform .35s var(--ease-out); }
 .site-header.is-stuck { box-shadow: var(--shadow-sm); border-color: var(--line); background: color-mix(in srgb, var(--bg) 96%, transparent); }
 .site-header.is-hidden { transform: translateY(-100%); }
-.site-header__bar { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; height: var(--header-h); }
+.site-header__bar { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1rem; min-height: var(--header-h); height: auto; padding-block: .35rem; }
 .site-header__burger { display: none; background: none; border: 0; color: var(--ink); padding: .3rem; }
 .site-header__logo { justify-self: center; text-decoration: none; color: var(--ink); }
 .site-header__wordmark { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--font-head); font-weight: 700; font-size: 1.4rem; color: var(--brand); }
@@ -15,9 +15,9 @@
 .site-header__emblem { border-radius: 50%; }
 
 .site-nav { justify-self: start; }
-.site-nav__list { display: flex; gap: .3rem; list-style: none; margin: 0; padding: 0; }
+.site-nav__list { display: flex; flex-wrap: wrap; gap: .3rem; row-gap: .05rem; list-style: none; margin: 0; padding: 0; }
 .site-nav__item { position: relative; }
-.site-nav__link { display: inline-flex; align-items: center; gap: .25rem; padding: .6rem .85rem; border-radius: var(--r-pill); color: var(--ink); text-decoration: none; font-weight: 600; font-size: .96rem; transition: background .2s, color .2s; }
+.site-nav__link { display: inline-flex; align-items: center; gap: .25rem; padding: .45rem .7rem; border-radius: var(--r-pill); color: var(--ink); text-decoration: none; font-weight: 600; font-size: .92rem; white-space: nowrap; transition: background .2s, color .2s; }
 .site-nav__link:hover { background: color-mix(in srgb, var(--forest-700) 12%, transparent); color: var(--brand); }
 [data-time="night"] .site-nav__link { color: var(--ink-soft); }
 [data-time="night"] .site-nav__link:hover { color: var(--cream-100); }
