@@ -20,8 +20,9 @@
           assign lines = block.settings.dialogue | newline_to_br | strip_newlines | split: '<br />'
           assign fallback = block.settings.default_image
         -%}
+        {%- capture lines_json -%}[{% for l in lines %}{{ l | strip | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]{%- endcapture -%}
         <button type="button" class="character" data-character
-          data-lines='[{% for l in lines %}{{ l | strip | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]'
+          data-lines="{{ lines_json | escape }}"
           aria-label="Talk to {{ block.settings.name | escape }}, {{ block.settings.role | escape }}"
           {{ block.shopify_attributes }}>
           <span class="speech" aria-live="polite"></span>

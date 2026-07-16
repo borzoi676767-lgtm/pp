@@ -102,16 +102,15 @@
 
   {%- if settings.enable_simon -%}
     <aside class="simon-float" aria-label="Simon the Platypus helper">
-      <div class="simon-float__bubble" data-simon-bubble hidden>Need a hand finding your roast? Tap me!</div>
+      <span class="speech" aria-live="polite"></span>
       <button class="simon-float__btn" data-character data-simon
-        data-lines='["I tested this roast 143 times.","Science says: another cup.","Trust the process. ☕","Psst — try the campfire for our story!"]'
+        data-lines="{{ '[&quot;I tested this roast 143 times.&quot;,&quot;Science says: another cup.&quot;,&quot;Trust the process. ☕&quot;,&quot;Psst — try the campfire for our story!&quot;]' }}"
         aria-label="Talk to Simon the Platypus">
         {%- if settings.simon_image -%}
           <img src="{{ settings.simon_image | image_url: width: 160 }}" alt="Simon the Platypus, coffee scientist" width="78" height="78">
         {%- else -%}
           <img src="{{ 'char-simon.webp' | asset_url }}" alt="Simon the Platypus, coffee scientist" width="78" height="78" onerror="this.style.display='none'">
         {%- endif -%}
-        <span class="speech" aria-live="polite"></span>
       </button>
     </aside>
   {%- endif -%}

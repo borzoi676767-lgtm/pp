@@ -153,15 +153,18 @@
     $$("[data-character]").forEach((el) => {
       let lines = [];
       try { lines = JSON.parse(el.dataset.lines || "[]"); } catch {}
-      const bubble = el.querySelector(".speech");
+      // Bubble may live inside the trigger or as a sibling (e.g. Simon float,
+      // where the round button clips overflow).
+      const bubble = el.querySelector(".speech") || el.parentElement?.querySelector(".speech");
       let i = 0;
       const say = () => {
         if (!bubble || !lines.length) return;
         bubble.textContent = lines[i % lines.length];
         i++;
         el.classList.add("is-talking");
+        bubble.classList.add("speech--on");
         clearTimeout(el._t);
-        el._t = setTimeout(() => el.classList.remove("is-talking"), 3200);
+        el._t = setTimeout(() => { el.classList.remove("is-talking"); bubble.classList.remove("speech--on"); }, 3200);
         window.theme?.Badges?.earn("storyteller");
       };
       el.addEventListener("click", say);

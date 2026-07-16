@@ -10,20 +10,26 @@ Shopify commerce feature keeps working.
 
 ## What's inside
 
-### The living world (home page)
-- **Forest hero** — painted cinematic scene with parallax, drifting leaves,
-  fireflies at night, volumetric god-rays, a chimney-smoking cabin, and a
-  scroll cue.
-- **The Coffee Shop** — the centerpiece. Animated chimney smoke, glowing
-  windows, a swaying hand-painted sign, string lights, and an **“Enter the
-  Shop”** button that reveals products *inside* the cabin.
-- **Meet the Crew** — clickable cryptid characters (Sasquatch, Simon the
-  Platypus, Yeti, Mothman, Jackalope) with idle-breathing animations, hover
-  lift, and speech bubbles. Plus an all-cryptid campfire banner.
-- **Campfire → Our Story** — a crackling fire (animated flames + ember
-  particles) opens a story modal (origin, mission, philosophy).
-- **Collection trailheads** — every collection as its own themed destination.
-- **Simon the Platypus** floats throughout the store as a helper.
+### The living world (home page — ONE interactive block)
+The entire landing page is a single full-viewport scene (`forest-world`
+section): no scrolling required to use the store on desktop.
+- **3D coffee shop cabin** (Draco-compressed GLB, `<model-viewer>`) —
+  drag to look around, **click to step inside**. The interior is a
+  full-screen overlay with two areas:
+  - **The Shelves** — products on wooden shelves, one shelf per
+    collection, labeled by collection with quick-add and “view trail”.
+  - **Crew Stations** — a themed corner for each crew member
+    (Roastery / Flavor Lab / Storeroom / Night Counter / Trail Desk),
+    each with a **spinnable 3D model** and clickable dialogue.
+- **All five crew members are real 3D models** (Sasquatch, Simon, Yeti,
+  Mothman, Jackalope) with 2D-art automatic fallback.
+- **Ollie the Camp Mascot** — the 3D spinnable platypus (auto-rotate +
+  drag), distinct from Simon the coffee scientist.
+- **Campfire → Our Story** modal, clickable crew with speech bubbles,
+  quick-nav chips (Shelves / Crew / Story / Search), drifting leaves,
+  fireflies at night, god-rays.
+- Legacy scroll sections (hero, trailheads, crew, campfire, FAQ …) are
+  still in the theme and can be re-added via the Theme Editor.
 
 ### World controls (fixed, accessible)
 Day/Night toggle · Forest ambient sound (synthesised, no audio file) ·
@@ -46,9 +52,11 @@ hints (`TRAILBLAZER`, `FORESTFIND`) — all stored client-side.
   full customer account templates, password page, 404.
 
 ### Performance & accessibility
-- All artwork is optimised **WebP** (~950 KB total for 12 assets).
-- Dependency-free JS (no GSAP/Three.js payload) — canvas particle systems are
-  capped, `IntersectionObserver`-gated, and paused when off-screen.
+- All artwork is optimised **WebP**; all seven 3D models are
+  **Draco-compressed GLB** (~350–660 KB each, down from 8–11 MB raw) and
+  lazy-loaded via `<model-viewer>` with 2D poster/fallback art.
+- Dependency-free UI JS — canvas particle systems are capped,
+  `IntersectionObserver`-gated, and paused when off-screen.
 - Reduced-motion fully supported, keyboard navigable, skip link, ARIA labels,
   focus-visible styles, semantic landmarks.
 

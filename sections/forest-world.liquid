@@ -1,0 +1,407 @@
+{%- comment -%}
+  FOREST WORLD — the entire landing experience in one block.
+  A full-viewport interactive scene: 3D coffee shop (click to enter → crew
+  stations + collection shelves), campfire story, clickable crew, and the
+  3D spinnable camp mascot. Everything editable via schema.
+{%- endcomment -%}
+
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+<section class="world" data-parallax-scene aria-label="{{ section.settings.heading | default: 'Welcome to the forest' | escape }}">
+  <div class="world__bg" aria-hidden="true">
+    {%- if section.settings.scene_image -%}
+      <img src="{{ section.settings.scene_image | image_url: width: 2200 }}" alt="" width="1920" height="900" fetchpriority="high">
+    {%- else -%}
+      <img src="{{ 'hero-forest.webp' | asset_url }}" alt="" width="1920" height="692" fetchpriority="high">
+    {%- endif -%}
+  </div>
+  <div class="hero-rays" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+  {%- if settings.enable_particles -%}
+    <canvas class="fx-canvas" data-particles="leaves" data-density="16" aria-hidden="true"></canvas>
+    <canvas class="fx-canvas fx-fireflies" data-particles="fireflies" data-density="26" aria-hidden="true"></canvas>
+  {%- endif -%}
+
+  <div class="world__inner">
+    <header class="world__head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1>{{ section.settings.heading | default: 'Welcome to the Forest' }}</h1>
+      {%- if section.settings.slogan != blank -%}<p class="world__slogan">“{{ section.settings.slogan }}”</p>{%- endif -%}
+    </header>
+
+    <div class="world__stage">
+      {%- comment -%} Campfire — click for story {%- endcomment -%}
+      <button type="button" class="world-fire" data-campfire aria-haspopup="dialog" aria-label="Sit by the campfire and hear our story">
+        <img src="{% if section.settings.campfire_image %}{{ section.settings.campfire_image | image_url: width: 480 }}{% else %}{{ 'campfire.webp' | asset_url }}{% endif %}" alt="" width="240" height="135" loading="lazy">
+        <span class="flames" aria-hidden="true"><span class="flame"></span><span class="flame f2"></span><span class="flame f3"></span></span>
+        <span class="world-fire__label">{{ section.settings.campfire_label | default: 'The Campfire · Our Story' }}</span>
+      </button>
+
+      {%- comment -%} The 3D coffee shop — click to enter {%- endcomment -%}
+      <div class="world-shop">
+        <button type="button" class="world-shop__frame" data-open-interior aria-haspopup="dialog" aria-controls="shop-interior-overlay" aria-label="{{ section.settings.enter_label | default: 'Enter the coffee shop' | escape }}">
+          <span class="world-shop__glow" aria-hidden="true"></span>
+          {%- if section.settings.enable_3d_shop -%}
+            <model-viewer id="shop-model"
+              src="{{ 'cabin.glb' | asset_url }}"
+              alt="The Pine Hollow Coffee cabin — click to step inside"
+              camera-controls disable-zoom disable-pan auto-rotate auto-rotate-delay="1200" rotation-per-second="8deg"
+              interaction-prompt="none" loading="lazy" reveal="auto"
+              camera-orbit="-20deg 78deg 105%" field-of-view="32deg" shadow-intensity="0.9" exposure="1.05"
+              poster="{{ 'cabin.webp' | asset_url }}"></model-viewer>
+            <img class="world-shop__img" src="{{ 'cabin.webp' | asset_url }}" alt="" width="815" height="620" loading="lazy" hidden data-shop-fallback>
+          {%- else -%}
+            <img class="world-shop__img" src="{% if section.settings.shop_image %}{{ section.settings.shop_image | image_url: width: 1200 }}{% else %}{{ 'cabin.webp' | asset_url }}{% endif %}" alt="" width="815" height="620" loading="lazy">
+          {%- endif -%}
+          <span class="smoke" style="left:56%;top:4%" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+        <div class="world-shop__cta">
+          <button type="button" class="enter-btn" data-open-interior aria-controls="shop-interior-overlay">{% render 'icon', name: 'fire', size: 18 %} {{ section.settings.enter_label | default: 'Enter the Shop' }}</button>
+          <span class="world-shop__hint">{{ section.settings.enter_hint | default: 'Drag to look around · click to step inside' }}</span>
+        </div>
+      </div>
+
+      {%- comment -%} 3D spinnable mascot {%- endcomment -%}
+      <div class="world-mascot">
+        <model-viewer id="mascot-model"
+          src="{{ 'mascot-ollie.glb' | asset_url }}"
+          alt="{{ section.settings.mascot_name | default: 'Ollie' }} the platypus, camp mascot — drag to spin"
+          camera-controls disable-zoom disable-pan auto-rotate rotation-per-second="16deg"
+          interaction-prompt="when-focused" loading="lazy" reveal="auto"
+          camera-orbit="0deg 80deg 100%" shadow-intensity="1" exposure="1.1"
+          poster="{{ 'mascot-ollie.webp' | asset_url }}"></model-viewer>
+        <img class="world-mascot__fallback" src="{{ 'mascot-ollie.webp' | asset_url }}" alt="" width="220" height="147" loading="lazy" hidden data-mascot-fallback>
+        <span class="world-mascot__label">{{ section.settings.mascot_name | default: 'Ollie' }} · {{ section.settings.mascot_role | default: 'Camp Mascot' }} — give him a spin</span>
+      </div>
+    </div>
+
+    <div>
+      {%- comment -%} Crew in the scene {%- endcomment -%}
+      <div class="world__crew" data-reveal-stagger>
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'station' -%}
+            {%- liquid
+              assign lines = block.settings.dialogue | newline_to_br | strip_newlines | split: '<br />'
+            -%}
+            {%- capture lines_json -%}[{% for l in lines %}{{ l | strip | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]{%- endcapture -%}
+            <button type="button" class="character" data-character data-lines="{{ lines_json | escape }}" aria-label="Talk to {{ block.settings.name | escape }}, {{ block.settings.role | escape }}" {{ block.shopify_attributes }}>
+              <span class="speech" aria-live="polite"></span>
+              <span class="character__figure">
+                <span class="character__glow" aria-hidden="true"></span>
+                {%- if block.settings.image -%}
+                  <img class="character__img" src="{{ block.settings.image | image_url: width: 300 }}" alt="" width="150" height="200" loading="lazy">
+                {%- elsif block.settings.default_image != 'none' -%}
+                  <img class="character__img" src="{{ block.settings.default_image | append: '.webp' | asset_url }}" alt="" width="150" height="200" loading="lazy">
+                {%- endif -%}
+              </span>
+              <span class="character__name">{{ block.settings.name }}</span>
+              <span class="character__role">{{ block.settings.role }}</span>
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Quick nav — the whole desktop is usable, no scrolling required {%- endcomment -%}
+      <nav class="world__nav" aria-label="Explore the camp">
+        <button type="button" class="world-chip" data-open-interior data-interior-tab="shelves">{% render 'icon', name: 'cart', size: 16 %} {{ section.settings.nav_shop | default: 'Browse the Shelves' }}</button>
+        <button type="button" class="world-chip" data-open-interior data-interior-tab="stations">{% render 'icon', name: 'pine', size: 16 %} {{ section.settings.nav_crew | default: 'Meet the Crew' }}</button>
+        <button type="button" class="world-chip" data-story-open>{% render 'icon', name: 'fire', size: 16 %} {{ section.settings.nav_story | default: 'Our Story' }}</button>
+        <a class="world-chip" href="{{ routes.search_url }}">{% render 'icon', name: 'search', size: 16 %} {{ section.settings.nav_search | default: 'Search the Camp' }}</a>
+      </nav>
+    </div>
+  </div>
+
+  {% render 'hidden-bean', bean_id: 'world', pos: 'left:3%;top:18%' %}
+</section>
+
+{%- comment -%} ============ SHOP INTERIOR OVERLAY ============ {%- endcomment -%}
+<div id="shop-interior-overlay" class="interior" role="dialog" aria-modal="true" aria-label="Inside {{ section.settings.sign_text | default: 'Pine Hollow Coffee' | escape }}" aria-hidden="true">
+  <header class="interior__head">
+    <h2 class="interior__title">{% render 'icon', name: 'fire', size: 20 %} {{ section.settings.interior_title | default: 'Inside Pine Hollow Coffee' }}</h2>
+    <div class="interior__tabs" role="tablist" aria-label="Shop areas">
+      <button class="interior-tab" id="tab-shelves" role="tab" aria-selected="true" aria-controls="panel-shelves" data-tab="shelves">{{ section.settings.tab_shelves | default: 'The Shelves' }}</button>
+      <button class="interior-tab" id="tab-stations" role="tab" aria-selected="false" aria-controls="panel-stations" data-tab="stations">{{ section.settings.tab_stations | default: 'Crew Stations' }}</button>
+    </div>
+    <button type="button" class="interior__close" data-close-interior>{% render 'icon', name: 'close', size: 18 %} {{ section.settings.exit_label | default: 'Back outside' }}</button>
+  </header>
+
+  <div class="interior__body">
+    {%- comment -%} ---- Shelves: products by collection ---- {%- endcomment -%}
+    <div class="interior__panel" id="panel-shelves" role="tabpanel" aria-labelledby="tab-shelves">
+      <div class="interior__intro">
+        <p class="eyebrow">{{ section.settings.shelves_eyebrow | default: 'Stocked this morning' }}</p>
+        <h2>{{ section.settings.shelves_heading | default: 'The Shelves' }}</h2>
+        <p>{{ section.settings.shelves_text | default: 'Every shelf is a trail through the camp — each one stocked by collection and tested (repeatedly) by Simon.' }}</p>
+      </div>
+      <div class="shelves">
+        {%- assign shelf_count = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'shelf' -%}
+            {%- liquid
+              assign coll = collections[block.settings.collection]
+              assign shelf_count = shelf_count | plus: 1
+            -%}
+            {%- if coll and coll.products.size > 0 -%}
+              <div class="shelf" {{ block.shopify_attributes }}>
+                <div class="shelf__label">
+                  <h3 class="shelf__title">{{ block.settings.title | default: coll.title }}</h3>
+                  <a class="shelf__all" href="{{ coll.url }}">View the whole trail ({{ coll.products_count }}) →</a>
+                </div>
+                <div class="shelf__row">
+                  {%- for product in coll.products limit: block.settings.limit -%}
+                    {% render 'product-card', product: product %}
+                  {%- endfor -%}
+                </div>
+                <div class="shelf__plank" aria-hidden="true"></div>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if shelf_count == 0 -%}
+          <p class="text-center" style="color:rgba(250,243,228,.7)">Add “Shelf” blocks in the theme editor and pick a collection for each.</p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} ---- Crew stations: a section inside for each member ---- {%- endcomment -%}
+    <div class="interior__panel" id="panel-stations" role="tabpanel" aria-labelledby="tab-stations" hidden>
+      <div class="interior__intro">
+        <p class="eyebrow">{{ section.settings.stations_eyebrow | default: 'Who runs this place' }}</p>
+        <h2>{{ section.settings.stations_heading | default: 'Crew Stations' }}</h2>
+        <p>{{ section.settings.stations_text | default: 'Each member of the crew keeps their own corner of the cabin. Drag any of them for a full spin.' }}</p>
+      </div>
+      <div class="stations">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'station' -%}
+            {%- liquid
+              assign lines = block.settings.dialogue | newline_to_br | strip_newlines | split: '<br />'
+              assign glb = block.settings.model_file
+            -%}
+            {%- capture lines_json -%}[{% for l in lines %}{{ l | strip | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]{%- endcapture -%}
+            <article class="station" {{ block.shopify_attributes }}>
+              <div class="station__banner">{% render 'icon', name: block.settings.icon, size: 16 %} {{ block.settings.station_title | default: block.settings.name }}</div>
+              <div class="station__stage">
+                {%- if glb != 'none' -%}
+                  <model-viewer
+                    src="{{ glb | append: '.glb' | asset_url }}"
+                    alt="3D model of {{ block.settings.name | escape }} — drag to spin"
+                    camera-controls disable-zoom disable-pan auto-rotate rotation-per-second="14deg"
+                    interaction-prompt="when-focused" loading="lazy" reveal="auto"
+                    camera-orbit="0deg 82deg 100%" shadow-intensity="1" exposure="1.08"
+                    {% if block.settings.image %}poster="{{ block.settings.image | image_url: width: 400 }}"{% elsif block.settings.default_image != 'none' %}poster="{{ block.settings.default_image | append: '.webp' | asset_url }}"{% endif %}
+                    data-station-model></model-viewer>
+                {%- endif -%}
+                {%- if block.settings.image -%}
+                  <img src="{{ block.settings.image | image_url: width: 400 }}" alt="" width="200" height="260" loading="lazy" {% if glb != 'none' %}hidden data-station-fallback{% endif %}>
+                {%- elsif block.settings.default_image != 'none' -%}
+                  <img src="{{ block.settings.default_image | append: '.webp' | asset_url }}" alt="" width="200" height="260" loading="lazy" {% if glb != 'none' %}hidden data-station-fallback{% endif %}>
+                {%- endif -%}
+              </div>
+              <div class="station__body">
+                <span class="station__role">{{ block.settings.role }}</span>
+                <h3 class="station__name">{{ block.settings.name }}</h3>
+                <p class="station__blurb">{{ block.settings.blurb }}</p>
+                <button type="button" class="station__talk" data-character data-lines="{{ lines_json | escape }}" aria-label="Talk to {{ block.settings.name | escape }}">
+                  💬 Say hello
+                  <span class="speech" aria-live="polite"></span>
+                </button>
+              </div>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- comment -%} ============ CAMPFIRE STORY MODAL ============ {%- endcomment -%}
+<dialog id="story-modal" class="story-modal" aria-label="Our story">
+  <div class="story-modal__card">
+    <button type="button" class="modal-close" data-story-close aria-label="{{ 'general.accessibility.close' | t }}">{% render 'icon', name: 'close', size: 20 %}</button>
+    <div class="story-modal__head">
+      <p class="eyebrow">Around the fire</p>
+      <h2 style="margin:0">{{ section.settings.story_heading | default: 'Our Story' }}</h2>
+    </div>
+    <div class="story-modal__body rte">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'chapter' -%}
+          <div class="story-chapter" {{ block.shopify_attributes }}>
+            <h3 style="display:flex;align-items:center;gap:.5rem;color:var(--forest-700)">{% render 'icon', name: block.settings.icon, size: 20 %} {{ block.settings.title }}</h3>
+            <div>{{ block.settings.body }}</div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      <p style="font-family:var(--font-head);font-style:italic;font-size:1.3rem;color:var(--accent);text-align:center;margin-top:1.5rem">“{{ section.settings.slogan | default: 'Nature Calls, Coffee Answers.' }}”</p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  (function () {
+    var overlay = document.getElementById('shop-interior-overlay');
+    if (!overlay) return;
+    var lastFocus = null;
+
+    function openInterior(tab) {
+      lastFocus = document.activeElement;
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('no-scroll');
+      if (tab) selectTab(tab);
+      var target = overlay.querySelector('.interior__close');
+      target && target.focus();
+      try { window.theme && window.theme.Badges && window.theme.Badges.earn('first-brew'); } catch (e) {}
+    }
+    function closeInterior() {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('no-scroll');
+      lastFocus && lastFocus.focus();
+    }
+    function selectTab(name) {
+      overlay.querySelectorAll('.interior-tab').forEach(function (t) {
+        var on = t.getAttribute('data-tab') === name;
+        t.setAttribute('aria-selected', String(on));
+      });
+      overlay.querySelectorAll('.interior__panel').forEach(function (p) {
+        p.hidden = p.id !== 'panel-' + name;
+      });
+    }
+
+    document.querySelectorAll('[data-open-interior]').forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.preventDefault();
+        openInterior(b.getAttribute('data-interior-tab') || 'shelves');
+      });
+    });
+    overlay.querySelectorAll('[data-close-interior]').forEach(function (b) { b.addEventListener('click', closeInterior); });
+    overlay.querySelectorAll('.interior-tab').forEach(function (t) {
+      t.addEventListener('click', function () { selectTab(t.getAttribute('data-tab')); });
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeInterior(); });
+    if (window.location.hash === '#shop') openInterior('shelves');
+
+    // 3D fallbacks: if a GLB fails to load, swap in the 2D art.
+    function armFallback(mv, fb) {
+      if (!mv) return;
+      mv.addEventListener('error', function () {
+        mv.style.display = 'none';
+        if (fb) fb.hidden = false;
+      });
+    }
+    armFallback(document.getElementById('shop-model'), document.querySelector('[data-shop-fallback]'));
+    armFallback(document.getElementById('mascot-model'), document.querySelector('[data-mascot-fallback]'));
+    overlay.querySelectorAll('[data-station-model]').forEach(function (mv) {
+      armFallback(mv, mv.parentElement.querySelector('[data-station-fallback]'));
+    });
+
+    // Keep scene 3D from hijacking the "enter" click: a quick click (not a drag) enters.
+    var shopModel = document.getElementById('shop-model');
+    if (shopModel) {
+      var downAt = 0, downX = 0, downY = 0;
+      shopModel.addEventListener('pointerdown', function (e) { downAt = Date.now(); downX = e.clientX; downY = e.clientY; });
+      shopModel.addEventListener('pointerup', function (e) {
+        var dt = Date.now() - downAt, dx = Math.abs(e.clientX - downX), dy = Math.abs(e.clientY - downY);
+        if (dt < 260 && dx < 8 && dy < 8) openInterior('shelves');
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Forest world (landing)",
+  "tag": "section",
+  "class": "section-forest-world",
+  "settings": [
+    { "type": "header", "content": "Scene" },
+    { "type": "image_picker", "id": "scene_image", "label": "Forest background (optional — ships with painted scene)" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A hidden roastery deep in the old-growth forest" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Welcome to the Forest" },
+    { "type": "text", "id": "slogan", "label": "Slogan", "default": "Nature Calls, Coffee Answers." },
+    { "type": "header", "content": "The coffee shop" },
+    { "type": "checkbox", "id": "enable_3d_shop", "label": "3D cabin (falls back to art if unavailable)", "default": true },
+    { "type": "image_picker", "id": "shop_image", "label": "Shop art override" },
+    { "type": "text", "id": "sign_text", "label": "Shop name", "default": "Pine Hollow Coffee" },
+    { "type": "text", "id": "enter_label", "label": "Enter button", "default": "Enter the Shop" },
+    { "type": "text", "id": "enter_hint", "label": "Hint", "default": "Drag to look around · click to step inside" },
+    { "type": "header", "content": "Campfire" },
+    { "type": "image_picker", "id": "campfire_image", "label": "Campfire art override" },
+    { "type": "text", "id": "campfire_label", "label": "Label", "default": "The Campfire · Our Story" },
+    { "type": "text", "id": "story_heading", "label": "Story modal heading", "default": "Our Story" },
+    { "type": "header", "content": "Mascot" },
+    { "type": "text", "id": "mascot_name", "label": "Mascot name", "default": "Ollie" },
+    { "type": "text", "id": "mascot_role", "label": "Mascot role", "default": "Camp Mascot" },
+    { "type": "header", "content": "Interior" },
+    { "type": "text", "id": "interior_title", "label": "Interior title", "default": "Inside Pine Hollow Coffee" },
+    { "type": "text", "id": "exit_label", "label": "Exit button", "default": "Back outside" },
+    { "type": "text", "id": "tab_shelves", "label": "Shelves tab", "default": "The Shelves" },
+    { "type": "text", "id": "tab_stations", "label": "Stations tab", "default": "Crew Stations" },
+    { "type": "text", "id": "shelves_eyebrow", "label": "Shelves eyebrow", "default": "Stocked this morning" },
+    { "type": "text", "id": "shelves_heading", "label": "Shelves heading", "default": "The Shelves" },
+    { "type": "textarea", "id": "shelves_text", "label": "Shelves intro" },
+    { "type": "text", "id": "stations_eyebrow", "label": "Stations eyebrow", "default": "Who runs this place" },
+    { "type": "text", "id": "stations_heading", "label": "Stations heading", "default": "Crew Stations" },
+    { "type": "textarea", "id": "stations_text", "label": "Stations intro" },
+    { "type": "header", "content": "Quick nav labels" },
+    { "type": "text", "id": "nav_shop", "label": "Shop chip", "default": "Browse the Shelves" },
+    { "type": "text", "id": "nav_crew", "label": "Crew chip", "default": "Meet the Crew" },
+    { "type": "text", "id": "nav_story", "label": "Story chip", "default": "Our Story" },
+    { "type": "text", "id": "nav_search", "label": "Search chip", "default": "Search the Camp" }
+  ],
+  "blocks": [
+    {
+      "type": "station",
+      "name": "Crew member + station",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "Sasquatch" },
+        { "type": "text", "id": "role", "label": "Role", "default": "Founder & Master Roaster" },
+        { "type": "text", "id": "station_title", "label": "Station name (inside the shop)", "default": "The Roastery" },
+        { "type": "select", "id": "icon", "label": "Station icon", "default": "fire", "options": [
+          {"value":"fire","label":"Fire"},{"value":"seed","label":"Bean"},{"value":"leaf","label":"Leaf"},{"value":"pine","label":"Pine"},{"value":"truck","label":"Truck"},{"value":"star","label":"Star"},{"value":"moon","label":"Moon"}
+        ]},
+        { "type": "textarea", "id": "blurb", "label": "Station blurb", "default": "Runs the drum roaster over a real fire, one small batch at a time." },
+        { "type": "textarea", "id": "dialogue", "label": "Dialogue lines (one per line)", "default": "Welcome to the forest.\nWe roast every batch over the perfect fire.\nNature Calls. Coffee Answers." },
+        { "type": "select", "id": "model_file", "label": "3D model", "default": "char-sasquatch", "options": [
+          { "value": "none", "label": "None (2D art only)" },
+          { "value": "char-sasquatch", "label": "Sasquatch (3D)" },
+          { "value": "char-simon", "label": "Simon (3D)" },
+          { "value": "char-yeti", "label": "Yeti (3D)" },
+          { "value": "char-mothman", "label": "Mothman (3D)" },
+          { "value": "char-jackalope", "label": "Jackalope (3D)" }
+        ]},
+        { "type": "select", "id": "default_image", "label": "Built-in 2D art (scene + fallback)", "default": "char-sasquatch", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "char-sasquatch", "label": "Sasquatch" },
+          { "value": "char-simon", "label": "Simon" },
+          { "value": "char-yeti", "label": "Yeti" },
+          { "value": "char-mothman", "label": "Mothman" },
+          { "value": "char-jackalope", "label": "Jackalope" }
+        ]},
+        { "type": "image_picker", "id": "image", "label": "Custom art override" }
+      ]
+    },
+    {
+      "type": "shelf",
+      "name": "Product shelf (collection)",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "title", "label": "Shelf label override" },
+        { "type": "range", "id": "limit", "min": 4, "max": 12, "step": 1, "label": "Products on shelf", "default": 8 }
+      ]
+    },
+    {
+      "type": "chapter",
+      "name": "Story chapter",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "fire", "options": [
+          {"value":"fire","label":"Fire"},{"value":"pine","label":"Pine"},{"value":"leaf","label":"Leaf"},{"value":"seed","label":"Bean"},{"value":"shield","label":"Shield"}
+        ]},
+        { "type": "text", "id": "title", "label": "Title", "default": "Our Mission" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Premium small-batch coffee, roasted over the perfect fire.</p>" }
+      ]
+    }
+  ],
+  "max_blocks": 24,
+  "presets": [{ "name": "Forest world (landing)" }]
+}
+{% endschema %}
