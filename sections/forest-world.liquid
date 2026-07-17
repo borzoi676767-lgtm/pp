@@ -2,7 +2,7 @@
 FOREST WORLD — the entire landing experience in one block.
 A full-viewport interactive scene: 3D coffee shop (click to enter → crew
 stations + collection shelves), campfire story, clickable crew, and the
-3D spinnable camp mascot. Everything editable via schema.
+3D spinnable mascot Simon in the crew. Everything editable via schema.
 {%- endcomment -%}
 
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
@@ -60,18 +60,13 @@ poster="{{ 'cabin.webp' | asset_url }}"></model-viewer>
 </div>
 </div>
 
-{%- comment -%} 3D spinnable mascot {%- endcomment -%}
-<div class="world-mascot">
-<model-viewer id="mascot-model"
-src="{{ 'mascot-ollie.glb' | asset_url }}"
-alt="{{ section.settings.mascot_name | default: 'Ollie' }} the platypus, camp mascot — drag to spin"
-camera-controls disable-zoom disable-pan auto-rotate rotation-per-second="16deg"
-interaction-prompt="when-focused" loading="lazy" reveal="auto"
-camera-orbit="0deg 80deg 100%" shadow-intensity="1" exposure="1.1"
-poster="{{ 'mascot-ollie.webp' | asset_url }}"></model-viewer>
-<img class="world-mascot__fallback" src="{{ 'mascot-ollie.webp' | asset_url }}" alt="" width="220" height="147" loading="lazy" hidden data-mascot-fallback>
-<span class="world-mascot__label">{{ section.settings.mascot_name | default: 'Ollie' }} · {{ section.settings.mascot_role | default: 'Camp Mascot' }} — give him a spin</span>
-</div>
+{%- comment -%} Trail signpost — quick nav {%- endcomment -%}
+<nav class="world-signpost" aria-label="Explore the camp">
+<button type="button" class="world-chip" data-open-interior data-interior-tab="shelves">{% render 'icon', name: 'cart', size: 16 %} {{ section.settings.nav_shop | default: 'Browse the Shelves' }}</button>
+<button type="button" class="world-chip" data-open-interior data-interior-tab="stations">{% render 'icon', name: 'pine', size: 16 %} {{ section.settings.nav_crew | default: 'Meet the Crew' }}</button>
+<button type="button" class="world-chip" data-story-open>{% render 'icon', name: 'fire', size: 16 %} {{ section.settings.nav_story | default: 'Our Story' }}</button>
+<a class="world-chip" href="{{ routes.search_url }}">{% render 'icon', name: 'search', size: 16 %} {{ section.settings.nav_search | default: 'Search the Camp' }}</a>
+</nav>
 </div>
 
 <div>
@@ -100,13 +95,6 @@ assign lines = block.settings.dialogue | newline_to_br | strip_newlines | split:
 {%- endfor -%}
 </div>
 
-{%- comment -%} Quick nav — the whole desktop is usable, no scrolling required {%- endcomment -%}
-<nav class="world__nav" aria-label="Explore the camp">
-<button type="button" class="world-chip" data-open-interior data-interior-tab="shelves">{% render 'icon', name: 'cart', size: 16 %} {{ section.settings.nav_shop | default: 'Browse the Shelves' }}</button>
-<button type="button" class="world-chip" data-open-interior data-interior-tab="stations">{% render 'icon', name: 'pine', size: 16 %} {{ section.settings.nav_crew | default: 'Meet the Crew' }}</button>
-<button type="button" class="world-chip" data-story-open>{% render 'icon', name: 'fire', size: 16 %} {{ section.settings.nav_story | default: 'Our Story' }}</button>
-<a class="world-chip" href="{{ routes.search_url }}">{% render 'icon', name: 'search', size: 16 %} {{ section.settings.nav_search | default: 'Search the Camp' }}</a>
-</nav>
 </div>
 </div>
 
@@ -130,7 +118,7 @@ assign lines = block.settings.dialogue | newline_to_br | strip_newlines | split:
 <div class="interior__intro">
 <p class="eyebrow">{{ section.settings.shelves_eyebrow | default: 'Stocked this morning' }}</p>
 <h2>{{ section.settings.shelves_heading | default: 'The Shelves' }}</h2>
-<p>{{ section.settings.shelves_text | default: 'Every shelf is a trail through the camp — each one stocked by collection and tested (repeatedly) by Simon.' }}</p>
+<p>{{ section.settings.shelves_text | default: 'Every shelf is a trail through the camp — each one stocked by collection and tested (repeatedly) by Ollie.' }}</p>
 </div>
 <div class="shelves">
 {%- assign shelf_count = 0 -%}
@@ -289,7 +277,6 @@ if (fb) fb.hidden = false;
 });
 }
 armFallback(document.getElementById('shop-model'), document.querySelector('[data-shop-fallback]'));
-armFallback(document.getElementById('mascot-model'), document.querySelector('[data-mascot-fallback]'));
 overlay.querySelectorAll('[data-station-model]').forEach(function (mv) {
 armFallback(mv, mv.parentElement.querySelector('[data-station-fallback]'));
 });
@@ -328,9 +315,6 @@ if (dt < 260 && dx < 8 && dy < 8) openInterior('shelves');
 { "type": "image_picker", "id": "campfire_image", "label": "Campfire art override" },
 { "type": "text", "id": "campfire_label", "label": "Label", "default": "The Campfire · Our Story" },
 { "type": "text", "id": "story_heading", "label": "Story modal heading", "default": "Our Story" },
-{ "type": "header", "content": "Mascot" },
-{ "type": "text", "id": "mascot_name", "label": "Mascot name", "default": "Ollie" },
-{ "type": "text", "id": "mascot_role", "label": "Mascot role", "default": "Camp Mascot" },
 { "type": "header", "content": "Interior" },
 { "type": "text", "id": "interior_title", "label": "Interior title", "default": "Inside Pine Hollow Coffee" },
 { "type": "text", "id": "exit_label", "label": "Exit button", "default": "Back outside" },
@@ -367,7 +351,8 @@ if (dt < 260 && dx < 8 && dy < 8) openInterior('shelves');
 { "value": "char-simon", "label": "Simon (3D)" },
 { "value": "char-yeti", "label": "Yeti (3D)" },
 { "value": "char-mothman", "label": "Mothman (3D)" },
-{ "value": "char-jackalope", "label": "Jackalope (3D)" }
+{ "value": "char-jackalope", "label": "Jackalope (3D)" },
+{ "value": "mascot-ollie", "label": "Platypus mascot (3D)" }
 ]},
 { "type": "select", "id": "default_image", "label": "Built-in 2D art (scene + fallback)", "default": "char-sasquatch", "options": [
 { "value": "none", "label": "None" },
@@ -375,7 +360,8 @@ if (dt < 260 && dx < 8 && dy < 8) openInterior('shelves');
 { "value": "char-simon", "label": "Simon" },
 { "value": "char-yeti", "label": "Yeti" },
 { "value": "char-mothman", "label": "Mothman" },
-{ "value": "char-jackalope", "label": "Jackalope" }
+{ "value": "char-jackalope", "label": "Jackalope" },
+{ "value": "mascot-ollie", "label": "Platypus mascot" }
 ]},
 { "type": "image_picker", "id": "image", "label": "Custom art override" }
 ]

@@ -3,54 +3,188 @@
     "world": {
       "type": "forest-world",
       "blocks": {
-        "st1": { "type": "station", "settings": {
-          "name": "Sasquatch", "role": "Founder & Master Roaster", "station_title": "The Roastery", "icon": "fire",
-          "blurb": "Runs the drum roaster over a real fire, one small batch at a time. Insists the forest air is the secret ingredient.",
-          "dialogue": "Welcome to the forest.\nWe roast every batch over the perfect fire.\nNature Calls. Coffee Answers.",
-          "model_file": "char-sasquatch", "default_image": "char-sasquatch" } },
-        "st2": { "type": "station", "settings": {
-          "name": "Simon", "role": "Coffee Scientist & Flavor Engineer", "station_title": "The Flavor Lab", "icon": "seed",
-          "blurb": "Beakers, brew charts, and a suspicious number of empty cups. Every roast passes through Simon's lab first.",
-          "dialogue": "I tested this roast 143 times.\nScience says: another cup.\nTrust the process.",
-          "model_file": "char-simon", "default_image": "char-simon" } },
-        "st3": { "type": "station", "settings": {
-          "name": "Yeti", "role": "Head of Operations", "station_title": "The Storeroom", "icon": "truck",
-          "blurb": "Crates in, crates out. Keeps the shelves stocked, the clipboard updated, and the whole camp running on time.",
-          "dialogue": "Crates in, crates out. All day.\nInventory is looking good today.\nMind the fresh stack!",
-          "model_file": "char-yeti", "default_image": "char-yeti" } },
-        "st4": { "type": "station", "settings": {
-          "name": "Mothman", "role": "Night Shift Manager", "station_title": "The Night Counter", "icon": "moon",
-          "blurb": "Keeps the campfire burning and the roasting schedule on track while the rest of the forest sleeps.",
-          "dialogue": "I keep the campfire burning.\nRoast schedule is on track.\nThe night is cozy out here.",
-          "model_file": "char-mothman", "default_image": "char-mothman" } },
-        "st5": { "type": "station", "settings": {
-          "name": "Jackalope", "role": "Trail Guide", "station_title": "The Trail Desk", "icon": "pine",
-          "blurb": "Knows every trail through the camp. Point at any shelf and the Jackalope will hop you straight to it.",
-          "dialogue": "This way to the good stuff!\nFollow my footprints.\nHop hop — let us explore!",
-          "model_file": "char-jackalope", "default_image": "char-jackalope" } },
-        "sh1": { "type": "shelf", "settings": { "collection": "guides", "title": "Digital Guides", "limit": 4 } },
-        "sh2": { "type": "shelf", "settings": { "collection": "single-origin", "limit": 8 } },
-        "sh3": { "type": "shelf", "settings": { "collection": "blends", "limit": 8 } },
-        "sh4": { "type": "shelf", "settings": { "collection": "coffee-pods", "limit": 8 } },
-        "sh5": { "type": "shelf", "settings": { "collection": "seasonal-specialty", "limit": 8 } },
-        "sh6": { "type": "shelf", "settings": { "collection": "tea-matcha", "limit": 8 } },
-        "sh7": { "type": "shelf", "settings": { "collection": "sample-packs", "limit": 8 } },
-        "ch1": { "type": "chapter", "settings": { "icon": "seed", "title": "The Origin", "body": "<p>It started with a single sack of green beans and a fire that wouldn't quit. Sasquatch roasted through the night; the forest woke up to the smell of it.</p>" } },
-        "ch2": { "type": "chapter", "settings": { "icon": "fire", "title": "Our Mission", "body": "<p>Premium, small-batch coffee roasted over the perfect fire — and shared with anyone who wanders down the trail.</p>" } },
-        "ch3": { "type": "chapter", "settings": { "icon": "leaf", "title": "Coffee Philosophy", "body": "<p>Slow roasts, honest sourcing, and a deep respect for the woods that raised us. Simon insists on testing every batch. Repeatedly.</p>" } }
+        "st1": {
+          "type": "station",
+          "settings": {
+            "name": "Sasquatch",
+            "role": "Founder & Master Roaster",
+            "station_title": "The Roastery",
+            "icon": "fire",
+            "blurb": "Runs the drum roaster over a real fire, one small batch at a time. Insists the forest air is the secret ingredient.",
+            "dialogue": "Welcome to the forest.\nWe roast every batch over the perfect fire.\nNature Calls. Coffee Answers.",
+            "model_file": "char-sasquatch",
+            "default_image": "char-sasquatch"
+          }
+        },
+        "st2": {
+          "type": "station",
+          "settings": {
+            "name": "Ollie",
+            "role": "Coffee Scientist & Flavor Engineer",
+            "station_title": "The Flavor Lab",
+            "icon": "seed",
+            "blurb": "Beakers, brew charts, and a suspicious number of empty cups. Every roast passes through Ollie's lab first.",
+            "dialogue": "I tested this roast 143 times.\nScience says: another cup.\nTrust the process.",
+            "model_file": "char-simon",
+            "default_image": "char-simon"
+          }
+        },
+        "st3": {
+          "type": "station",
+          "settings": {
+            "name": "Yeti",
+            "role": "Head of Operations",
+            "station_title": "The Storeroom",
+            "icon": "truck",
+            "blurb": "Crates in, crates out. Keeps the shelves stocked, the clipboard updated, and the whole camp running on time.",
+            "dialogue": "Crates in, crates out. All day.\nInventory is looking good today.\nMind the fresh stack!",
+            "model_file": "char-yeti",
+            "default_image": "char-yeti"
+          }
+        },
+        "st4": {
+          "type": "station",
+          "settings": {
+            "name": "Mothman",
+            "role": "Night Shift Manager",
+            "station_title": "The Night Counter",
+            "icon": "moon",
+            "blurb": "Keeps the campfire burning and the roasting schedule on track while the rest of the forest sleeps.",
+            "dialogue": "I keep the campfire burning.\nRoast schedule is on track.\nThe night is cozy out here.",
+            "model_file": "char-mothman",
+            "default_image": "char-mothman"
+          }
+        },
+        "st5": {
+          "type": "station",
+          "settings": {
+            "name": "Jackalope",
+            "role": "Trail Guide",
+            "station_title": "The Trail Desk",
+            "icon": "pine",
+            "blurb": "Knows every trail through the camp. Point at any shelf and the Jackalope will hop you straight to it.",
+            "dialogue": "This way to the good stuff!\nFollow my footprints.\nHop hop — let us explore!",
+            "model_file": "char-jackalope",
+            "default_image": "char-jackalope"
+          }
+        },
+        "sh1": {
+          "type": "shelf",
+          "settings": {
+            "collection": "guides",
+            "title": "Digital Guides",
+            "limit": 4
+          }
+        },
+        "sh2": {
+          "type": "shelf",
+          "settings": {
+            "collection": "single-origin",
+            "limit": 8
+          }
+        },
+        "sh3": {
+          "type": "shelf",
+          "settings": {
+            "collection": "blends",
+            "limit": 8
+          }
+        },
+        "sh4": {
+          "type": "shelf",
+          "settings": {
+            "collection": "coffee-pods",
+            "limit": 8
+          }
+        },
+        "sh5": {
+          "type": "shelf",
+          "settings": {
+            "collection": "seasonal-specialty",
+            "limit": 8
+          }
+        },
+        "sh6": {
+          "type": "shelf",
+          "settings": {
+            "collection": "tea-matcha",
+            "limit": 8
+          }
+        },
+        "sh7": {
+          "type": "shelf",
+          "settings": {
+            "collection": "sample-packs",
+            "limit": 8
+          }
+        },
+        "ch1": {
+          "type": "chapter",
+          "settings": {
+            "icon": "seed",
+            "title": "The Origin",
+            "body": "<p>It started with a single sack of green beans and a fire that wouldn't quit. Sasquatch roasted through the night; the forest woke up to the smell of it.</p>"
+          }
+        },
+        "ch2": {
+          "type": "chapter",
+          "settings": {
+            "icon": "fire",
+            "title": "Our Mission",
+            "body": "<p>Premium, small-batch coffee roasted over the perfect fire — and shared with anyone who wanders down the trail.</p>"
+          }
+        },
+        "ch3": {
+          "type": "chapter",
+          "settings": {
+            "icon": "leaf",
+            "title": "Coffee Philosophy",
+            "body": "<p>Slow roasts, honest sourcing, and a deep respect for the woods that raised us. Ollie insists on testing every batch. Repeatedly.</p>"
+          }
+        },
+        "st6": {
+          "type": "station",
+          "settings": {
+            "name": "Simon",
+            "role": "Camp Mascot",
+            "station_title": "The Mascot's Perch",
+            "icon": "star",
+            "blurb": "Official Explorer and Coffee Quality Inspector. The face of Sasquatch Coffee since day one — give him a spin.",
+            "dialogue": "Every legend needs a sidekick.\nOfficial Explorer. Coffee Quality Inspector.\nWelcome to Sasquatch Coffee!",
+            "model_file": "mascot-ollie",
+            "default_image": "mascot-ollie"
+          }
+        }
       },
-      "block_order": ["st1", "st2", "st3", "st4", "st5", "sh3", "sh2", "sh5", "sh4", "sh6", "sh7", "sh1", "ch1", "ch2", "ch3"],
+      "block_order": [
+        "st1",
+        "st2",
+        "st3",
+        "st4",
+        "st5",
+        "st6",
+        "sh3",
+        "sh2",
+        "sh5",
+        "sh4",
+        "sh6",
+        "sh7",
+        "sh1",
+        "ch1",
+        "ch2",
+        "ch3"
+      ],
       "settings": {
         "eyebrow": "A hidden roastery deep in the old-growth forest",
         "heading": "Welcome to the Forest",
         "slogan": "Nature Calls, Coffee Answers.",
         "enable_3d_shop": true,
         "sign_text": "Pine Hollow Coffee",
-        "interior_title": "Inside Pine Hollow Coffee",
-        "mascot_name": "Ollie",
-        "mascot_role": "Camp Mascot"
+        "interior_title": "Inside Pine Hollow Coffee"
       }
     }
   },
-  "order": ["world"]
+  "order": [
+    "world"
+  ]
 }

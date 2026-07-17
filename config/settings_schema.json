@@ -53,8 +53,8 @@
       { "type": "checkbox", "id": "enable_weather", "label": "Allow weather modes (rain / snow)", "default": true },
       { "type": "checkbox", "id": "enable_particles", "label": "Enable drifting leaves & fireflies", "default": true },
       { "type": "checkbox", "id": "enable_bean_hunt", "label": "Enable hidden coffee-bean easter egg hunt", "default": true },
-      { "type": "checkbox", "id": "enable_simon", "label": "Show Simon the Platypus helper", "default": true },
-      { "type": "image_picker", "id": "simon_image", "label": "Simon helper image" },
+      { "type": "checkbox", "id": "enable_simon", "label": "Show Ollie the Platypus helper", "default": true },
+      { "type": "image_picker", "id": "simon_image", "label": "Ollie helper image" },
       { "type": "select", "id": "default_time", "label": "Default time of day", "options": [
         { "value": "auto", "label": "Auto (by visitor clock)" },
         { "value": "day", "label": "Always day" },

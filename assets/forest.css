@@ -325,3 +325,14 @@
 .shelf__row > * { scroll-snap-align: start; }
 .shelf__plank { height: 14px; margin-top: -0.6rem; border-radius: 4px; background: linear-gradient(180deg, #6b4c2c, #4a3220 70%, #35241a); box-shadow: 0 10px 18px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14); }
 .shelf .product-card { border-color: #4a3722; }
+
+/* Trail signpost — quick-nav chips in the stage's right column */
+.world-signpost { display: flex; flex-direction: column; gap: .55rem; justify-content: flex-end; align-items: stretch; padding-bottom: 1.4rem; }
+.world-signpost .world-chip { justify-content: flex-start; }
+@media (max-width: 899px) {
+  .world-signpost { order: 3; flex-direction: row; flex-wrap: wrap; justify-content: center; padding-bottom: .4rem; }
+}
+@media (min-width: 900px) and (max-height: 980px) {
+  .world-signpost { padding-bottom: .8rem; }
+  .world-signpost .world-chip { padding: .5rem .9rem; font-size: .85rem; }
+}
