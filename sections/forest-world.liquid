@@ -12,7 +12,7 @@ stations + collection shelves), campfire story, clickable crew, and the
 {%- if section.settings.scene_image -%}
 <img src="{{ section.settings.scene_image | image_url: width: 2200 }}" alt="" width="1920" height="900" fetchpriority="high">
 {%- else -%}
-<img src="{{ 'hero-forest.webp' | asset_url }}" alt="" width="1920" height="692" fetchpriority="high">
+<img src="{{ 'world-bg.webp' | asset_url }}" alt="" width="1920" height="692" fetchpriority="high">
 {%- endif -%}
 </div>
 <div class="hero-rays" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
@@ -38,7 +38,7 @@ stations + collection shelves), campfire story, clickable crew, and the
 
 {%- comment -%} The 3D coffee shop — click to enter {%- endcomment -%}
 <div class="world-shop">
-<button type="button" class="world-shop__frame" data-open-interior aria-haspopup="dialog" aria-controls="shop-interior-overlay" aria-label="{{ section.settings.enter_label | default: 'Enter the coffee shop' | escape }}">
+<button type="button" class="world-shop__frame" id="shop-stage" data-open-interior aria-haspopup="dialog" aria-controls="shop-interior-overlay" aria-label="{{ section.settings.enter_label | default: 'Enter the coffee shop' | escape }}">
 <span class="world-shop__glow" aria-hidden="true"></span>
 {%- if section.settings.enable_3d_shop -%}
 <model-viewer id="shop-model"
@@ -47,16 +47,21 @@ alt="The Pine Hollow Coffee cabin — click to step inside"
 camera-controls disable-zoom disable-pan auto-rotate auto-rotate-delay="1200" rotation-per-second="8deg"
 interaction-prompt="none" loading="lazy" reveal="auto"
 camera-orbit="-20deg 78deg 105%" field-of-view="32deg" shadow-intensity="0.9" exposure="1.05"
-poster="{{ 'cabin.webp' | asset_url }}"></model-viewer>
-<img class="world-shop__img" src="{{ 'cabin.webp' | asset_url }}" alt="" width="815" height="620" loading="lazy" hidden data-shop-fallback>
+poster="{{ 'cabin.webp' | asset_url }}" hidden></model-viewer>
+<img class="world-shop__img" src="{{ 'cabin.webp' | asset_url }}" alt="" width="815" height="620" loading="lazy" data-flat-art>
 {%- else -%}
 <img class="world-shop__img" src="{% if section.settings.shop_image %}{{ section.settings.shop_image | image_url: width: 1200 }}{% else %}{{ 'cabin.webp' | asset_url }}{% endif %}" alt="" width="815" height="620" loading="lazy">
 {%- endif -%}
 <span class="smoke" style="left:56%;top:4%" aria-hidden="true"><span></span><span></span><span></span></span>
 </button>
 <div class="world-shop__cta">
+<div class="world-shop__buttons">
 <button type="button" class="enter-btn" data-open-interior aria-controls="shop-interior-overlay">{% render 'icon', name: 'fire', size: 18 %} {{ section.settings.enter_label | default: 'Enter the Shop' }}</button>
-<span class="world-shop__hint">{{ section.settings.enter_hint | default: 'Drag to look around · click to step inside' }}</span>
+{%- if section.settings.enable_3d_shop -%}
+<button type="button" class="world-shop__3d" data-toggle-3d="shop-stage" data-label-off="View shop in 3D" data-label-on="View the painting" aria-pressed="false">View shop in 3D</button>
+{%- endif -%}
+</div>
+<span class="world-shop__hint">{{ section.settings.enter_hint | default: 'Click the cabin to step inside' }}</span>
 </div>
 </div>
 
@@ -167,7 +172,7 @@ assign glb = block.settings.model_file
 {%- capture lines_json -%}[{% for l in lines %}{{ l | strip | json }}{% unless forloop.last %},{% endunless %}{% endfor %}]{%- endcapture -%}
 <article class="station" {{ block.shopify_attributes }}>
 <div class="station__banner">{% render 'icon', name: block.settings.icon, size: 16 %} {{ block.settings.station_title | default: block.settings.name }}</div>
-<div class="station__stage">
+<div class="station__stage" id="stage-{{ block.id }}">
 {%- if glb != 'none' -%}
 <model-viewer
 src="{{ glb | append: '.glb' | asset_url }}"
@@ -176,22 +181,27 @@ camera-controls disable-zoom disable-pan auto-rotate rotation-per-second="14deg"
 interaction-prompt="when-focused" loading="lazy" reveal="auto"
 camera-orbit="0deg 82deg 100%" shadow-intensity="1" exposure="1.08"
 {% if block.settings.image %}poster="{{ block.settings.image | image_url: width: 400 }}"{% elsif block.settings.default_image != 'none' %}poster="{{ block.settings.default_image | append: '.webp' | asset_url }}"{% endif %}
-data-station-model></model-viewer>
+hidden data-station-model></model-viewer>
 {%- endif -%}
 {%- if block.settings.image -%}
-<img src="{{ block.settings.image | image_url: width: 400 }}" alt="" width="200" height="260" loading="lazy" {% if glb != 'none' %}hidden data-station-fallback{% endif %}>
+<img src="{{ block.settings.image | image_url: width: 400 }}" alt="" width="200" height="260" loading="lazy" data-flat-art>
 {%- elsif block.settings.default_image != 'none' -%}
-<img src="{{ block.settings.default_image | append: '.webp' | asset_url }}" alt="" width="200" height="260" loading="lazy" {% if glb != 'none' %}hidden data-station-fallback{% endif %}>
+<img src="{{ block.settings.default_image | append: '.webp' | asset_url }}" alt="" width="200" height="260" loading="lazy" data-flat-art>
 {%- endif -%}
 </div>
 <div class="station__body">
 <span class="station__role">{{ block.settings.role }}</span>
 <h3 class="station__name">{{ block.settings.name }}</h3>
 <p class="station__blurb">{{ block.settings.blurb }}</p>
+<div class="station__actions">
 <button type="button" class="station__talk" data-character data-lines="{{ lines_json | escape }}" aria-label="Talk to {{ block.settings.name | escape }}">
 💬 Say hello
 <span class="speech" aria-live="polite"></span>
 </button>
+{%- if glb != 'none' -%}
+<button type="button" class="station__3d" data-toggle-3d="stage-{{ block.id }}" data-label-off="View in 3D" data-label-on="View art" aria-pressed="false">View in 3D</button>
+{%- endif -%}
+</div>
 </div>
 </article>
 {%- endif -%}
@@ -268,17 +278,34 @@ t.addEventListener('click', function () { selectTab(t.getAttribute('data-tab'));
 document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeInterior(); });
 if (window.location.hash === '#shop') openInterior('shelves');
 
-// 3D fallbacks: if a GLB fails to load, swap in the 2D art.
-function armFallback(mv, fb) {
+// 2D/3D view toggles (2D art is the default everywhere)
+document.querySelectorAll('[data-toggle-3d]').forEach(function (btn) {
+btn.addEventListener('click', function () {
+var host = document.getElementById(btn.getAttribute('data-toggle-3d'));
+if (!host) return;
+var mv = host.querySelector('model-viewer');
+var img = host.querySelector('[data-flat-art]');
 if (!mv) return;
-mv.addEventListener('error', function () {
-mv.style.display = 'none';
-if (fb) fb.hidden = false;
+var to3d = mv.hidden;
+mv.hidden = !to3d;
+if (img) img.hidden = to3d;
+btn.setAttribute('aria-pressed', String(to3d));
+btn.classList.toggle('is-active', to3d);
+btn.textContent = to3d ? btn.getAttribute('data-label-on') : btn.getAttribute('data-label-off');
 });
+});
+// If a GLB fails to load, return to the 2D art and retire its toggle.
+document.querySelectorAll('#shop-stage model-viewer, [data-station-model]').forEach(function (mv) {
+mv.addEventListener('error', function () {
+var host = mv.closest('[id]');
+mv.hidden = true;
+if (host) {
+var img = host.querySelector('[data-flat-art]');
+if (img) img.hidden = false;
+var btn = document.querySelector('[data-toggle-3d="' + host.id + '"]');
+if (btn) btn.style.display = 'none';
 }
-armFallback(document.getElementById('shop-model'), document.querySelector('[data-shop-fallback]'));
-overlay.querySelectorAll('[data-station-model]').forEach(function (mv) {
-armFallback(mv, mv.parentElement.querySelector('[data-station-fallback]'));
+});
 });
 
 // Keep scene 3D from hijacking the "enter" click: a quick click (not a drag) enters.
@@ -310,7 +337,7 @@ if (dt < 260 && dx < 8 && dy < 8) openInterior('shelves');
 { "type": "image_picker", "id": "shop_image", "label": "Shop art override" },
 { "type": "text", "id": "sign_text", "label": "Shop name", "default": "Pine Hollow Coffee" },
 { "type": "text", "id": "enter_label", "label": "Enter button", "default": "Enter the Shop" },
-{ "type": "text", "id": "enter_hint", "label": "Hint", "default": "Drag to look around · click to step inside" },
+{ "type": "text", "id": "enter_hint", "label": "Hint", "default": "Click the cabin to step inside" },
 { "type": "header", "content": "Campfire" },
 { "type": "image_picker", "id": "campfire_image", "label": "Campfire art override" },
 { "type": "text", "id": "campfire_label", "label": "Label", "default": "The Campfire · Our Story" },

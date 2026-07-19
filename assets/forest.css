@@ -311,8 +311,17 @@
 .station__blurb { font-size: .9rem; color: rgba(250,243,228,.8); margin: 0; }
 .station__talk { justify-self: start; margin-top: .3rem; padding: .5rem 1rem; border-radius: var(--r-pill); border: 1px solid rgba(255,255,255,.3); background: transparent; color: #fff; font-weight: 700; font-size: .85rem; cursor: pointer; position: relative; }
 .station__talk:hover { background: var(--ember-500); border-color: var(--ember-500); }
-.station .speech { bottom: auto; top: calc(100% + 8px); }
-.station .speech::after { top: auto; bottom: 100%; border-top-color: transparent; border-bottom-color: var(--surface); }
+/* Station bubbles open ABOVE the talk button, inside the card (card clips overflow) */
+.station .speech { left: 0; max-width: 250px; transform: translateY(6px) scale(.96); }
+.station .speech.speech--on { transform: translateY(0) scale(1); }
+.station .speech::after { left: 26px; transform: none; }
+
+/* 2D/3D view toggles */
+.station__actions { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .3rem; }
+.station__3d, .world-shop__3d { display: inline-flex; align-items: center; gap: .4rem; padding: .5rem 1rem; border-radius: var(--r-pill); border: 1px solid rgba(255,255,255,.35); background: transparent; color: #fff; font-weight: 700; font-size: .85rem; cursor: pointer; transition: background .2s, color .2s, transform .2s; }
+.station__3d:hover, .world-shop__3d:hover { transform: translateY(-1px); }
+.station__3d.is-active, .world-shop__3d.is-active { background: var(--gold-500); border-color: var(--gold-500); color: #3a2a12; }
+.world-shop__buttons { display: flex; gap: .6rem; justify-content: center; align-items: center; flex-wrap: wrap; }
 
 /* Shelves */
 .shelves { display: grid; gap: clamp(1.8rem, 4vw, 2.8rem); max-width: var(--page); margin-inline: auto; }
