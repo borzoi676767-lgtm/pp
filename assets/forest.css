@@ -229,6 +229,31 @@
 .world__head .eyebrow { color: var(--gold-400); justify-content: center; text-shadow: 0 1px 10px rgba(6,14,9,.7); }
 .world__slogan { font-family: var(--font-head); font-style: italic; color: var(--gold-400); font-size: clamp(1rem, 1.8vw, 1.25rem); margin: 0; text-shadow: 0 1px 10px rgba(6,14,9,.6); }
 
+/* Conversion hero copy layered into the scene */
+.world__subhead { color: rgba(255,255,255,.94); font-size: clamp(.98rem, 1.7vw, 1.2rem); max-width: 44ch; margin: .1rem auto .5rem; text-shadow: 0 1px 12px rgba(6,14,9,.7); }
+.world__proof { display: inline-block; color: var(--gold-400); font-weight: 700; font-size: clamp(.85rem, 1.5vw, 1rem); letter-spacing: .01em; margin: 0 0 .7rem; text-shadow: 0 1px 8px rgba(6,14,9,.7); }
+.world__cta-row { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; align-items: center; }
+.world-cta { display: inline-flex; align-items: center; gap: .55rem; padding: .95rem 1.9rem; border-radius: var(--r-pill); font-weight: 800; font-size: clamp(1rem, 1.5vw, 1.15rem); text-decoration: none; border: 0; cursor: pointer; transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), background .2s; line-height: 1; }
+.world-cta--primary { background: var(--gold-500); color: #3a2a12; box-shadow: 0 10px 28px rgba(232,184,75,.4); }
+.world-cta--primary:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(232,184,75,.5); background: var(--gold-400); }
+.world-cta--ghost { background: rgba(12,22,15,.5); color: #fff; border: 1.5px solid rgba(255,255,255,.55); backdrop-filter: blur(6px); }
+.world-cta--ghost:hover { background: var(--ember-500); border-color: var(--ember-500); transform: translateY(-2px); }
+.world__trustline { margin: .7rem 0 0; color: rgba(255,255,255,.9); font-size: clamp(.75rem, 1.3vw, .9rem); font-weight: 600; text-shadow: 0 1px 8px rgba(6,14,9,.8); }
+
+/* Featured product spotlight card floating in the scene */
+.world-featured { position: absolute; left: clamp(12px, 3vw, 40px); top: clamp(140px, 24vh, 280px); z-index: 5; display: flex; align-items: center; gap: .8rem; max-width: 290px; padding: .7rem .9rem .7rem .7rem; border-radius: var(--r-lg); background: rgba(20,32,22,.82); border: 1px solid rgba(255,255,255,.16); box-shadow: var(--shadow-lg); backdrop-filter: blur(10px); text-decoration: none; color: #fff; transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out); }
+.world-featured:hover { transform: translateY(-3px); box-shadow: 0 24px 50px rgba(0,0,0,.5); }
+.world-featured__badge { position: absolute; top: -10px; left: 12px; background: var(--ember-500); color: #fff; font-size: .64rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; padding: .25rem .55rem; border-radius: var(--r-pill); box-shadow: var(--shadow-sm); }
+.world-featured__media { flex: 0 0 auto; width: 74px; height: 74px; border-radius: var(--r-md); overflow: hidden; background: rgba(255,255,255,.06); }
+.world-featured__media img { width: 100%; height: 100%; object-fit: cover; }
+.world-featured__info { display: flex; flex-direction: column; gap: .12rem; min-width: 0; }
+.world-featured__stars { color: var(--gold-400); font-size: .82rem; letter-spacing: 1px; }
+.world-featured__title { font-family: var(--font-head); font-size: .98rem; font-weight: 700; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+.world-featured__price { font-weight: 700; font-size: .92rem; color: var(--cream-100); }
+.world-featured__was { color: rgba(255,255,255,.6); text-decoration: line-through; font-weight: 500; margin-right: .2rem; }
+.world-featured__cta { display: inline-flex; align-items: center; gap: .3rem; margin-top: .2rem; color: var(--gold-400); font-weight: 800; font-size: .8rem; }
+@media (max-width: 899px) { .world-featured { display: none; } }
+
 /* Stage: shop center, campfire left, mascot right, crew below */
 .world__stage { display: grid; grid-template-columns: minmax(150px, 1fr) minmax(300px, 2.2fr) minmax(150px, 1fr); align-items: end; gap: clamp(.6rem, 2vw, 2rem); padding-block: .6rem; }
 

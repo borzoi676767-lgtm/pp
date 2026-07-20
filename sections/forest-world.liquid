@@ -24,8 +24,14 @@ stations + collection shelves), campfire story, clickable crew, and the
 <div class="world__inner">
 <header class="world__head" data-reveal>
 {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
-<h1>{{ section.settings.heading | default: 'Welcome to the Forest' }}</h1>
-{%- if section.settings.slogan != blank -%}<p class="world__slogan">“{{ section.settings.slogan }}”</p>{%- endif -%}
+<h1>{{ section.settings.heading | default: 'Premium Coffee for Outdoor Adventurers' }}</h1>
+{%- if section.settings.subhead != blank -%}<p class="world__subhead">{{ section.settings.subhead }}</p>{%- endif -%}
+{%- if section.settings.social_proof != blank -%}<p class="world__proof">{{ section.settings.social_proof }}</p>{%- endif -%}
+<div class="world__cta-row">
+<a class="world-cta world-cta--primary" href="{{ section.settings.shop_link | default: routes.all_products_collection_url }}">{% render 'icon', name: 'cart', size: 20 %} {{ section.settings.shop_cta | default: 'Shop Coffee' }}</a>
+<button type="button" class="world-cta world-cta--ghost" data-open-interior aria-controls="shop-interior-overlay">{% render 'icon', name: 'fire', size: 18 %} {{ section.settings.enter_label | default: 'Enter the Shop' }}</button>
+</div>
+{%- if section.settings.trust_line != blank -%}<p class="world__trustline">{{ section.settings.trust_line }}</p>{%- endif -%}
 </header>
 
 <div class="world__stage">
@@ -102,6 +108,24 @@ assign lines = block.settings.dialogue | newline_to_br | strip_newlines | split:
 
 </div>
 </div>
+
+{%- if section.settings.featured_product != blank -%}
+{%- assign fp = all_products[section.settings.featured_product] -%}
+{%- if fp -%}
+<a class="world-featured" href="{{ fp.url }}" data-reveal aria-label="Shop {{ fp.title | escape }}">
+<span class="world-featured__badge">{{ section.settings.featured_badge | default: 'Camp favorite' }}</span>
+<span class="world-featured__media">
+{%- if fp.featured_image -%}<img src="{{ fp.featured_image | image_url: width: 360 }}" alt="{{ fp.title | escape }}" width="150" height="150" loading="lazy">{%- endif -%}
+</span>
+<span class="world-featured__info">
+<span class="world-featured__stars" aria-hidden="true">★★★★★</span>
+<span class="world-featured__title">{{ fp.title }}</span>
+<span class="world-featured__price">{% if fp.compare_at_price > fp.price %}<span class="world-featured__was">{{ fp.compare_at_price | money }}</span> {% endif %}{{ fp.price | money }}</span>
+<span class="world-featured__cta">{{ section.settings.featured_cta | default: 'Shop now' }} {% render 'icon', name: 'arrow-right', size: 14 %}</span>
+</span>
+</a>
+{%- endif -%}
+{%- endif -%}
 
 {% render 'hidden-bean', bean_id: 'world', pos: 'left:3%;top:18%' %}
 </section>
@@ -330,8 +354,17 @@ if (dt < 260 && dx < 8 && dy < 8) openInterior('shelves');
 { "type": "header", "content": "Scene" },
 { "type": "image_picker", "id": "scene_image", "label": "Forest background (optional — ships with painted scene)" },
 { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A hidden roastery deep in the old-growth forest" },
-{ "type": "text", "id": "heading", "label": "Heading", "default": "Welcome to the Forest" },
-{ "type": "text", "id": "slogan", "label": "Slogan", "default": "Nature Calls, Coffee Answers." },
+{ "type": "text", "id": "heading", "label": "Heading", "default": "Premium Coffee for Outdoor Adventurers" },
+{ "type": "text", "id": "subhead", "label": "Subheadline", "default": "Small-batch, fresh-roasted coffee for the trail, the campsite, and the cabin." },
+{ "type": "text", "id": "social_proof", "label": "Social proof line (edit with your real rating)", "default": "★★★★★ Fresh-roasted small batches, loved by adventurers" },
+{ "type": "text", "id": "shop_cta", "label": "Primary button text", "default": "Shop Coffee" },
+{ "type": "url", "id": "shop_link", "label": "Primary button link (defaults to all products)" },
+{ "type": "text", "id": "trust_line", "label": "Trust line under buttons", "default": "🔥 Roasted to order · 🚚 Free shipping over $45 · 🛡️ Satisfaction guaranteed" },
+{ "type": "text", "id": "slogan", "label": "Slogan (story modal)", "default": "Nature Calls, Coffee Answers." },
+{ "type": "header", "content": "Featured product spotlight" },
+{ "type": "product", "id": "featured_product", "label": "Featured product (shown in the scene)" },
+{ "type": "text", "id": "featured_badge", "label": "Spotlight badge", "default": "Camp favorite" },
+{ "type": "text", "id": "featured_cta", "label": "Spotlight button text", "default": "Shop now" },
 { "type": "header", "content": "The coffee shop" },
 { "type": "checkbox", "id": "enable_3d_shop", "label": "3D cabin (falls back to art if unavailable)", "default": true },
 { "type": "image_picker", "id": "shop_image", "label": "Shop art override" },

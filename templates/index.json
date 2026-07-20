@@ -176,15 +176,90 @@
       ],
       "settings": {
         "eyebrow": "A hidden roastery deep in the old-growth forest",
-        "heading": "Welcome to the Forest",
+        "heading": "Premium Coffee for Outdoor Adventurers",
+        "subhead": "Small-batch, fresh-roasted coffee for the trail, the campsite, and the cabin.",
+        "social_proof": "★★★★★ Fresh-roasted small batches, loved by adventurers",
+        "shop_cta": "Shop Coffee",
+        "trust_line": "🔥 Roasted to order · 🚚 Free shipping over $45 · 🛡️ Satisfaction guaranteed",
         "slogan": "Nature Calls, Coffee Answers.",
+        "featured_product": "6-bean-blend",
+        "featured_badge": "Camp favorite",
+        "featured_cta": "Shop now",
         "enable_3d_shop": true,
         "sign_text": "Pine Hollow Coffee",
         "interior_title": "Inside Pine Hollow Coffee"
       }
+    },
+    "reasons": {
+      "type": "reasons-to-buy",
+      "blocks": {
+        "r1": { "type": "reason", "settings": { "icon": "seed", "label": "Small Batch" } },
+        "r2": { "type": "reason", "settings": { "icon": "fire", "label": "Fresh Roasted" } },
+        "r3": { "type": "reason", "settings": { "icon": "mountain", "label": "Single Origin" } },
+        "r4": { "type": "reason", "settings": { "icon": "medal", "label": "Premium Arabica" } },
+        "r5": { "type": "reason", "settings": { "icon": "star", "label": "Roasted in USA" } },
+        "r6": { "type": "reason", "settings": { "icon": "truck", "label": "Fast Shipping" } },
+        "r7": { "type": "reason", "settings": { "icon": "shield", "label": "Satisfaction Guarantee" } }
+      },
+      "block_order": ["r1", "r2", "r3", "r4", "r5", "r6", "r7"],
+      "settings": { "heading": "Why Sasquatch Coffee?" }
+    },
+    "trailheads": {
+      "type": "collection-trailheads",
+      "blocks": {
+        "t1": { "type": "trail", "settings": { "collection": "single-origin", "marker": "🫘", "title": "Single Origin", "cta": "Shop single origin" } },
+        "t2": { "type": "trail", "settings": { "collection": "blends", "marker": "🔥", "title": "Signature Blends", "cta": "Shop blends" } },
+        "t3": { "type": "trail", "settings": { "collection": "seasonal-specialty", "marker": "🍂", "title": "Seasonal & Specialty", "cta": "Shop seasonal" } },
+        "t4": { "type": "trail", "settings": { "collection": "coffee-pods", "marker": "☕", "title": "Single Serve & Pods", "cta": "Shop pods" } },
+        "t5": { "type": "trail", "settings": { "collection": "tea-matcha", "marker": "🍵", "title": "Tea & Matcha", "cta": "Shop tea" } },
+        "t6": { "type": "trail", "settings": { "collection": "sample-packs", "marker": "🎁", "title": "Gift & Sample Packs", "cta": "Shop gifts" } },
+        "t7": { "type": "trail", "settings": { "collection": "guides", "marker": "📚", "title": "Brewing Guides", "cta": "Shop guides" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+      "settings": {
+        "eyebrow": "Choose your trail",
+        "heading": "Find Your Roast",
+        "subheading": "Every collection is its own corner of the forest. Let the Jackalope guide you."
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "q1": { "type": "quote", "settings": { "stars": 5, "quote": "Best coffee I've had in years. Tastes like a crisp morning in the mountains.", "author": "Jordan M.", "meta": "Six Summits Espresso" } },
+        "q2": { "type": "quote", "settings": { "stars": 5, "quote": "Roasted-to-order really is a different league. It shows up smelling incredible.", "author": "Marcus T.", "meta": "Verified buyer" } },
+        "q3": { "type": "quote", "settings": { "stars": 5, "quote": "The whole shop experience is magical, and the coffee more than backs it up.", "author": "Priya K.", "meta": "Fireside Blend" } }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": { "eyebrow": "Word around the woods", "heading": "Loved by Trailblazers" }
+    },
+    "trust": {
+      "type": "trust-badges",
+      "blocks": {
+        "b1": { "type": "badge", "settings": { "icon": "fire", "title": "Roasted to Order", "text": "Small batches over real fire" } },
+        "b2": { "type": "badge", "settings": { "icon": "truck", "title": "Fast, Free Shipping", "text": "On orders over $45" } },
+        "b3": { "type": "badge", "settings": { "icon": "leaf", "title": "Ethically Sourced", "text": "Specialty-grade beans" } },
+        "b4": { "type": "badge", "settings": { "icon": "shield", "title": "Happiness Guarantee", "text": "Love it or we'll make it right" } }
+      },
+      "block_order": ["b1", "b2", "b3", "b4"]
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "f1": { "type": "qa", "settings": { "question": "How fresh is the coffee?", "answer": "<p>Every bag is roasted to order in small batches and shipped within 1–2 days — never off a warehouse shelf.</p>" } },
+        "f2": { "type": "qa", "settings": { "question": "How fast do you ship?", "answer": "<p>Orders roast and ship within 1–2 business days, with free shipping over $45. You'll get tracking the moment it leaves the roastery.</p>" } },
+        "f3": { "type": "qa", "settings": { "question": "Which grind should I choose?", "answer": "<p>Whole bean for the freshest cup, or pick your brewer's grind at checkout. Ollie recommends coarse for cold brew, standard for drip.</p>" } },
+        "f4": { "type": "qa", "settings": { "question": "What's your return policy?", "answer": "<p>If you're not happy with your roast, reach out and we'll make it right — a refund or a replacement. That's the camp promise.</p>" } }
+      },
+      "block_order": ["f1", "f2", "f3", "f4"],
+      "settings": { "eyebrow": "From the trail journal", "heading": "Questions by the Campfire" }
     }
   },
   "order": [
-    "world"
+    "world",
+    "reasons",
+    "trailheads",
+    "reviews",
+    "trust",
+    "faq"
   ]
 }
