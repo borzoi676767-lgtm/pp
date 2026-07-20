@@ -1,0 +1,157 @@
+{%- comment -%}
+  product-story.liquid — rich PDP modules driven by product metafields.
+  Every module hides itself when its data is absent, so blends, teas, pods
+  and digital products only show the modules that make sense for them.
+  Usage: {% render 'product-story', product: product %}
+{%- endcomment -%}
+{%- liquid
+  assign mf = product.metafields.custom
+  assign story = mf.story.value
+  assign roast = story.roast
+  assign body = story.body
+  assign acidity = story.acidity
+  assign sweetness = story.sweetness
+  assign bitterness = story.bitterness
+  assign flavor = story.flavor
+  assign origin = story.origin
+  assign ship = settings.free_ship_threshold | default: 45
+-%}
+
+{%- comment -%} ---------------- Taste Profile ---------------- {%- endcomment -%}
+{%- if body != blank or acidity != blank or sweetness != blank or flavor != blank or mf.tasting_notes != blank -%}
+<section class="ps-mod" aria-label="Taste profile">
+  <p class="ps-mod__eyebrow">The story in the cup</p>
+  <h2 class="ps-mod__title">Taste Profile</h2>
+  <div class="ps-taste">
+    <div class="ps-meters">
+      {%- if body != blank -%}<div class="ps-meter"><span class="ps-meter__k">Body</span><div class="ps-meter__track"><span class="ps-meter__fill" style="width:{{ body | times: 20 }}%"></span></div></div>{%- endif -%}
+      {%- if acidity != blank -%}<div class="ps-meter"><span class="ps-meter__k">Acidity</span><div class="ps-meter__track"><span class="ps-meter__fill" style="width:{{ acidity | times: 20 }}%"></span></div></div>{%- endif -%}
+      {%- if sweetness != blank -%}<div class="ps-meter"><span class="ps-meter__k">Sweetness</span><div class="ps-meter__track"><span class="ps-meter__fill" style="width:{{ sweetness | times: 20 }}%"></span></div></div>{%- endif -%}
+      {%- if bitterness != blank -%}<div class="ps-meter"><span class="ps-meter__k">Bitterness</span><div class="ps-meter__track"><span class="ps-meter__fill" style="width:{{ bitterness | times: 20 }}%"></span></div></div>{%- endif -%}
+    </div>
+    <div>
+      {%- if flavor != blank -%}
+      <div class="ps-chips">
+        {%- assign notes = flavor | split: ',' -%}
+        {%- for n in notes -%}<span class="ps-chip"><b></b>{{ n | strip }}</span>{%- endfor -%}
+      </div>
+      {%- endif -%}
+      <p class="ps-tnotes">{% if mf.tasting_notes != blank %}{{ mf.tasting_notes }}{% else %}{{ product.description | strip_html | truncatewords: 55 }}{% endif %}</p>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ---------------- Roast Level ---------------- {%- endcomment -%}
+{%- if roast != blank -%}
+  {%- case roast -%}
+    {%- when 'Light' -%}{%- assign rpos = 8 -%}
+    {%- when 'Medium-Light' -%}{%- assign rpos = 30 -%}
+    {%- when 'Medium' -%}{%- assign rpos = 50 -%}
+    {%- when 'Medium-Dark' -%}{%- assign rpos = 72 -%}
+    {%- when 'Dark' -%}{%- assign rpos = 92 -%}
+    {%- else -%}{%- assign rpos = 50 -%}
+  {%- endcase -%}
+<section class="ps-mod" aria-label="Roast level">
+  <p class="ps-mod__eyebrow">How dark we take it</p>
+  <h2 class="ps-mod__title">Roast Level</h2>
+  <div class="ps-roast">
+    <div class="ps-roast__bar">
+      <div class="ps-roast__marker" style="left:{{ rpos }}%"></div>
+      <div class="ps-roast__pin" style="left:{{ rpos }}%">{{ roast }}</div>
+    </div>
+    <div class="ps-roast__ticks">
+      <span{% if roast == 'Light' %} class="on"{% endif %}>Light</span>
+      <span{% if roast == 'Medium-Light' %} class="on"{% endif %}>Med-Light</span>
+      <span{% if roast == 'Medium' %} class="on"{% endif %}>Medium</span>
+      <span{% if roast == 'Medium-Dark' %} class="on"{% endif %}>Med-Dark</span>
+      <span{% if roast == 'Dark' %} class="on"{% endif %}>Dark</span>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ---------------- Origin ---------------- {%- endcomment -%}
+{%- if origin != blank and origin.country != blank -%}
+<section class="ps-mod" aria-label="Origin">
+  <p class="ps-mod__eyebrow">Where it's from</p>
+  <h2 class="ps-mod__title">Origin Story</h2>
+  <div class="ps-origin">
+    <div class="ps-mapcard">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="none" aria-hidden="true">
+        <g fill="none" stroke="rgba(242,193,78,.18)" stroke-width="1.5">
+          <path d="M0 120 C80 90 140 150 220 130 S360 100 400 130"/>
+          <path d="M0 160 C90 140 150 200 240 175 S370 150 400 175"/>
+          <path d="M0 210 C100 195 160 240 250 220 S380 205 400 225"/>
+        </g>
+        <path d="M180 60 C240 70 300 120 300 180 C300 240 240 260 200 250 C150 235 120 190 140 140 C155 100 150 55 180 60 Z" fill="rgba(106,127,79,.35)" stroke="rgba(134,154,104,.6)" stroke-width="2"/>
+      </svg>
+      <div class="ps-mapcard__pin"><div class="ps-mapcard__dot"></div><div class="ps-mapcard__label">{{ origin.region | default: origin.country }}<br>{{ origin.country }}</div></div>
+    </div>
+    <div class="ps-facts">
+      {%- if origin.country != blank -%}<div class="ps-fact"><span>Country</span><b>{{ origin.country }}</b></div>{%- endif -%}
+      {%- if origin.region != blank -%}<div class="ps-fact"><span>Region</span><b>{{ origin.region }}</b></div>{%- endif -%}
+      {%- if origin.altitude != blank -%}<div class="ps-fact"><span>Altitude</span><b>{{ origin.altitude }}</b></div>{%- endif -%}
+      {%- if origin.process != blank -%}<div class="ps-fact"><span>Process</span><b>{{ origin.process }}</b></div>{%- endif -%}
+      {%- if origin.varietals != blank -%}<div class="ps-fact"><span>Varietals</span><b>{{ origin.varietals }}</b></div>{%- endif -%}
+      {%- if origin.harvest != blank -%}<div class="ps-fact"><span>Harvest</span><b>{{ origin.harvest }}</b></div>{%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ---------------- Brew methods (coffee only) ---------------- {%- endcomment -%}
+{%- if roast != blank -%}
+<section class="ps-mod" aria-label="Brewing recommendations">
+  <p class="ps-mod__eyebrow">Get the best cup</p>
+  <h2 class="ps-mod__title">How to Brew It</h2>
+  <div class="ps-brews">
+    <div class="ps-brew"><div class="ps-brew__ic">☕</div><h4>Pour-Over</h4><dl><dt>Ratio</dt><dd>1:16</dd><dt>Grind</dt><dd>Medium</dd><dt>Water</dt><dd>200°F</dd><dt>Time</dt><dd>3:00</dd></dl></div>
+    <div class="ps-brew"><div class="ps-brew__ic">🫖</div><h4>French Press</h4><dl><dt>Ratio</dt><dd>1:15</dd><dt>Grind</dt><dd>Coarse</dd><dt>Water</dt><dd>200°F</dd><dt>Time</dt><dd>4:00</dd></dl></div>
+    <div class="ps-brew"><div class="ps-brew__ic">❄️</div><h4>Cold Brew</h4><dl><dt>Ratio</dt><dd>1:8</dd><dt>Grind</dt><dd>Coarse</dd><dt>Water</dt><dd>Cold</dd><dt>Time</dt><dd>16 hr</dd></dl></div>
+    <div class="ps-brew"><div class="ps-brew__ic">🔥</div><h4>Espresso</h4><dl><dt>Dose</dt><dd>18 g</dd><dt>Grind</dt><dd>Fine</dd><dt>Yield</dt><dd>36 g</dd><dt>Time</dt><dd>28 s</dd></dl></div>
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ---------------- Pairs Well With ---------------- {%- endcomment -%}
+{%- liquid
+  assign pcoll = nil
+  for c in product.collections
+    if c.handle != 'all' and c.handle != 'frontpage' and c.products_count > 1
+      assign pcoll = c
+      break
+    endif
+  endfor
+-%}
+{%- if pcoll -%}
+<section class="ps-mod" aria-label="Pairs well with">
+  <p class="ps-mod__eyebrow">Round out the order</p>
+  <h2 class="ps-mod__title">Pairs Well With</h2>
+  <div class="ps-pairs">
+    {%- assign shown = 0 -%}
+    {%- for p in pcoll.products -%}
+      {%- if p.id != product.id and shown < 3 -%}
+        <a class="ps-paircard" href="{{ p.url }}">
+          {%- if p.featured_image -%}<img src="{{ p.featured_image | image_url: width: 500 }}" alt="{{ p.title | escape }}" width="250" height="250" loading="lazy">{%- endif -%}
+          <div class="ps-paircard__b"><h4>{{ p.title }}</h4><span class="ps-p">{{ p.price | money }}</span></div>
+        </a>
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{%- comment -%} ---------------- Product FAQ (coffee) ---------------- {%- endcomment -%}
+{%- if roast != blank -%}
+<section class="ps-mod" aria-label="Product FAQ">
+  <p class="ps-mod__eyebrow">Before you brew</p>
+  <h2 class="ps-mod__title">Product FAQ</h2>
+  <div class="ps-faq">
+    <details class="ps-faq__item" open><summary>How fresh will it be? {% render 'icon', name: 'plus', size: 18 %}</summary><div class="ps-faq__a"><p>Roasted to order the day it ships — never off a warehouse shelf. Expect a roast date on the bag within 1–2 days of your order.</p></div></details>
+    <details class="ps-faq__item"><summary>Which grind should I pick? {% render 'icon', name: 'plus', size: 18 %}</summary><div class="ps-faq__a"><p>Whole bean stays freshest. Otherwise: coarse for French press &amp; cold brew, standard for drip, fine for espresso — pick your grind at checkout.</p></div></details>
+    <details class="ps-faq__item"><summary>Shipping &amp; returns? {% render 'icon', name: 'plus', size: 18 %}</summary><div class="ps-faq__a"><p>Free shipping over ${{ ship }}, and orders ship in 1–2 business days. Not happy with your roast? We'll make it right with a refund or replacement — that's the camp promise.</p></div></details>
+  </div>
+</section>
+{%- endif -%}

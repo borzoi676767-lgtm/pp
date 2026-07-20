@@ -1,7 +1,9 @@
 {%- liquid
   assign current = product.selected_or_first_available_variant
   assign notes = product.metafields.custom.tasting_notes
+  assign flavor = product.metafields.custom.story.value.flavor
 -%}
+{{ 'product-story.css' | asset_url | stylesheet_tag }}
 <section class="section" data-product-root>
   <div class="page-width">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
@@ -53,6 +55,13 @@
             <span class="price">{{ current.price | money }}</span>
           {%- endif -%}
         </div>
+
+        {%- if flavor != blank -%}
+          <div class="ps-chips" style="margin:.2rem 0 1rem">
+            {%- assign fnotes = flavor | split: ',' -%}
+            {%- for n in fnotes -%}<span class="ps-chip"><b></b>{{ n | strip }}</span>{%- endfor -%}
+          </div>
+        {%- endif -%}
 
         {%- if notes != blank -%}
           <p class="product-info__desc"><strong>Tasting notes:</strong> {{ notes }}</p>
@@ -151,6 +160,9 @@
     </div>
   </div>
 </section>
+
+{%- comment -%} Rich storytelling modules (metafield-driven, hide gracefully) {%- endcomment -%}
+{% render 'product-story', product: product %}
 
 {%- comment -%} Sticky add-to-cart {%- endcomment -%}
 {%- if settings.enable_sticky_atc -%}
