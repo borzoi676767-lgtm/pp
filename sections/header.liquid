@@ -73,7 +73,9 @@
 </header>
 
 {%- comment -%} Mobile nav drawer {%- endcomment -%}
+<div class="mobile-nav__backdrop" data-mobile-nav-backdrop aria-hidden="true"></div>
 <div class="mobile-nav" id="mobile-nav" data-mobile-nav>
+  <button type="button" class="mobile-nav__close" data-nav-toggle aria-label="{{ 'general.accessibility.close' | t }}">{% render 'icon', name: 'close', size: 22 %}</button>
   <ul class="mobile-nav__list">
     {%- for link in section.settings.menu.links -%}
       <li class="mobile-nav__item">

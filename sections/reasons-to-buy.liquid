@@ -1,7 +1,8 @@
 {%- comment -%}
   Reasons to buy — compact icon strip answering "Why THIS coffee?"
 {%- endcomment -%}
-<section class="reasons section--tight" aria-label="{{ section.settings.heading | default: 'Why Sasquatch Coffee' | escape }}">
+<section class="reasons section--tight" aria-label="{{ section.settings.heading | default: 'Why Sasquatch Coffee' | escape }}" style="position:relative">
+  {% render 'hidden-bean', bean_id: 'reasons', pos: 'right:3%;top:1.1rem' %}
   <div class="page-width">
     {%- if section.settings.heading != blank -%}
       <h2 class="reasons__head">{{ section.settings.heading }}</h2>

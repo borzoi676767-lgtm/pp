@@ -17,7 +17,8 @@
   endif
 -%}
 {{ 'product-story.css' | asset_url | stylesheet_tag }}
-<section class="section" data-product-root>
+<section class="section" data-product-root style="position:relative">
+  {% render 'hidden-bean', bean_id: 'product', pos: 'right:3%;top:1.1rem' %}
   <div class="page-width">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <a href="{{ routes.root_url }}">Camp</a> <span aria-hidden="true">/</span>

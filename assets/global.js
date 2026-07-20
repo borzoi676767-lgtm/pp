@@ -380,12 +380,21 @@
       last = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    // Mobile nav
-    on(document, "click", "[data-nav-toggle]", () => {
-      const open = header.classList.toggle("nav-open");
+    // Mobile nav — drawer lives as a sibling of the header, so toggle the
+    // drawer element directly (a class on the header can't reach it).
+    const mnav = $("[data-mobile-nav]");
+    const setNav = (open) => {
+      if (mnav) mnav.classList.toggle("is-open", open);
+      header.classList.toggle("nav-open", open);
+      document.body.classList.toggle("nav-open", open);
       document.documentElement.classList.toggle("no-scroll", open);
-      $("[data-nav-toggle]").setAttribute("aria-expanded", String(open));
-    });
+      const t = $("[data-nav-toggle]");
+      if (t) t.setAttribute("aria-expanded", String(open));
+    };
+    on(document, "click", "[data-nav-toggle]", () => setNav(!(mnav && mnav.classList.contains("is-open"))));
+    on(document, "click", "[data-mobile-nav-backdrop]", () => setNav(false));
+    on(document, "click", "[data-mobile-nav] a", () => setNav(false));
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") setNav(false); });
     // Dropdowns keyboard
     $$("[data-has-mega]").forEach((li) => {
       const trigger = li.querySelector("a,button");

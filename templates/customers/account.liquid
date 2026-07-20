@@ -3,6 +3,30 @@
     <p class="eyebrow">Base camp</p>
     <h1 style="margin:0">Welcome back{% if customer.first_name %}, {{ customer.first_name }}{% endif %}</h1>
   </div>
+
+  {%- comment -%} Bean-hunt reward — revealed by forest.js once every hidden bean is found {%- endcomment -%}
+  <div class="card beanhunt-reward" data-beanhunt-reward hidden>
+    <div class="beanhunt-reward__ic" aria-hidden="true">🫘</div>
+    <div class="beanhunt-reward__body">
+      <p class="eyebrow" style="justify-content:flex-start">Trail reward unlocked</p>
+      <h2 style="margin:.1rem 0 .35rem">You found every hidden bean!</h2>
+      <p class="muted" style="margin:0 0 .8rem">Use this code at checkout for a little something from the camp.</p>
+      <div class="beanhunt-code">
+        <code data-code>FORESTFIND</code>
+        <button type="button" class="btn btn--accent" data-copy-code="FORESTFIND">Copy code</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-copy-code]'); if (!b) return;
+      var code = b.getAttribute('data-copy-code');
+      (navigator.clipboard ? navigator.clipboard.writeText(code) : Promise.reject())
+        .then(function(){ var o = b.textContent; b.textContent = 'Copied!'; setTimeout(function(){ b.textContent = o; }, 1600); })
+        .catch(function(){});
+    });
+  </script>
+
   <div class="account-grid">
     <aside class="card" style="padding:1.4rem">
       <h2 style="font-size:1.1rem">{{ 'customer.account.title' | t }}</h2>

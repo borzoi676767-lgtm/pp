@@ -58,15 +58,26 @@
 body.nav-open::after, .nav-open + * { }
 .mobile-nav__list { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
 .mobile-nav__link { display: block; padding: .8rem .4rem; font-family: var(--font-head); font-size: 1.2rem; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
-.mobile-nav__sub { list-style: none; margin: .2rem 0 .6rem; padding: 0 0 0 .8rem; display: grid; gap: .1rem; }
-.mobile-nav__sub a { color: var(--ink-soft); text-decoration: none; padding: .35rem 0; display: block; }
+.mobile-nav__sub { list-style: none; margin: .2rem 0 .6rem; padding: 0 0 0 .8rem; display: grid; gap: .1rem; border-left: 2px solid var(--line); }
+.mobile-nav__sub a { color: var(--ink-soft); text-decoration: none; padding: .5rem .4rem; display: block; }
+.mobile-nav__close { position: absolute; top: .7rem; right: .8rem; background: none; border: 0; color: var(--ink); padding: .35rem; cursor: pointer; line-height: 0; }
+.mobile-nav__backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 65; opacity: 0; visibility: hidden; transition: opacity .3s var(--ease-out); }
+body.nav-open .mobile-nav__backdrop { opacity: 1; visibility: visible; }
 @media (max-width: 989px) {
   .site-nav { display: none; }
   .site-header__burger { display: inline-grid; place-items: center; }
   .site-header__bar { grid-template-columns: auto 1fr auto; }
   .site-header__logo { grid-column: 2; justify-self: center; }
 }
-@media (min-width: 990px) { .mobile-nav { display: none; } }
+@media (min-width: 990px) { .mobile-nav, .mobile-nav__backdrop { display: none; } }
+
+/* Bean-hunt reward card (customer account) */
+.beanhunt-reward { display: flex; gap: 1.1rem; align-items: center; margin-bottom: 1.5rem; padding: 1.3rem 1.5rem; border: 1px solid var(--gold-500); background: linear-gradient(120deg, rgba(242,193,78,.14), var(--surface)); border-radius: var(--r-lg); }
+.beanhunt-reward__ic { font-size: 2.6rem; line-height: 1; flex: 0 0 auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,.15)); }
+.beanhunt-reward__body { min-width: 0; }
+.beanhunt-code { display: inline-flex; align-items: center; gap: .7rem; flex-wrap: wrap; }
+.beanhunt-code code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 800; font-size: 1.1rem; letter-spacing: .14em; background: var(--ink); color: var(--cream-100); padding: .5rem .9rem; border-radius: var(--r-sm); }
+@media (max-width: 560px) { .beanhunt-reward { flex-direction: column; align-items: flex-start; text-align: left; } }
 
 /* ------------------------------------------------------------- Footer */
 .site-footer { background: var(--forest-800); color: var(--cream-200); margin-top: 4rem; }
@@ -145,7 +156,7 @@ body.nav-open::after, .nav-open + * { }
 /* ----------------------------------------------------- Product page */
 .product { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
 @media (max-width: 899px) { .product { grid-template-columns: 1fr; } }
-.product-gallery { position: sticky; top: calc(var(--header-h) + 1rem); display: grid; gap: .8rem; }
+.product-gallery { display: grid; gap: .8rem; }
 .product-gallery__main { border-radius: var(--r-lg); overflow: hidden; background: var(--surface-2); box-shadow: var(--shadow-md); }
 .product-gallery__main .media { aspect-ratio: 1/1; }
 .product-gallery__main img { width: 100%; height: 100%; object-fit: cover; }

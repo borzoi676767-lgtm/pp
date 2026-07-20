@@ -305,14 +305,38 @@
   function initSound() { $$("[data-toggle-sound]").forEach((b) => b.addEventListener("click", () => Ambient.toggle())); }
 
   /* =================================================== Easter-egg beans */
+  // The full set of beans hidden across the whole site. Each appears on a
+  // different page, so completion is tracked globally (localStorage) rather
+  // than per-page. Add an id here when you add a {% render 'hidden-bean' %}.
+  const ALL_BEANS = ["world", "reasons", "trail", "faq", "footer", "product", "collection", "cart"];
+  const beansFoundCount = () => {
+    const f = store.get("sq_beans", []);
+    return ALL_BEANS.filter((id) => f.includes(id)).length;
+  };
+  const beansComplete = () => beansFoundCount() >= ALL_BEANS.length;
+
+  function revealBeanReward() {
+    if (!(beansComplete() || store.get("sq_beanhunt_done", false))) return;
+    document.querySelectorAll("[data-beanhunt-reward]").forEach((el) => { el.hidden = false; });
+  }
+
+  function completeBeanHunt() {
+    const first = !store.get("sq_beanhunt_done", false);
+    store.set("sq_beanhunt_done", true);
+    window.theme?.Badges?.earn("bean-hunter");
+    if (first) {
+      setTimeout(() => window.theme?.toast?.("🎁 Every hidden bean found! Your code FORESTFIND is waiting on your account page."), 1000);
+    }
+    revealBeanReward();
+  }
+
   function initBeanHunt() {
     const spots = $$("[data-hidden-bean]");
-    if (!spots.length) return;
     const found = store.get("sq_beans", []);
     spots.forEach((bean) => {
       const id = bean.dataset.hiddenBean;
       if (found.includes(id)) { bean.remove(); return; }
-      // Randomly reveal on scroll near it
+      // Reveal softly as it scrolls into view
       const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) bean.classList.add("show"); });
       io.observe(bean);
       bean.addEventListener("click", () => {
@@ -322,11 +346,8 @@
         bean.classList.remove("show");
         bean.style.transition = ".4s"; bean.style.transform = "scale(0) rotate(90deg)"; bean.style.opacity = "0";
         setTimeout(() => bean.remove(), 400);
-        window.theme?.toast?.(`☕ Coffee bean found! (${list.length}/${spots.length})`);
-        if (list.length >= spots.length) {
-          window.theme?.Badges?.earn("bean-hunter");
-          setTimeout(() => window.theme?.toast?.("🎁 You found every hidden bean! Code FORESTFIND unlocks a treat at checkout."), 1000);
-        }
+        window.theme?.toast?.(`☕ Coffee bean found! (${beansFoundCount()}/${ALL_BEANS.length})`);
+        if (beansComplete()) completeBeanHunt();
       });
     });
   }
@@ -342,6 +363,7 @@
     initWeather();
     initSound();
     initBeanHunt();
+    revealBeanReward();
     window.theme = window.theme || {};
     window.theme.World = World;
     window.theme.Ambient = Ambient;

@@ -1,4 +1,5 @@
 <style>
+  .site-footer { position: relative; }
   .site-footer__trust { border-top: 1px solid rgba(255,255,255,.12); border-bottom: 1px solid rgba(255,255,255,.12); }
   .site-footer__trust-inner { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(1rem, 3vw, 3rem); padding: 1.1rem var(--pad); }
   .ft-trust { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; font-size: .9rem; color: var(--cream-100); }
@@ -6,6 +7,7 @@
   @media (max-width: 749px) { .ft-trust { font-size: .8rem; flex-basis: 42%; justify-content: center; } }
 </style>
 <footer class="site-footer">
+  {% render 'hidden-bean', bean_id: 'footer', pos: 'right:4%;bottom:2rem' %}
   {%- if section.settings.enable_trust_bar -%}
   <div class="site-footer__trust">
     <div class="page-width site-footer__trust-inner">

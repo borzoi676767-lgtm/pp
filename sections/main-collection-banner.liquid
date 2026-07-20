@@ -1,4 +1,5 @@
 <section class="collection-banner" data-parallax-scene>
+  {% render 'hidden-bean', bean_id: 'collection', pos: 'right:3%;top:1rem' %}
   <div class="collection-banner__bg" aria-hidden="true">
     {%- if collection.image -%}
       <img data-parallax="0.1" src="{{ collection.image | image_url: width: 2000 }}" alt="" width="1920" height="520" loading="eager" fetchpriority="high">
