@@ -10,6 +10,7 @@
     <div class="cart-empty">
       <div class="cart-empty__art">{% render 'icon', name: 'pine', size: 48 %}</div>
       <p class="cart-empty__msg">{{ 'cart.general.empty' | t }}</p>
+      <p class="cart-empty__hint">The Jackalope's still waiting to hop you to the good stuff.</p>
       <a href="{{ routes.all_products_collection_url }}" class="btn btn--accent" data-cart-close>{{ 'cart.general.continue_shopping' | t }}</a>
     </div>
   {%- else -%}

@@ -15,7 +15,40 @@
   assign flavor = story.flavor
   assign origin = story.origin
   assign ship = settings.free_ship_threshold | default: 45
+
+  assign is_digital = false
+  unless product.variants.first.requires_shipping
+    assign is_digital = true
+  endunless
+  if product.tags contains 'digital' or product.tags contains 'Digital'
+    assign is_digital = true
+  endif
+  assign ptype = product.type | downcase
+  if ptype contains 'digital' or ptype contains 'guide' or ptype contains 'download' or ptype contains 'ebook'
+    assign is_digital = true
+  endif
 -%}
+
+{%- comment -%} ---------------- Digital download (guides / ebooks) ---------------- {%- endcomment -%}
+{%- if is_digital -%}
+<section class="ps-mod" aria-label="Your download">
+  <p class="ps-mod__eyebrow">Straight to your pack</p>
+  <h2 class="ps-mod__title">How Your Download Works</h2>
+  <div class="ps-digital">
+    <ol class="ps-steps">
+      <li class="ps-step"><span class="ps-step__n">1</span><div><h4>Check out</h4><p>Add it to your cart and check out like any order — no shipping address needed.</p></div></li>
+      <li class="ps-step"><span class="ps-step__n">2</span><div><h4>Get the link instantly</h4><p>Your download link appears on the confirmation page and is emailed to you within seconds.</p></div></li>
+      <li class="ps-step"><span class="ps-step__n">3</span><div><h4>Keep it forever</h4><p>Save the file and re-download any time. It's yours — brew, read, and refer back whenever.</p></div></li>
+    </ol>
+    <div class="ps-digital__meta">
+      <div class="ps-fact"><span>Format</span><b>{{ product.metafields.custom.file_format | default: 'PDF' }}</b></div>
+      <div class="ps-fact"><span>Delivery</span><b>Instant</b></div>
+      <div class="ps-fact"><span>Access</span><b>Lifetime</b></div>
+      <div class="ps-fact"><span>Ships</span><b>Nothing to ship</b></div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
 
 {%- comment -%} ---------------- Taste Profile ---------------- {%- endcomment -%}
 {%- if body != blank or acidity != blank or sweetness != blank or flavor != blank or mf.tasting_notes != blank -%}
@@ -154,4 +187,15 @@
     <details class="ps-faq__item"><summary>Shipping &amp; returns? {% render 'icon', name: 'plus', size: 18 %}</summary><div class="ps-faq__a"><p>Free shipping over ${{ ship }}, and orders ship in 1–2 business days. Not happy with your roast? We'll make it right with a refund or replacement — that's the camp promise.</p></div></details>
   </div>
 </section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "How fresh will it be?", "acceptedAnswer": { "@type": "Answer", "text": "Roasted to order the day it ships — never off a warehouse shelf. Expect a roast date on the bag within 1–2 days of your order." } },
+    { "@type": "Question", "name": "Which grind should I pick?", "acceptedAnswer": { "@type": "Answer", "text": "Whole bean stays freshest. Otherwise: coarse for French press and cold brew, standard for drip, fine for espresso — pick your grind at checkout." } },
+    { "@type": "Question", "name": "Shipping and returns?", "acceptedAnswer": { "@type": "Answer", "text": "Free shipping over ${{ ship }}, and orders ship in 1–2 business days. Not happy with your roast? We'll make it right with a refund or replacement." } }
+  ]
+}
+</script>
 {%- endif -%}

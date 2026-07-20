@@ -78,6 +78,44 @@
   </script>
 {%- endif -%}
 
+{%- comment -%} ---- JSON-LD: BreadcrumbList ---- {%- endcomment -%}
+{%- if template contains 'product' and product -%}
+  {%- assign bc_collection = nil -%}
+  {%- if collection -%}
+    {%- assign bc_collection = collection -%}
+  {%- else -%}
+    {%- for c in product.collections -%}
+      {%- if c.handle != 'all' and c.handle != 'frontpage' -%}{%- assign bc_collection = c -%}{%- break -%}{%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ shop.url | append: '/' | json }} }
+      {%- if bc_collection -%},
+      { "@type": "ListItem", "position": 2, "name": {{ bc_collection.title | json }}, "item": "{{ shop.url }}{{ bc_collection.url }}" },
+      { "@type": "ListItem", "position": 3, "name": {{ product.title | json }}, "item": "{{ shop.url }}{{ product.url }}" }
+      {%- else -%},
+      { "@type": "ListItem", "position": 2, "name": {{ product.title | json }}, "item": "{{ shop.url }}{{ product.url }}" }
+      {%- endif -%}
+    ]
+  }
+  </script>
+{%- elsif template contains 'collection' and collection -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": {{ shop.url | append: '/' | json }} },
+      { "@type": "ListItem", "position": 2, "name": {{ collection.title | json }}, "item": "{{ shop.url }}{{ collection.url }}" }
+    ]
+  }
+  </script>
+{%- endif -%}
+
 {%- if template == 'index' -%}
   <script type="application/ld+json">
   {

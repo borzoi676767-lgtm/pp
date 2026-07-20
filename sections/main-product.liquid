@@ -2,6 +2,19 @@
   assign current = product.selected_or_first_available_variant
   assign notes = product.metafields.custom.tasting_notes
   assign flavor = product.metafields.custom.story.value.flavor
+
+  # Digital product detection: no variant needs shipping, or explicitly tagged/typed digital.
+  assign is_digital = false
+  unless current.requires_shipping
+    assign is_digital = true
+  endunless
+  if product.tags contains 'digital' or product.tags contains 'Digital'
+    assign is_digital = true
+  endif
+  assign ptype = product.type | downcase
+  if ptype contains 'digital' or ptype contains 'guide' or ptype contains 'download' or ptype contains 'ebook'
+    assign is_digital = true
+  endif
 -%}
 {{ 'product-story.css' | asset_url | stylesheet_tag }}
 <section class="section" data-product-root>
@@ -55,6 +68,10 @@
             <span class="price">{{ current.price | money }}</span>
           {%- endif -%}
         </div>
+
+        {%- if is_digital -%}
+          <p class="digital-badge">{% render 'icon', name: 'download', size: 16 %} Instant digital download · nothing ships</p>
+        {%- endif -%}
 
         {%- if flavor != blank -%}
           <div class="ps-chips" style="margin:.2rem 0 1rem">
@@ -127,14 +144,22 @@
           {{ form | payment_button }}
         </form>
 
-        {%- if settings.enable_delivery_estimate -%}
+        {%- if is_digital -%}
+          <p class="delivery-note">{% render 'icon', name: 'bolt', size: 16 %} Delivered instantly — download link on your confirmation page & emailed to you</p>
+        {%- elsif settings.enable_delivery_estimate -%}
           <p class="delivery-note">{% render 'icon', name: 'truck', size: 16 %} Roasts & ships in 1–2 days · Free shipping over ${{ settings.free_ship_threshold }}</p>
         {%- endif -%}
 
         <div class="product-trust">
-          <span class="product-trust__item">{% render 'icon', name: 'fire', size: 16 %} Roasted to order</span>
-          <span class="product-trust__item">{% render 'icon', name: 'leaf', size: 16 %} Specialty-grade</span>
-          <span class="product-trust__item">{% render 'icon', name: 'shield', size: 16 %} Happiness guarantee</span>
+          {%- if is_digital -%}
+            <span class="product-trust__item">{% render 'icon', name: 'download', size: 16 %} Instant access</span>
+            <span class="product-trust__item">{% render 'icon', name: 'compass', size: 16 %} Yours forever</span>
+            <span class="product-trust__item">{% render 'icon', name: 'shield', size: 16 %} Happiness guarantee</span>
+          {%- else -%}
+            <span class="product-trust__item">{% render 'icon', name: 'fire', size: 16 %} Roasted to order</span>
+            <span class="product-trust__item">{% render 'icon', name: 'leaf', size: 16 %} Specialty-grade</span>
+            <span class="product-trust__item">{% render 'icon', name: 'shield', size: 16 %} Happiness guarantee</span>
+          {%- endif -%}
         </div>
 
         {%- comment -%} ---------------- Accordion ---------------- {%- endcomment -%}
@@ -149,10 +174,17 @@
             <div class="product-accordion__body rte">{{ product.metafields.custom.brew_guide }}</div>
           </details>
           {%- endif -%}
+          {%- if is_digital -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">Delivery & access <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte"><p>This is a digital download — nothing ships. Your download link appears on the order confirmation page and lands in your inbox seconds after checkout. Keep the file forever and re-download any time. Trouble opening it? Reach out and we'll sort it — that's the camp promise.</p></div>
+          </details>
+          {%- else -%}
           <details class="product-accordion__item">
             <summary class="product-accordion__summary">Shipping & returns <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
             <div class="product-accordion__body rte"><p>Roasted to order and shipped within 1–2 business days. Free shipping over ${{ settings.free_ship_threshold }}. Not happy? We'll make it right — that's the camp promise.</p></div>
           </details>
+          {%- endif -%}
         </div>
 
         <p class="muted" style="font-size:.85rem;margin-top:1rem">Ollie's note: “{{ product.metafields.custom.simon_note | default: "I tested this one plenty. Trust me — it's a keeper." }}”</p>

@@ -1,0 +1,49 @@
+{
+  "sections": {
+    "rewards": {
+      "type": "trail-rewards",
+      "blocks": {
+        "camper": {
+          "type": "tier",
+          "settings": {
+            "icon": "seed",
+            "name": "Camper",
+            "threshold": "Join the camp",
+            "perks": "Trail dispatches & new-roast alerts\nMember-only seasonal drops\nBirthday treat",
+            "featured": false
+          }
+        },
+        "trailblazer": {
+          "type": "tier",
+          "settings": {
+            "icon": "pine",
+            "name": "Trailblazer",
+            "threshold": "3+ orders or 3 badges",
+            "perks": "Everything in Camper\nEarly access to new roasts\nFree shipping perks\nCollect all 5 camp badges",
+            "featured": true
+          }
+        },
+        "legend": {
+          "type": "tier",
+          "settings": {
+            "icon": "trophy",
+            "name": "Forest Legend",
+            "threshold": "Top of the trail",
+            "perks": "Everything in Trailblazer\nFirst dibs on limited drops\nA little something extra in every box\nName in the trail journal",
+            "featured": false
+          }
+        }
+      },
+      "block_order": ["camper", "trailblazer", "legend"],
+      "settings": {
+        "eyebrow": "Trail Rewards",
+        "heading": "The Camp Rewards You for Exploring",
+        "intro": "<p>Every cup, every story, every hidden bean earns you a place deeper in the forest. Join free and start collecting today.</p>",
+        "join_label": "Join the Camp — it's free",
+        "join_heading": "Ready to find your trail?",
+        "join_text": "Sign up for trail dispatches and start collecting from your very first cup."
+      }
+    }
+  },
+  "order": ["rewards"]
+}

@@ -140,6 +140,7 @@ body.nav-open::after, .nav-open + * { }
 .cart-foot__actions { display: grid; gap: .6rem; }
 .cart-empty { flex: 1; display: grid; place-content: center; text-align: center; gap: 1rem; padding: 3rem 1.4rem; }
 .cart-empty__art { color: var(--moss-500); display: grid; place-items: center; }
+.cart-empty__hint { margin: -.4rem 0 .2rem; color: var(--ink-mute); font-style: italic; font-size: .92rem; }
 
 /* ----------------------------------------------------- Product page */
 .product { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(1.5rem, 4vw, 4rem); align-items: start; }
