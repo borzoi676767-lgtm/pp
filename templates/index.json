@@ -207,19 +207,20 @@
     "trailheads": {
       "type": "collection-trailheads",
       "blocks": {
-        "t1": { "type": "trail", "settings": { "collection": "single-origin", "marker": "🫘", "title": "Single Origin", "cta": "Shop single origin" } },
-        "t2": { "type": "trail", "settings": { "collection": "blends", "marker": "🔥", "title": "Signature Blends", "cta": "Shop blends" } },
-        "t3": { "type": "trail", "settings": { "collection": "seasonal-specialty", "marker": "🍂", "title": "Seasonal & Specialty", "cta": "Shop seasonal" } },
-        "t4": { "type": "trail", "settings": { "collection": "coffee-pods", "marker": "☕", "title": "Single Serve & Pods", "cta": "Shop pods" } },
-        "t5": { "type": "trail", "settings": { "collection": "tea-matcha", "marker": "🍵", "title": "Tea & Matcha", "cta": "Shop tea" } },
-        "t6": { "type": "trail", "settings": { "collection": "sample-packs", "marker": "🎁", "title": "Gift & Sample Packs", "cta": "Shop gifts" } },
-        "t7": { "type": "trail", "settings": { "collection": "guides", "marker": "📚", "title": "Brewing Guides", "cta": "Shop guides" } }
+        "t1": { "type": "trail", "settings": { "collection": "morning-roast", "marker": "🌄", "title": "Morning Roast", "cta": "Shop morning" } },
+        "t2": { "type": "trail", "settings": { "collection": "evening-blend", "marker": "🌙", "title": "Evening Blend", "cta": "Shop evening" } },
+        "t3": { "type": "trail", "settings": { "collection": "trail-coffee", "marker": "🥾", "title": "Trail Coffee", "cta": "Shop trail" } },
+        "t4": { "type": "trail", "settings": { "collection": "camp-coffee", "marker": "🏕️", "title": "Camp Coffee", "cta": "Shop camp" } },
+        "t5": { "type": "trail", "settings": { "collection": "coffee-pods", "marker": "☕", "title": "Single Serve", "cta": "Shop pods" } },
+        "t6": { "type": "trail", "settings": { "collection": "tea-matcha", "marker": "🍵", "title": "Tea & Matcha", "cta": "Shop tea" } },
+        "t7": { "type": "trail", "settings": { "collection": "sample-packs", "marker": "🎁", "title": "Gift Boxes", "cta": "Shop gifts" } },
+        "t8": { "type": "trail", "settings": { "collection": "guides", "marker": "📚", "title": "Brewing Guides", "cta": "Shop guides" } }
       },
-      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6", "t7"],
+      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8"],
       "settings": {
         "eyebrow": "Choose your trail",
-        "heading": "Find Your Roast",
-        "subheading": "Every collection is its own corner of the forest. Let the Jackalope guide you."
+        "heading": "Find Your Trail",
+        "subheading": "Morning bright or evening dark, trail-light or camp-rugged — every collection is its own corner of the forest."
       }
     },
     "reviews": {

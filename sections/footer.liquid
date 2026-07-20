@@ -1,4 +1,21 @@
+<style>
+  .site-footer__trust { border-top: 1px solid rgba(255,255,255,.12); border-bottom: 1px solid rgba(255,255,255,.12); }
+  .site-footer__trust-inner { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(1rem, 3vw, 3rem); padding: 1.1rem var(--pad); }
+  .ft-trust { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; font-size: .9rem; color: var(--cream-100); }
+  .ft-trust svg { color: var(--gold-400); flex: 0 0 auto; }
+  @media (max-width: 749px) { .ft-trust { font-size: .8rem; flex-basis: 42%; justify-content: center; } }
+</style>
 <footer class="site-footer">
+  {%- if section.settings.enable_trust_bar -%}
+  <div class="site-footer__trust">
+    <div class="page-width site-footer__trust-inner">
+      <span class="ft-trust">{% render 'icon', name: 'fire', size: 20 %} {{ section.settings.trust_1 | default: 'Roasted to order' }}</span>
+      <span class="ft-trust">{% render 'icon', name: 'truck', size: 20 %} {{ section.settings.trust_2 | default: 'Free shipping over $45' }}</span>
+      <span class="ft-trust">{% render 'icon', name: 'shield', size: 20 %} {{ section.settings.trust_3 | default: '30-day happiness guarantee' }}</span>
+      <span class="ft-trust">{% render 'icon', name: 'check', size: 20 %} {{ section.settings.trust_4 | default: 'Secure checkout' }}</span>
+    </div>
+  </div>
+  {%- endif -%}
   <div class="site-footer__top page-width">
     <div class="site-footer__brand">
       {%- if settings.brand_emblem -%}
@@ -71,6 +88,12 @@
 {
   "name": "Footer",
   "settings": [
+    { "type": "header", "content": "Trust bar" },
+    { "type": "checkbox", "id": "enable_trust_bar", "label": "Show trust bar", "default": true },
+    { "type": "text", "id": "trust_1", "label": "Trust item 1", "default": "Roasted to order" },
+    { "type": "text", "id": "trust_2", "label": "Trust item 2", "default": "Free shipping over $45" },
+    { "type": "text", "id": "trust_3", "label": "Trust item 3", "default": "30-day happiness guarantee" },
+    { "type": "text", "id": "trust_4", "label": "Trust item 4", "default": "Secure checkout" },
     { "type": "textarea", "id": "tagline", "label": "Tagline" },
     { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join the Camp" },
     { "type": "textarea", "id": "newsletter_text", "label": "Newsletter text" },
