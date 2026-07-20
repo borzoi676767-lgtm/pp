@@ -11,7 +11,7 @@
       {%- if section.settings.heading != blank -%}<h1 class="tr__title">{{ section.settings.heading }}</h1>{%- endif -%}
       {%- if section.settings.intro != blank -%}<div class="tr__intro rte">{{ section.settings.intro }}</div>{%- endif -%}
       <div class="tr__cta-row">
-        <a class="btn btn--accent btn--lg" href="{{ section.settings.join_url | default: '#join' }}">{% render 'icon', name: 'gift', size: 18 %} {{ section.settings.join_label | default: 'Join the Camp — it\'s free' }}</a>
+        <a class="btn btn--accent btn--lg" href="{{ section.settings.join_url | default: '#join' }}">{% render 'icon', name: 'gift', size: 18 %} {{ section.settings.join_label | default: "Join the Camp — it's free" }}</a>
         <a class="btn btn--ghost btn--lg" href="{{ routes.all_products_collection_url }}">Start earning</a>
       </div>
     </header>
