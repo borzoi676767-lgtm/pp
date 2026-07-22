@@ -27,10 +27,6 @@ stations + collection shelves), campfire story, clickable crew, and the
 <h1>{{ section.settings.heading | default: 'Premium Coffee for Outdoor Adventurers' }}</h1>
 {%- if section.settings.subhead != blank -%}<p class="world__subhead">{{ section.settings.subhead }}</p>{%- endif -%}
 {%- if section.settings.social_proof != blank -%}<p class="world__proof">{{ section.settings.social_proof }}</p>{%- endif -%}
-<div class="world__cta-row">
-<a class="world-cta world-cta--primary" href="{{ section.settings.shop_link | default: routes.all_products_collection_url }}">{% render 'icon', name: 'cart', size: 20 %} {{ section.settings.shop_cta | default: 'Shop Coffee' }}</a>
-<button type="button" class="world-cta world-cta--ghost" data-open-interior aria-controls="shop-interior-overlay">{% render 'icon', name: 'fire', size: 18 %} {{ section.settings.enter_label | default: 'Enter the Shop' }}</button>
-</div>
 {%- if section.settings.trust_line != blank -%}<p class="world__trustline">{{ section.settings.trust_line }}</p>{%- endif -%}
 </header>
 
