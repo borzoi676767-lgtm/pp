@@ -9,14 +9,17 @@
 
     {%- liquid
       assign n = section.blocks.size
+      assign m4 = n | modulo: 4
+      assign m3 = n | modulo: 3
+      assign m2 = n | modulo: 2
       assign cols = 4
       if n == 0
         assign cols = 1
-      elsif n modulo 4 == 0
+      elsif m4 == 0
         assign cols = 4
-      elsif n modulo 3 == 0
+      elsif m3 == 0
         assign cols = 3
-      elsif n modulo 2 == 0
+      elsif m2 == 0
         assign cols = 2
       else
         assign cols = 4
