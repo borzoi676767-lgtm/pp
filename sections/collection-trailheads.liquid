@@ -7,7 +7,22 @@
       {%- if section.settings.subheading != blank -%}<p class="lede">{{ section.settings.subheading }}</p>{%- endif -%}
     </div>
 
-    <div class="trailheads__grid" data-reveal-stagger>
+    {%- liquid
+      assign n = section.blocks.size
+      assign cols = 4
+      if n == 0
+        assign cols = 1
+      elsif n modulo 4 == 0
+        assign cols = 4
+      elsif n modulo 3 == 0
+        assign cols = 3
+      elsif n modulo 2 == 0
+        assign cols = 2
+      else
+        assign cols = 4
+      endif
+    -%}
+    <div class="trailheads__grid" data-reveal-stagger style="--th-cols: {{ cols }}">
       {%- for block in section.blocks -%}
         {%- liquid
           assign coll = collections[block.settings.collection]

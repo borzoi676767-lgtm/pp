@@ -185,7 +185,9 @@
 
 /* ----------------------------------------------------- Collection trails */
 .trailheads { position: relative; }
-.trailheads__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: clamp(1rem,2vw,1.6rem); }
+.trailheads__grid { display: grid; grid-template-columns: 1fr; gap: clamp(1rem,2vw,1.6rem); }
+@media (min-width: 600px){ .trailheads__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px){ .trailheads__grid { grid-template-columns: repeat(var(--th-cols, 4), 1fr); } }
 .trailcard { position: relative; display: block; border-radius: var(--r-lg); overflow: hidden; min-height: 260px; color:#fff; text-decoration:none; box-shadow: var(--shadow-md); isolation:isolate; }
 .trailcard__img { position:absolute; inset:0; width:100%; height:100%; object-fit: cover; transition: transform .6s var(--ease-out); z-index:-2; }
 .trailcard::after { content:""; position:absolute; inset:0; z-index:-1; background: linear-gradient(180deg, rgba(10,20,12,.05) 0%, rgba(10,20,12,.75) 100%); }
