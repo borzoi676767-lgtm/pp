@@ -22,6 +22,8 @@
     <div class="site-footer__brand">
       {%- if settings.brand_emblem -%}
         <img src="{{ settings.brand_emblem | image_url: width: 160 }}" alt="{{ shop.name }}" width="72" height="72" class="site-footer__emblem" loading="lazy">
+      {%- else -%}
+        <img src="{{ 'sasquatch-emblem.png' | asset_url }}" alt="{{ shop.name }}" width="72" height="72" class="site-footer__emblem" loading="lazy">
       {%- endif -%}
       <p class="site-footer__tagline">{{ section.settings.tagline | default: 'Premium small-batch coffee, roasted over the perfect fire deep in the old-growth forest.' }}</p>
       <p class="site-footer__slogan">“Nature Calls, Coffee Answers.”</p>

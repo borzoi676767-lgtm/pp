@@ -9,7 +9,7 @@
         <img src="{{ settings.logo | image_url: width: 480 }}" alt="{{ shop.name }}" width="{{ settings.logo_width }}" style="width: {{ settings.logo_width }}px" loading="eager">
       {%- else -%}
         <span class="site-header__wordmark">
-          {%- if settings.brand_emblem -%}<img class="site-header__emblem" src="{{ settings.brand_emblem | image_url: width: 96 }}" alt="" width="40" height="40">{%- else -%}{% render 'icon', name: 'pine', size: 26 %}{%- endif -%}
+          {%- if settings.brand_emblem -%}<img class="site-header__emblem" src="{{ settings.brand_emblem | image_url: width: 96 }}" alt="" width="40" height="40">{%- else -%}<img class="site-header__emblem" src="{{ 'sasquatch-emblem.png' | asset_url }}" alt="" width="40" height="40" loading="eager">{%- endif -%}
           {{ settings.logo_wordmark }}
         </span>
       {%- endif -%}

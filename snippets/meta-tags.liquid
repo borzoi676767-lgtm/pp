@@ -40,7 +40,7 @@
   "@type": "Organization",
   "name": {{ shop.name | json }},
   "url": {{ shop.url | append: '/' | json }},
-  {% if settings.brand_emblem %}"logo": "https:{{ settings.brand_emblem | image_url: width: 400 }}",{% endif %}
+  "logo": "https:{% if settings.brand_emblem %}{{ settings.brand_emblem | image_url: width: 400 }}{% else %}{{ 'sasquatch-logo.png' | asset_url }}{% endif %}",
   "slogan": "Nature Calls, Coffee Answers.",
   "sameAs": [
     {%- assign socials = '' -%}
