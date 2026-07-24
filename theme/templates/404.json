@@ -7,7 +7,7 @@
         "heading": "This road leads no further",
         "text": "<p>The page you sought is not here. Return to the entrance hall and begin again.</p>",
         "cta_text": "Return home",
-        "cta_link": "shopify://",
+        "cta_link": "/",
         "scheme": "basilica"
       }
     }

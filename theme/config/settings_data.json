@@ -2,8 +2,8 @@
   "current": {
     "color_background": "#1A1818",
     "color_accent": "#B08A45",
-    "type_heading_font": "eb_garamond_n4",
-    "type_body_font": "eb_garamond_n4",
+    "type_heading_font": "playfair_display_n4",
+    "type_body_font": "lora_n4",
     "motion_intensity": "subtle",
     "enable_particles": true
   },
@@ -11,8 +11,8 @@
     "Milites Christi": {
       "color_background": "#1A1818",
       "color_accent": "#B08A45",
-      "type_heading_font": "eb_garamond_n4",
-      "type_body_font": "eb_garamond_n4",
+      "type_heading_font": "playfair_display_n4",
+      "type_body_font": "lora_n4",
       "motion_intensity": "subtle",
       "enable_particles": true
     }

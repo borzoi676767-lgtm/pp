@@ -25,8 +25,8 @@
   {
     "name": "Typography",
     "settings": [
-      { "type": "font_picker", "id": "type_heading_font", "label": "Heading font", "default": "eb_garamond_n4" },
-      { "type": "font_picker", "id": "type_body_font", "label": "Body font", "default": "eb_garamond_n4" }
+      { "type": "font_picker", "id": "type_heading_font", "label": "Heading font", "default": "playfair_display_n4" },
+      { "type": "font_picker", "id": "type_body_font", "label": "Body font", "default": "lora_n4" }
     ]
   },
   {

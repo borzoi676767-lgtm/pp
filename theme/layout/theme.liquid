@@ -44,7 +44,7 @@
       {"@context":"https://schema.org","@type":"Organization","name":{{ shop.name | json }},"url":{{ shop.url | append: '/' | json }},"slogan":{{ shop.metafields.custom.tagline | default: 'Soldiers of Christ' | json }}}
       </script>
       <script type="application/ld+json">
-      {"@context":"https://schema.org","@type":"WebSite","name":{{ shop.name | json }},"url":{{ shop.url | append: '/' | json }},"potentialAction":{"@type":"SearchAction","target":{{ shop.url | append: '/search?q={search_term_string}' | json }},"query-input":"required name=search_term_string"}}
+      {"@context":"https://schema.org","@type":"WebSite","name":{{ shop.name | json }},"url":{{ shop.url | append: '/' | json }},"potentialAction":{"@type":"SearchAction","target":"{{ shop.url }}/search?q={search_term_string}","query-input":"required name=search_term_string"}}
       </script>
     {%- endif -%}
     {%- if request.page_type == 'product' -%}

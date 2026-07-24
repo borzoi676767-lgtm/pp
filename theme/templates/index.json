@@ -63,9 +63,9 @@
         "f1": { "type": "figure", "settings": { "icon": "crown", "epithet": "Rex Regum", "name": "Christ the King", "latin": "King of Kings", "text": "The kingdom that outlasts every empire — the center of all we make." } },
         "f2": { "type": "figure", "settings": { "icon": "shield", "epithet": "Archangel", "name": "Saint Michael", "latin": "Quis ut Deus? — Who is like God?", "text": "Captain of the host of Heaven, defender against the ancient enemy." } },
         "f3": { "type": "figure", "settings": { "icon": "cross", "epithet": "Theotokos", "name": "Our Lady", "latin": "Mother of God", "text": "The first disciple; her yes carried into the world." } },
-        "f4": { "type": "figure", "settings": { "icon": "shield", "epithet": "Martyr & Knight", "name": "Saint George", "latin": "", "text": "The soldier-saint who faced the dragon — courage for the innocent." } },
+        "f4": { "type": "figure", "settings": { "icon": "shield", "epithet": "Martyr & Knight", "name": "Saint George", "latin": "Pro fide — For the faith", "text": "The soldier-saint who faced the dragon — courage for the innocent." } },
         "f5": { "type": "figure", "settings": { "icon": "laurel", "epithet": "Emperor", "name": "Constantine", "latin": "In hoc signo vinces — In this sign", "text": "Who saw the Chi-Rho and turned an empire toward the faith." } },
-        "f6": { "type": "figure", "settings": { "icon": "laurel", "epithet": "Roman Statesman", "name": "Julius Caesar", "latin": "", "text": "The order and craft of Rome — the inheritance faith would later refine." } }
+        "f6": { "type": "figure", "settings": { "icon": "laurel", "epithet": "Roman Statesman", "name": "Julius Caesar", "latin": "Alea iacta est — The die is cast", "text": "The order and craft of Rome — the inheritance faith would later refine." } }
       },
       "block_order": ["f1", "f2", "f3", "f4", "f5", "f6"]
     },
