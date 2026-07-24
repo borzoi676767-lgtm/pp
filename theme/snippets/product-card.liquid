@@ -1,0 +1,17 @@
+{%- comment -%}
+  Product card. Params: product (required)
+{%- endcomment -%}
+<a class="mc-card mc-reveal" href="{{ product.url }}">
+  <div class="mc-card__media">
+    {%- if product.featured_media -%}
+      {{ product.featured_media | image_url: width: 720 | image_tag:
+          loading: 'lazy', widths: '360,540,720,1080', sizes: '(min-width:1100px) 300px, (min-width:750px) 33vw, 50vw',
+          alt: product.featured_media.alt | default: product.title }}
+    {%- else -%}
+      {% render 'placeholder', label: product.title %}
+    {%- endif -%}
+    <span class="mc-card__seal">{% render 'icon', name: 'chi-rho', size: 30 %}</span>
+  </div>
+  <h3 class="mc-card__title">{{ product.title }}</h3>
+  {% render 'price', product: product %}
+</a>

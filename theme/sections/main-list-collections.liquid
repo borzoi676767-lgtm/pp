@@ -1,0 +1,36 @@
+<section class="mc-section">
+  <div class="mc-container">
+    <header class="mc-collbanner">
+      <p class="mc-eyebrow">The Rooms of Milites Christi</p>
+      <h1 class="mc-h1">{{ section.settings.heading | default: 'Collections' }}</h1>
+      <hr class="mc-rule">
+    </header>
+
+    <div class="mc-collection-grid">
+      {%- for collection in collections -%}
+        {%- unless collection.handle == 'frontpage' -%}
+          <a class="mc-card mc-reveal" href="{{ collection.url }}">
+            <div class="mc-card__media">
+              {%- if collection.featured_image -%}
+                {{ collection.featured_image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360,540,720', sizes: '(min-width:1100px) 300px, 50vw', alt: collection.title }}
+              {%- else -%}{% render 'placeholder', label: collection.title %}{%- endif -%}
+              <span class="mc-card__seal">{% render 'icon', name: 'chi-rho', size: 30 %}</span>
+            </div>
+            <h2 class="mc-card__title">{{ collection.title }}</h2>
+            <span class="mc-card__price">{{ collection.products_count }} {{ 'collections.pieces' | t | default: 'pieces' }}</span>
+          </a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "List collections",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Collections" }
+  ],
+  "enabled_on": { "templates": ["list-collections"] }
+}
+{% endschema %}

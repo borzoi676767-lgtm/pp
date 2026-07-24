@@ -1,0 +1,40 @@
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-mediatext{% if section.settings.reverse %} mc-mediatext--reverse{% endif %}">
+      <div class="mc-mediatext__media mc-reveal">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag:
+             loading: 'lazy', widths: '600,900,1200,1400', sizes: '(min-width:850px) 50vw, 100vw',
+             alt: section.settings.heading | default: 'The Story' }}
+        {%- else -%}
+          {% render 'placeholder', label: 'Sculpture' %}
+        {%- endif -%}
+      </div>
+      <div class="mc-mediatext__body mc-reveal" data-delay="1">
+        {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        {%- if section.settings.heading != blank -%}<h2 class="mc-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+        {%- if section.settings.text != blank -%}<div class="mc-stack">{{ section.settings.text }}</div>{%- endif -%}
+        {%- if section.settings.cta_text != blank -%}<div><a class="mc-link-gold mc-caps" href="{{ section.settings.cta_link }}">{{ section.settings.cta_text }}</a></div>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Story of Endurance",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "A dignified sculpture — Christ the King, the Good Shepherd, or Archangel Michael." },
+    { "type": "checkbox", "id": "reverse", "label": "Image on right", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Story" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What endures" },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Christ is King. His is the kingdom that outlasts every empire. We tell the old story of light and shadow to remember what endures — and to make things worthy of it.</p>" },
+    { "type": "text", "id": "cta_text", "label": "Link text", "default": "Read our story" },
+    { "type": "url", "id": "cta_link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Story of Endurance" }]
+}
+{% endschema %}

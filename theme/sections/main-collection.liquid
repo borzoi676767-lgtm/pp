@@ -1,0 +1,40 @@
+<section class="mc-section">
+  <div class="mc-container">
+    <header class="mc-collbanner">
+      <p class="mc-eyebrow">{% render 'icon', name: 'chi-rho', size: 22 %}</p>
+      <h1 class="mc-h1">{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}<div class="mc-lead" style="max-width:60ch;margin-inline:auto">{{ collection.description }}</div>{%- endif -%}
+      <hr class="mc-rule">
+    </header>
+
+    {%- if collection.products.size > 0 -%}
+      {%- paginate collection.products by section.settings.per_page -%}
+        <div class="mc-collection-grid">
+          {%- for product in collection.products -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav class="mc-pagination" style="display:flex;gap:16px;justify-content:center;margin-top:48px" aria-label="{{ 'general.pagination' | t | default: 'Pagination' }}">
+            {%- if paginate.previous -%}<a class="mc-link-gold" href="{{ paginate.previous.url }}">&larr; {{ 'general.prev' | t | default: 'Previous' }}</a>{%- endif -%}
+            <span class="mc-caps" style="color:var(--mc-text-muted)">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+            {%- if paginate.next -%}<a class="mc-link-gold" href="{{ paginate.next.url }}">{{ 'general.next' | t | default: 'Next' }} &rarr;</a>{%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- else -%}
+      <p class="mc-lead" style="text-align:center">This collection awaits its first heirloom pieces.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 12 }
+  ],
+  "enabled_on": { "templates": ["collection"] }
+}
+{% endschema %}

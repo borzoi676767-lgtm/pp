@@ -54,6 +54,14 @@ Milites Christi imagines a world where the artistic legacy of Rome, the persever
 - **Don't:** hype words ("crazy," "insane," "game-changer"), exclamation-point stacking, urgency manipulation, dark/gothic-horror tone, militaristic bravado, or political framing.
 - **Signature closing line (use sparingly, e.g., footer / final section):** *"Earthly empires rise and fall, but the Kingdom of Christ endures forever."*
 
+### 1.6 Narrative & symbolic worldbuilding
+A quiet good-versus-evil narrative underlies the brand — told in the old iconographic way, never as literal politics.
+- **Christ is King.** The kingdom that outlasts every empire; the emotional and moral center of everything.
+- **The Archangel Michael** leads the armies of Heaven (cf. Revelation 12) — the brand's image of courageous, protective virtue.
+- **The antagonist** is the ancient enemy (Satan) and, symbolically, the earthly persecutor — **Nero** may stand as a *historical symbol* of empire that persecutes the faithful. Treat these strictly as **symbols of spiritual struggle**, never as endorsements, and **never mapped onto any living person, people, or group**.
+- **Virtue themes** carried throughout copy and merchandising: faith, courage, justice, humility, perseverance, redemption, hope.
+Use this narrative for editorial storytelling (the "Story" section, the blog, packaging inserts) and to name and curate collections and sculptures — always reverent, hopeful, and Christ-centered.
+
 ---
 
 ## 2. HISTORICAL & ARTISTIC FOUNDATION
@@ -90,6 +98,8 @@ The reference direction is **late-Roman / Early-Christian imperial** with restra
 **The visual language communicates:** Imperial Christian Rome · sacred grandeur · quiet confidence · monumental architecture · ancient permanence · European craftsmanship · museum-quality materials · warm candlelit interiors · marble cathedrals · bronze relics · luxury without excess · faith before empire.
 
 **The emotional response:** walking into a 1,700-year-old Christian basilica. Timeless. Sacred. Majestic. Hopeful. Historic.
+
+**Locked references (match their palette, materials, and light):** (1) a still life — an aged **bronze Chi-Rho seal** resting on a black leather book with deep burgundy velvet, an olive branch, and a lit beeswax candle in a brass holder, on dark veined marble; (2) a **black-marble basilica interior** with crimson-and-gold Chi-Rho banners, a figure bearing a cross standard, a distant dome, soft heaven rays through cloud, and warm candlelight. These two frames define the house look: black marble + aged bronze + burgundy + candlelight + Chi-Rho, luxury without excess.
 
 ---
 
@@ -222,7 +232,8 @@ Build these as configurable sections (each with sensible `presets` and `settings
 - `gallery-civilization` — editorial image grid / horizontal gallery of "Christian civilization" scenes with captions (environmental storytelling).
 - `cathedral-marketplace` — featured collections/products presented as heirloom artifacts (large imagery, restrained copy, gold hairline framing).
 - `library-of-faith` — content/blog teaser: Scripture, history, craft notes.
-- `final-sanctuary` — closing section centered on Christ (Resurrection/Christ the King imagery), the motto, newsletter, and gentle CTA.
+- `story-of-endurance` — the brand narrative (§1.6): Christ the King, Michael and the armies of Heaven, and the endurance of the faithful; reverent editorial with sculpture imagery. (This is the brief's **Story** step.)
+- `final-sanctuary` — closing section centered on Christ (Resurrection / Christ the King imagery), the motto, newsletter, and gentle CTA.
 
 **Reusable content sections**
 - `image-with-text`, `rich-text`, `quote-scripture` (with translation + attribution), `collection-list`, `featured-collection`, `featured-product`, `sculpture-spotlight`, `heraldry-showcase` (original crests), `timeline` (continuity of history), `testimonial`, `newsletter`, `faq`, `logo-of-materials` (material library strip), `map-pilgrimage` (optional).
@@ -236,7 +247,7 @@ Build these as configurable sections (each with sensible `presets` and `settings
 - `main-account`, `main-login`, `main-register`, `main-order`, `main-addresses` — styled to match, fully accessible.
 
 ### 5.5 Website experience (scroll journey)
-The site should feel like entering a sacred imperial basilica. As the user scrolls the homepage they move through: **(1)** a grand marble entrance hall → **(2)** a Hall of Virtues with monumental sculptures → **(3)** a Gallery of Christian Civilization → **(4)** a Cathedral marketplace showcasing products as heirloom artifacts → **(5)** a Library of faith and history → **(6)** a final Sanctuary centered on Christ. Use subtle motion (incense smoke, flickering candlelight, dust in sunbeams, animated banners, soft light rays, slow parallax) and, if audio is ever enabled, reverent orchestral ambience behind an explicit, default-off, remembered opt-in. Every interaction feels intentional, quiet, refined.
+The site should feel like entering a sacred imperial basilica. As the user scrolls the homepage they move through: **(1)** a grand marble entrance hall → **(2)** a Hall of Virtues with monumental sculptures → **(3)** a Gallery of Christian Civilization → **(4)** a Cathedral marketplace showcasing products as heirloom artifacts → **(5)** a Library of faith and history → **(6)** the brand's Story of endurance → **(7)** a final Sanctuary centered on Christ. (This maps to the creative brief's journey: **Hero Hall → Hall of Virtues → Collections → Library → Story → Sanctuary**.) Use subtle motion (incense smoke, flickering candlelight, dust in sunbeams, animated banners, soft light rays, slow parallax) and, if audio is ever enabled, reverent orchestral ambience behind an explicit, default-off, remembered opt-in. Every interaction feels intentional, quiet, refined.
 
 ### 5.6 Theme settings (`settings_schema.json`)
 Expose, at minimum: brand colors (mapped to tokens, with the §4 palette as defaults), font pickers (display/body), logo + Chi-Rho mark, announcement bar, social links, newsletter, motion intensity (Full / Subtle / Off), enable-parallax toggle, enable-particles toggle, section color-scheme presets ("Basilica" dark, "Parchment" light), and an optional ambient-audio toggle (default off). Group settings logically with helpful info text so the merchant understands the reverent intent.
@@ -252,6 +263,8 @@ Expose, at minimum: brand colors (mapped to tokens, with the §4 palette as defa
 - **The Scriptorium** — books, journals, prints, illuminated-style stationery, maps, iconography prints.
 - **The Household** — home goods: candles (beeswax), linens, ceramics, bronze/brass objects, banners.
 - **Pilgrim's Kit** — travel & everyday carry with restrained heraldic detailing.
+
+**Product types from the brief map in as:** luxury **apparel** → Vestiary; **jewelry** and **challenge coins / devotional medals** → Reliquary; **journals**, **art prints**, and stationery → Scriptorium; **coffee accessories**, **home décor**, candles, and ceramics → Household; heraldic **collectibles** and ceremonial pieces → Armory; **leather goods** and everyday carry → Pilgrim's Kit. Present every item with heirloom framing (materials, craft story, original heraldic seal).
 
 Each collection gets: a reverent one-paragraph intro, an arch-framed banner, and a short "why this exists" line tied to a virtue. Product descriptions follow §6.2.
 

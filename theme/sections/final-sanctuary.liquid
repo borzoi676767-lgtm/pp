@@ -1,0 +1,30 @@
+<section class="mc-hero mc-scheme--basilica" style="min-height:clamp(440px,62vh,680px)">
+  <div class="mc-hero__media">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750,1100,1500,2400', sizes: '100vw', alt: section.settings.heading | default: 'Sanctuary' }}
+    {%- else -%}{% render 'placeholder', label: 'Sanctuary' %}{%- endif -%}
+  </div>
+  <div class="mc-hero__scrim"></div>
+  <div class="mc-container">
+    <div class="mc-hero__inner" style="text-align:center;justify-items:center;margin-inline:auto">
+      <div class="mc-reveal" style="color:var(--mc-accent)">{% render 'icon', name: 'chi-rho', size: 56 %}</div>
+      {%- if section.settings.heading != blank -%}<h2 class="mc-h1 mc-reveal" data-delay="1">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="mc-hero__sub mc-reveal" data-delay="2" style="margin-inline:auto">{{ section.settings.text }}</p>{%- endif -%}
+      {%- if section.settings.cta_text != blank -%}<div class="mc-reveal" data-delay="3"><a class="mc-btn" href="{{ section.settings.cta_link }}">{{ section.settings.cta_text }}</a></div>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Final Sanctuary",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image", "info": "Christ the King, or the Resurrection. Warm, hopeful light." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The Kingdom that endures" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Earthly empires rise and fall, but the Kingdom of Christ endures forever." },
+    { "type": "text", "id": "cta_text", "label": "Button text", "default": "Begin with the collections" },
+    { "type": "url", "id": "cta_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Final Sanctuary" }]
+}
+{% endschema %}

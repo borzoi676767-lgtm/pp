@@ -1,0 +1,60 @@
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow mc-reveal">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="mc-h2 mc-reveal" data-delay="1">{{ section.settings.heading }}</h2>{%- endif -%}
+      <hr class="mc-rule mc-reveal" data-delay="1">
+    </div>
+
+    <div class="mc-grid mc-grid--4">
+      {%- for block in section.blocks -%}
+        <div class="mc-virtue mc-reveal" {{ block.shopify_attributes }}>
+          {% render 'icon', name: block.settings.icon, size: 42 %}
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hall of Virtues",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Hall of Virtues" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What we build upon" }
+  ],
+  "blocks": [
+    {
+      "type": "virtue",
+      "name": "Virtue",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "shield", "label": "Shield" }, { "value": "cross", "label": "Cross" },
+          { "value": "olive", "label": "Olive branch" }, { "value": "laurel", "label": "Laurel" },
+          { "value": "crown", "label": "Crown" }, { "value": "book", "label": "Book" },
+          { "value": "lamp", "label": "Lamp" }, { "value": "chi-rho", "label": "Chi-Rho" }
+        ], "default": "shield" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Endurance" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Faith that outlasts empires." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Hall of Virtues",
+      "blocks": [
+        { "type": "virtue", "settings": { "icon": "shield", "title": "Endurance", "text": "Faith that outlasts empires." } },
+        { "type": "virtue", "settings": { "icon": "olive", "title": "Restoration", "text": "Rebuilding beauty for good." } },
+        { "type": "virtue", "settings": { "icon": "lamp", "title": "Reverence", "text": "Craftsmanship as devotion." } },
+        { "type": "virtue", "settings": { "icon": "cross", "title": "Hope", "text": "The Resurrection at the center." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

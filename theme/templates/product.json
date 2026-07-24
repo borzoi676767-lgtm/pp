@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": { "type": "main-product" },
+    "recommendations": {
+      "type": "cathedral-marketplace",
+      "settings": {
+        "eyebrow": "From the same workshop",
+        "heading": "You may also keep",
+        "text": "",
+        "count": 4,
+        "scheme": "basilica"
+      }
+    }
+  },
+  "order": ["main", "recommendations"]
+}

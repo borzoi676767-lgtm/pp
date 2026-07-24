@@ -1,0 +1,18 @@
+{%- comment -%} Global ajax cart drawer. Degrades to /cart page without JS. {%- endcomment -%}
+<div class="mc-drawer" data-mc-drawer aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ 'cart.title' | t | default: 'Your satchel' }}">
+  <div class="mc-drawer__scrim" data-mc-cart-close tabindex="-1"></div>
+  <div class="mc-drawer__panel">
+    <div class="mc-drawer__head">
+      <span class="mc-caps">{{ 'cart.title' | t | default: 'Your Satchel' }}</span>
+      <button class="mc-icon-btn" type="button" data-mc-cart-close aria-label="{{ 'cart.close' | t | default: 'Close' }}">{% render 'icon', name: 'close' %}</button>
+    </div>
+    <div class="mc-drawer__body" data-mc-cart-body>
+      <p class="mc-lead">{{ 'cart.empty' | t | default: 'Your satchel is empty.' }}</p>
+    </div>
+    <div class="mc-drawer__foot">
+      <div class="mc-drawer__total"><span class="mc-caps">{{ 'cart.total' | t | default: 'Total' }}</span> <strong data-mc-cart-total></strong></div>
+      <a class="mc-btn mc-btn--full" href="{{ routes.cart_url }}">{{ 'cart.checkout' | t | default: 'Proceed to checkout' }}</a>
+      <a class="mc-link-gold" href="{{ routes.all_products_collection_url }}" data-mc-cart-close>{{ 'cart.continue' | t | default: 'Continue browsing' }}</a>
+    </div>
+  </div>
+</div>

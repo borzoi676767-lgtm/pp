@@ -1,0 +1,59 @@
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow mc-reveal">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="mc-h2 mc-reveal" data-delay="1">{{ section.settings.heading }}</h2>{%- endif -%}
+    </div>
+
+    <div class="mc-gallery">
+      {%- for block in section.blocks -%}
+        <figure class="mc-gallery__item{% if forloop.first %} mc-gallery__item--wide{% endif %} mc-reveal" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 1200 | image_tag:
+               loading: 'lazy', widths: '400,700,1000,1200', sizes: '(min-width:850px) 25vw, 50vw',
+               alt: block.settings.caption | default: 'Christian civilization' }}
+          {%- else -%}
+            {% render 'placeholder', label: block.settings.caption %}
+          {%- endif -%}
+          {%- if block.settings.caption != blank -%}<figcaption class="mc-gallery__cap">{{ block.settings.caption }}</figcaption>{%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gallery of Civilization",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A Gallery of Christian Civilization" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Continuity, refined and renewed" }
+  ],
+  "blocks": [
+    {
+      "type": "scene",
+      "name": "Scene",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "A Roman temple become a church" }
+      ]
+    }
+  ],
+  "max_blocks": 7,
+  "presets": [
+    {
+      "name": "Gallery of Civilization",
+      "blocks": [
+        { "type": "scene", "settings": { "caption": "A Roman temple become a church" } },
+        { "type": "scene", "settings": { "caption": "A monastery on Roman foundations" } },
+        { "type": "scene", "settings": { "caption": "Pilgrimage road, lined with crosses" } },
+        { "type": "scene", "settings": { "caption": "Candle-lit scriptorium" } },
+        { "type": "scene", "settings": { "caption": "Marble inscription in Latin" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

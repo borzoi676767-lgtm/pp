@@ -1,0 +1,42 @@
+<header class="mc-header" data-mc-header>
+  <div class="mc-container mc-header__bar">
+    <button class="mc-icon-btn mc-header__menu-toggle" type="button" data-mc-menu-toggle aria-expanded="false" aria-controls="mc-mobile-nav" aria-label="{{ 'general.menu' | t | default: 'Menu' }}">
+      {% render 'icon', name: 'menu' %}
+    </button>
+
+    <a class="mc-header__brand" href="{{ routes.root_url }}">
+      {% render 'icon', name: 'chi-rho', size: 30 %}
+      <span>{{ shop.name }}</span>
+    </a>
+
+    <nav class="mc-nav" data-mc-nav aria-label="{{ 'general.primary' | t | default: 'Primary' }}">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    <div class="mc-header__actions">
+      <a class="mc-icon-btn" href="{{ routes.search_url }}" aria-label="{{ 'general.search' | t | default: 'Search' }}">{% render 'icon', name: 'search' %}</a>
+      <button class="mc-icon-btn" type="button" data-mc-cart-open aria-label="{{ 'cart.title' | t | default: 'Cart' }}" style="position:relative">
+        {% render 'icon', name: 'cart' %}
+        <span class="mc-cart-count" data-mc-cart-count{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+
+  {%- comment -%} Mobile nav {%- endcomment -%}
+  <nav id="mc-mobile-nav" class="mc-container" data-mc-nav-mobile hidden aria-label="{{ 'general.primary' | t | default: 'Primary' }}" style="padding-bottom:16px;display:grid;gap:8px">
+    {%- for link in section.settings.menu.links -%}
+      <a href="{{ link.url }}" class="mc-caps" style="padding:8px 0">{{ link.title }}</a>
+    {%- endfor -%}
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

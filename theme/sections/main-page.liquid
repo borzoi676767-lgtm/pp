@@ -1,0 +1,16 @@
+<section class="mc-section">
+  <div class="mc-container mc-container--narrow">
+    <header class="mc-section__head">
+      <p class="mc-eyebrow">{% render 'icon', name: 'chi-rho', size: 20 %}</p>
+      <h1 class="mc-h1">{{ page.title }}</h1>
+      <hr class="mc-rule">
+    </header>
+    <div class="mc-prose rte">
+      {{ page.content }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Page", "settings": [] }
+{% endschema %}

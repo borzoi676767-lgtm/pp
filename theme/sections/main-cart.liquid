@@ -1,0 +1,49 @@
+<section class="mc-section">
+  <div class="mc-container mc-container--narrow">
+    <header class="mc-section__head">
+      <h1 class="mc-h1">{{ 'cart.title' | t | default: 'Your Satchel' }}</h1>
+      <hr class="mc-rule">
+    </header>
+
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" class="mc-stack">
+        {%- for item in cart.items -%}
+          <div class="mc-cart-row" style="display:grid;grid-template-columns:80px 1fr auto;gap:16px;align-items:center;padding-block:16px;border-bottom:1px solid var(--mc-border)">
+            <div style="aspect-ratio:1;border-radius:var(--mc-radius);overflow:hidden;background:var(--mc-surface)">
+              {%- if item.image -%}{{ item.image | image_url: width: 160 | image_tag: loading: 'lazy', alt: item.title }}{%- else -%}{% render 'placeholder' %}{%- endif -%}
+            </div>
+            <div>
+              <a class="mc-card__title" href="{{ item.url }}">{{ item.product.title }}</a>
+              {%- unless item.variant.title contains 'Default' -%}<p style="color:var(--mc-text-muted)">{{ item.variant.title }}</p>{%- endunless -%}
+              <p style="color:var(--mc-text-muted)">{{ item.final_price | money }}</p>
+            </div>
+            <div style="text-align:right;display:grid;gap:6px">
+              <label class="mc-visually-hidden" for="qty-{{ item.index | plus: 1 }}">{{ 'cart.quantity' | t | default: 'Quantity' }}</label>
+              <input id="qty-{{ item.index | plus: 1 }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:64px;padding:6px;background:var(--mc-surface);border:1px solid var(--mc-border);border-radius:var(--mc-radius);color:inherit">
+              <strong>{{ item.final_line_price | money }}</strong>
+            </div>
+          </div>
+        {%- endfor -%}
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:24px">
+          <span class="mc-caps" style="color:var(--mc-text-muted)">{{ 'cart.subtotal' | t | default: 'Subtotal' }}</span>
+          <span class="mc-product__price">{{ cart.total_price | money }}</span>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
+          <button type="submit" name="update" class="mc-btn mc-btn--ghost">{{ 'cart.update' | t | default: 'Update' }}</button>
+          <button type="submit" name="checkout" class="mc-btn" style="flex:1">{{ 'cart.checkout' | t | default: 'Proceed to checkout' }}</button>
+        </div>
+      </form>
+    {%- else -%}
+      <div style="text-align:center;display:grid;gap:20px;justify-items:center">
+        <p class="mc-lead">{{ 'cart.empty' | t | default: 'Your satchel is empty.' }}</p>
+        <a class="mc-btn" href="{{ routes.all_products_collection_url }}">{{ 'cart.browse' | t | default: 'Browse the collections' }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Cart", "settings": [], "enabled_on": { "templates": ["cart"] } }
+{% endschema %}

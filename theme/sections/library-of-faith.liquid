@@ -1,0 +1,71 @@
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow mc-reveal">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="mc-h2 mc-reveal" data-delay="1">{{ section.settings.heading }}</h2>{%- endif -%}
+    </div>
+
+    {%- assign blog = blogs[section.settings.blog] -%}
+    <div class="mc-grid mc-grid--3">
+      {%- if blog != blank and blog.articles_count > 0 -%}
+        {%- for article in blog.articles limit: 3 -%}
+          <a class="mc-card mc-reveal" href="{{ article.url }}">
+            <div class="mc-card__media">
+              {%- if article.image -%}
+                {{ article.image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360,540,720', sizes: '(min-width:990px) 33vw, 100vw', alt: article.title }}
+              {%- else -%}{% render 'placeholder', label: article.title %}{%- endif -%}
+            </div>
+            <h3 class="mc-card__title">{{ article.title }}</h3>
+            <p style="color:var(--mc-text-muted)">{{ article.excerpt_or_content | strip_html | truncate: 96 }}</p>
+          </a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <div class="mc-card mc-reveal" {{ block.shopify_attributes }}>
+            <div class="mc-card__media" style="aspect-ratio:16/10;display:grid;place-items:center">{% render 'icon', name: block.settings.icon, size: 48 %}</div>
+            <h3 class="mc-card__title">{{ block.settings.title }}</h3>
+            <p style="color:var(--mc-text-muted)">{{ block.settings.text }}</p>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Library of Faith",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "parchment" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Library of Faith & History" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Read, and remember" },
+    { "type": "blog", "id": "blog", "label": "Blog", "info": "When set and populated, latest articles show here; otherwise the placeholder cards below are used." }
+  ],
+  "blocks": [
+    {
+      "type": "note",
+      "name": "Placeholder card",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "book", "label": "Book" }, { "value": "lamp", "label": "Lamp" }, { "value": "cross", "label": "Cross" }, { "value": "laurel", "label": "Laurel" }
+        ], "default": "book" },
+        { "type": "text", "id": "title", "label": "Title", "default": "On the Chi-Rho" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "The ancient monogram of Christ, and why it guides us." }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Library of Faith",
+      "blocks": [
+        { "type": "note", "settings": { "icon": "book", "title": "On the Chi-Rho", "text": "The ancient monogram of Christ, and why it guides us." } },
+        { "type": "note", "settings": { "icon": "laurel", "title": "Rome, made new", "text": "How Christian craft transformed a classical world." } },
+        { "type": "note", "settings": { "icon": "lamp", "title": "The pilgrim's road", "text": "Endurance, restoration, and hope." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

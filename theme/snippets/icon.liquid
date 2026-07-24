@@ -1,0 +1,47 @@
+{%- comment -%}
+  Icon system. Usage: {% render 'icon', name: 'chi-rho' %}
+  Params: name (required), size (optional, default 24)
+  Icons use currentColor so they inherit text color.
+{%- endcomment -%}
+{%- liquid
+  assign s = size | default: 24
+-%}
+{%- case name -%}
+  {%- when 'chi-rho' -%}
+    <svg viewBox="0 0 48 48" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <line x1="24" y1="6" x2="24" y2="42"/>
+      <line x1="10" y1="14" x2="38" y2="34"/>
+      <line x1="38" y1="14" x2="10" y2="34"/>
+      <path d="M24 10c6 0 9 4 9 8s-4 7-9 7h-3"/>
+    </svg>
+  {%- when 'cross' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="12" y1="3" x2="12" y2="21"/><line x1="6" y1="9" x2="18" y2="9"/></svg>
+  {%- when 'olive' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 20c6-1 12-6 16-16"/><path d="M13 7c2-1 4-1 6-2M11 11c2 0 4 1 6 1M9 15c2 1 3 2 4 4"/></svg>
+  {%- when 'laurel' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21c-4-2-6-6-6-11M12 21c4-2 6-6 6-11"/><path d="M6 6c1 1 2 1 3 0M7 10c1 1 2 1 3 0M18 6c-1 1-2 1-3 0M17 10c-1 1-2 1-3 0"/></svg>
+  {%- when 'shield' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M12 8v6M9.5 11h5"/></svg>
+  {%- when 'crown' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 8l3 9h10l3-9-5 4-3-6-3 6z"/></svg>
+  {%- when 'book' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5C10 3.5 6.5 3.5 4 4v14c2.5-.5 6-.5 8 1 2-1.5 5.5-1.5 8-1V4c-2.5-.5-6-.5-8 1z"/><line x1="12" y1="5" x2="12" y2="20"/></svg>
+  {%- when 'lamp' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 3h6l-1 5a3 3 0 01-4 0z"/><line x1="12" y1="9" x2="12" y2="17"/><path d="M8 21h8"/><path d="M10 17h4l-1 4h-2z"/></svg>
+  {%- when 'anchor-cross' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="12" y1="3" x2="12" y2="19"/><line x1="8" y1="7" x2="16" y2="7"/><path d="M5 14a7 7 0 0014 0"/></svg>
+  {%- when 'cart' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 5h2l1.5 11h10L20 8H7"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg>
+  {%- when 'search' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><line x1="16" y1="16" x2="21" y2="21"/></svg>
+  {%- when 'menu' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+  {%- when 'close' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+  {%- when 'arrow' -%}
+    <svg viewBox="0 0 24 24" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14 6 20 12 14 18"/></svg>
+  {%- else -%}
+    <svg viewBox="0 0 48 48" width="{{ s }}" height="{{ s }}" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+      <line x1="24" y1="6" x2="24" y2="42"/><line x1="10" y1="14" x2="38" y2="34"/><line x1="38" y1="14" x2="10" y2="34"/><path d="M24 10c6 0 9 4 9 8s-4 7-9 7h-3"/>
+    </svg>
+{%- endcase -%}

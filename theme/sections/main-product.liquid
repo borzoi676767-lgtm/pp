@@ -1,0 +1,81 @@
+<section class="mc-section">
+  <div class="mc-container">
+    <div class="mc-product">
+      {%- comment -%} Gallery {%- endcomment -%}
+      <div class="mc-product__gallery">
+        <div class="mc-product__main-img">
+          {%- if product.featured_media -%}
+            {{ product.featured_media | image_url: width: 1200 | image_tag:
+               loading: 'eager', fetchpriority: 'high', widths: '500,750,1000,1200', sizes: '(min-width:900px) 50vw, 100vw',
+               id: 'mc-main-image', alt: product.featured_media.alt | default: product.title }}
+          {%- else -%}{% render 'placeholder', label: product.title %}{%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="mc-product__thumbs">
+            {%- for media in product.media limit: 6 -%}
+              <button type="button" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                onclick="var m=document.getElementById('mc-main-image'); if(m){m.src='{{ media | image_url: width: 1200 }}'; m.srcset='';} this.parentNode.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-current','false')}); this.setAttribute('aria-current','true');">
+                {{ media | image_url: width: 160 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Info {%- endcomment -%}
+      <div class="mc-product__info">
+        {%- if product.vendor != blank -%}<p class="mc-eyebrow">{{ product.vendor }}</p>{%- endif -%}
+        <h1 class="mc-h2">{{ product.title }}</h1>
+        <div class="mc-product__price">
+          {{ product.selected_or_first_available_variant.price | money }}
+          {%- if product.compare_at_price > product.price -%}
+            <s style="color:var(--mc-text-muted);font-size:1rem">{{ product.compare_at_price | money }}</s>
+          {%- endif -%}
+        </div>
+
+        {%- form 'product', product, class: 'mc-stack', data-mc-add-form: 'true' -%}
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="mc-variant">
+                <label for="mc-opt-{{ forloop.index }}">{{ option.name }}</label>
+                <select id="mc-opt-{{ forloop.index }}" name="options[{{ option.name | escape }}]">
+                  {%- for value in option.values -%}
+                    <option value="{{ value | escape }}"{% if option.selected_value == value %} selected{% endif %}>{{ value }}</option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+
+          <select name="id" class="mc-visually-hidden" aria-hidden="true" tabindex="-1">
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}"{% if variant == product.selected_or_first_available_variant %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>{{ variant.title }}</option>
+            {%- endfor -%}
+          </select>
+
+          <button type="submit" name="add" class="mc-btn mc-btn--full" {% unless product.available %}disabled{% endunless %}>
+            {%- if product.available -%}{{ 'products.add_to_cart' | t | default: 'Add to cart' }}{%- else -%}{{ 'products.sold_out' | t | default: 'Sold out' }}{%- endif -%}
+          </button>
+        {%- endform -%}
+
+        <hr class="mc-rule" style="width:100%;margin-block:8px">
+
+        <div class="mc-product__desc rte">
+          {{ product.description }}
+        </div>
+
+        {%- if product.metafields.custom.materials != blank -%}
+          <div><h3 class="mc-caps" style="font-size:0.9rem;color:var(--mc-accent)">Materials</h3><p>{{ product.metafields.custom.materials }}</p></div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

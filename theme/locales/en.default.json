@@ -1,0 +1,40 @@
+{
+  "general": {
+    "menu": "Menu",
+    "primary": "Primary",
+    "search": "Search",
+    "page": "Page",
+    "prev": "Previous",
+    "next": "Next",
+    "pagination": "Pagination",
+    "closing_line": "Earthly empires rise and fall, but the Kingdom of Christ endures forever."
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content"
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "from_price": "From"
+  },
+  "collections": {
+    "pieces": "pieces"
+  },
+  "cart": {
+    "title": "Your Satchel",
+    "close": "Close",
+    "empty": "Your satchel is empty.",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "quantity": "Quantity",
+    "update": "Update",
+    "checkout": "Proceed to checkout",
+    "continue": "Continue browsing",
+    "browse": "Browse the collections"
+  },
+  "newsletter": {
+    "email": "Email",
+    "subscribe": "Join",
+    "success": "Welcome, pilgrim."
+  }
+}

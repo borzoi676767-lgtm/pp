@@ -1,0 +1,50 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Milites Christi",
+    "theme_version": "1.0.0",
+    "theme_author": "Milites Christi",
+    "theme_documentation_url": "https://puszk3-nn.myshopify.com",
+    "theme_support_url": "https://puszk3-nn.myshopify.com"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" },
+      { "type": "image_picker", "id": "share_image", "label": "Social sharing image", "info": "Used for Open Graph / Twitter cards when a page has no image." }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "header", "content": "Palette (defaults match the Milites Christi tokens)" },
+      { "type": "color", "id": "color_background", "label": "Background (Nero Marble Black)", "default": "#1A1818" },
+      { "type": "color", "id": "color_accent", "label": "Accent (Chi-Rho Gold)", "default": "#B08A45" }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      { "type": "font_picker", "id": "type_heading_font", "label": "Heading font", "default": "eb_garamond_n4" },
+      { "type": "font_picker", "id": "type_body_font", "label": "Body font", "default": "eb_garamond_n4" }
+    ]
+  },
+  {
+    "name": "Motion",
+    "settings": [
+      { "type": "header", "content": "Reverent, restrained motion" },
+      { "type": "select", "id": "motion_intensity", "label": "Motion intensity", "options": [
+        { "value": "full", "label": "Full" }, { "value": "subtle", "label": "Subtle" }, { "value": "off", "label": "Off" }
+      ], "default": "subtle", "info": "The theme always respects a visitor's reduced-motion preference." },
+      { "type": "checkbox", "id": "enable_particles", "label": "Hero dust particles", "default": true }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube URL" },
+      { "type": "text", "id": "social_x", "label": "X URL" }
+    ]
+  }
+]

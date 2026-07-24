@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="mc-scheme--basilica">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="dns-prefetch" href="//{{ shop.permanent_domain }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64 }}">
+    {%- endif -%}
+
+    <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.page' | t | default: 'Page' }} {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+
+    {% render 'meta-tags' %}
+
+    {%- comment -%} Font wiring from theme settings {%- endcomment -%}
+    {%- if settings.type_body_font -%}{{ settings.type_body_font | font_face: font_display: 'swap' }}{%- endif -%}
+    {%- if settings.type_heading_font -%}{{ settings.type_heading_font | font_face: font_display: 'swap' }}{%- endif -%}
+    {%- style -%}
+      :root {
+        {%- if settings.type_body_font -%}--font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};{%- endif -%}
+        {%- if settings.type_heading_font -%}--font-display: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};{%- endif -%}
+        {%- if settings.color_accent != blank -%}--mc-accent: {{ settings.color_accent }}; --mc-chi-rho-gold: {{ settings.color_accent }};{%- endif -%}
+        {%- if settings.color_background != blank -%}--mc-nero-marble-black: {{ settings.color_background }};{%- endif -%}
+      }
+    {%- endstyle -%}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'components.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'mc.js' | asset_url }}" defer></script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ request.page_type | handle }}">
+    <a class="mc-skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t | default: 'Skip to content' }}</a>
+
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+
+    <main id="MainContent" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+    {% render 'cart-drawer' %}
+  </body>
+</html>

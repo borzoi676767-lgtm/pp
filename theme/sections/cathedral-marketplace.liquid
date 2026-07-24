@@ -1,0 +1,44 @@
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow mc-reveal">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="mc-h2 mc-reveal" data-delay="1">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="mc-lead mc-reveal" data-delay="1">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    {%- if section.settings.collection != blank -%}
+      <div class="mc-collection-grid">
+        {%- for product in section.settings.collection.products limit: section.settings.count -%}
+          {% render 'product-card', product: product %}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <div class="mc-card mc-reveal"><div class="mc-card__media">{% render 'placeholder' %}</div><h3 class="mc-card__title">Heirloom piece</h3><span class="mc-card__price">$—</span></div>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+      <div style="text-align:center;margin-top:40px" class="mc-reveal">
+        <a class="mc-btn mc-btn--ghost" href="{{ section.settings.collection.url }}">{{ section.settings.cta_text | default: 'View the collection' }} {% render 'icon', name: 'arrow', size: 18 %}</a>
+      </div>
+    {%- else -%}
+      <p class="mc-lead" style="text-align:center">Select a collection in the theme editor to feature heirloom pieces here.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cathedral Marketplace",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "parchment" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Cathedral Marketplace" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Made to be kept" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Nothing mass-produced. Everything carved, cast, woven, or bound to last." },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "count", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 4 },
+    { "type": "text", "id": "cta_text", "label": "Button text", "default": "View the collection" }
+  ],
+  "presets": [{ "name": "Cathedral Marketplace" }]
+}
+{% endschema %}

@@ -1,0 +1,20 @@
+{
+  "current": {
+    "color_background": "#1A1818",
+    "color_accent": "#B08A45",
+    "type_heading_font": "eb_garamond_n4",
+    "type_body_font": "eb_garamond_n4",
+    "motion_intensity": "subtle",
+    "enable_particles": true
+  },
+  "presets": {
+    "Milites Christi": {
+      "color_background": "#1A1818",
+      "color_accent": "#B08A45",
+      "type_heading_font": "eb_garamond_n4",
+      "type_body_font": "eb_garamond_n4",
+      "motion_intensity": "subtle",
+      "enable_particles": true
+    }
+  }
+}

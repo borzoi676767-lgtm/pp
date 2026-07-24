@@ -1,0 +1,37 @@
+<section class="mc-section">
+  <div class="mc-container">
+    <header class="mc-collbanner">
+      <p class="mc-eyebrow">{% render 'icon', name: 'search', size: 20 %}</p>
+      <h1 class="mc-h1">{{ 'search.title' | t | default: 'Search' }}</h1>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="mc-newsletter" style="margin-inline:auto">
+        <label class="mc-visually-hidden" for="mc-search">{{ 'search.label' | t | default: 'Search' }}</label>
+        <input id="mc-search" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t | default: 'Seek and you shall find…' }}" autocomplete="off">
+        <button type="submit" class="mc-btn">{{ 'search.submit' | t | default: 'Search' }}</button>
+      </form>
+    </header>
+
+    {%- if search.performed -%}
+      {%- if search.results_count > 0 -%}
+        <p class="mc-lead" style="text-align:center;margin-bottom:32px">{{ search.results_count }} {{ 'search.results_for' | t | default: 'results for' }} &ldquo;{{ search.terms | escape }}&rdquo;</p>
+        <div class="mc-collection-grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- else -%}
+              <a class="mc-card mc-reveal" href="{{ item.url }}">
+                <div class="mc-card__media" style="aspect-ratio:16/10;display:grid;place-items:center">{% render 'icon', name: 'book', size: 42 %}</div>
+                <h3 class="mc-card__title">{{ item.title }}</h3>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="mc-lead" style="text-align:center">{{ 'search.no_results' | t | default: 'Nothing found. Try another word.' }}</p>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Search", "settings": [], "enabled_on": { "templates": ["search"] } }
+{% endschema %}

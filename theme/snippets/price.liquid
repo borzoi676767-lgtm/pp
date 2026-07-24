@@ -1,0 +1,19 @@
+{%- comment -%}
+  Price snippet. Params: product (required)
+{%- endcomment -%}
+{%- liquid
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+-%}
+<span class="mc-card__price">
+  {%- if product.price_varies -%}
+    {{ 'products.from_price' | t }} {{ product.price | money }}
+  {%- else -%}
+    {{ product.price | money }}
+  {%- endif -%}
+  {%- if on_sale -%}
+    <s class="mc-price-compare">{{ product.compare_at_price | money }}</s>
+  {%- endif -%}
+</span>

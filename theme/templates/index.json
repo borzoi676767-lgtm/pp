@@ -1,0 +1,74 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-basilica",
+      "settings": {
+        "eyebrow": "Soldiers of Christ",
+        "heading": "A living Christian civilization",
+        "subheading": "Heirloom goods drawn from the beauty of Rome, Byzantium, and Christian Europe — refined and dedicated to the glory of God.",
+        "cta_text": "Enter the collections",
+        "cta_link": "shopify://collections",
+        "cta2_text": "Our story",
+        "cta2_link": "shopify://pages/our-story"
+      }
+    },
+    "virtues": {
+      "type": "hall-of-virtues",
+      "blocks": {
+        "v1": { "type": "virtue", "settings": { "icon": "shield", "title": "Endurance", "text": "Faith that outlasts empires." } },
+        "v2": { "type": "virtue", "settings": { "icon": "olive", "title": "Restoration", "text": "Rebuilding beauty for good." } },
+        "v3": { "type": "virtue", "settings": { "icon": "lamp", "title": "Reverence", "text": "Craftsmanship as devotion." } },
+        "v4": { "type": "virtue", "settings": { "icon": "cross", "title": "Hope", "text": "The Resurrection at the center." } }
+      },
+      "block_order": ["v1", "v2", "v3", "v4"]
+    },
+    "gallery": {
+      "type": "gallery-civilization",
+      "blocks": {
+        "g1": { "type": "scene", "settings": { "caption": "A Roman temple become a church" } },
+        "g2": { "type": "scene", "settings": { "caption": "A monastery on Roman foundations" } },
+        "g3": { "type": "scene", "settings": { "caption": "Pilgrimage road, lined with crosses" } },
+        "g4": { "type": "scene", "settings": { "caption": "Candle-lit scriptorium" } },
+        "g5": { "type": "scene", "settings": { "caption": "Marble inscription in Latin" } }
+      },
+      "block_order": ["g1", "g2", "g3", "g4", "g5"]
+    },
+    "marketplace": {
+      "type": "cathedral-marketplace",
+      "settings": {
+        "heading": "Made to be kept",
+        "text": "Nothing mass-produced. Everything carved, cast, woven, or bound to last.",
+        "count": 4
+      }
+    },
+    "story": {
+      "type": "story-of-endurance",
+      "settings": {
+        "eyebrow": "The Story",
+        "heading": "What endures",
+        "text": "<p>Christ is King. His is the kingdom that outlasts every empire. We tell the old story of light and shadow to remember what endures — and to make things worthy of it.</p>",
+        "cta_text": "Read our story",
+        "cta_link": "shopify://pages/our-story"
+      }
+    },
+    "library": {
+      "type": "library-of-faith",
+      "blocks": {
+        "n1": { "type": "note", "settings": { "icon": "book", "title": "On the Chi-Rho", "text": "The ancient monogram of Christ, and why it guides us." } },
+        "n2": { "type": "note", "settings": { "icon": "laurel", "title": "Rome, made new", "text": "How Christian craft transformed a classical world." } },
+        "n3": { "type": "note", "settings": { "icon": "lamp", "title": "The pilgrim's road", "text": "Endurance, restoration, and hope." } }
+      },
+      "block_order": ["n1", "n2", "n3"]
+    },
+    "sanctuary": {
+      "type": "final-sanctuary",
+      "settings": {
+        "heading": "The Kingdom that endures",
+        "text": "Earthly empires rise and fall, but the Kingdom of Christ endures forever.",
+        "cta_text": "Begin with the collections",
+        "cta_link": "shopify://collections"
+      }
+    }
+  },
+  "order": ["hero", "virtues", "gallery", "marketplace", "story", "library", "sanctuary"]
+}
