@@ -1,0 +1,54 @@
+{%- comment -%} Trust building — statistics that count upward on scroll. {%- endcomment -%}
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    {%- if section.settings.heading != blank -%}
+      <div class="mc-section__head"><h2 class="lx-h2" data-lx-words>{{ section.settings.heading }}</h2></div>
+    {%- endif -%}
+    <div class="lx-counters">
+      {%- for block in section.blocks -%}
+        <div class="lx-counter lx-fade" {{ block.shopify_attributes }}>
+          <div class="lx-counter__num">
+            {{ block.settings.prefix }}<span data-lx-count="{{ block.settings.number }}" data-suffix="{{ block.settings.suffix }}">0</span>
+          </div>
+          <div class="lx-counter__label">{{ block.settings.label }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust counters",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Trusted by an order that endures" }
+  ],
+  "blocks": [
+    {
+      "type": "counter",
+      "name": "Statistic",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "4.9" },
+        { "type": "text", "id": "prefix", "label": "Prefix" },
+        { "type": "text", "id": "suffix", "label": "Suffix" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Average rating" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Trust counters",
+      "blocks": [
+        { "type": "counter", "settings": { "number": "4.9", "suffix": "★", "label": "Average rating" } },
+        { "type": "counter", "settings": { "number": "12000", "suffix": "+", "label": "Pilgrims served" } },
+        { "type": "counter", "settings": { "number": "100", "suffix": "%", "label": "Heirloom guarantee" } },
+        { "type": "counter", "settings": { "number": "1700", "suffix": "yrs", "label": "Of inspiration" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

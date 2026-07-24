@@ -14,6 +14,7 @@
   },
   "products": {
     "add_to_cart": "Add to cart",
+    "quick_add": "Quick add",
     "sold_out": "Sold out",
     "from_price": "From",
     "share": "Share",

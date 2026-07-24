@@ -1,0 +1,84 @@
+{%- comment -%}
+  Archangels — marble sculptures with mouse-driven 3D tilt + light. Each card can
+  optionally show a real 3D model: paste a .glb URL (upload it to Settings → Files).
+{%- endcomment -%}
+{%- liquid
+  assign has_model = false
+  for block in section.blocks
+    if block.settings.model_url != blank
+      assign has_model = true
+    endif
+  endfor
+-%}
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow lx-fade">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="lx-h2" data-lx-words>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="mc-lead lx-fade">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <div class="lx-angels">
+      {%- for block in section.blocks -%}
+        <article class="lx-angel lx-scale" {% unless block.settings.model_url != blank %}data-lx-tilt="9"{% endunless %} {{ block.shopify_attributes }}>
+          {%- if block.settings.model_url != blank -%}
+            <model-viewer src="{{ block.settings.model_url }}" alt="{{ block.settings.name | escape }}" camera-controls auto-rotate auto-rotate-delay="800" rotation-per-second="18deg" interaction-prompt="none" exposure="0.9" shadow-intensity="1" loading="lazy" style="--poster-color:transparent"></model-viewer>
+          {%- elsif block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450,700,900', sizes: '(min-width:850px) 33vw, 100vw', alt: block.settings.name }}
+          {%- else -%}
+            <div class="lx-angel__ph">{% render 'icon', name: 'shield', size: 72 %}</div>
+          {%- endif -%}
+          <span class="lx-angel__glow" aria-hidden="true"></span>
+          <div class="lx-angel__cap">
+            {%- if block.settings.role != blank -%}<p class="lx-angel__role">{{ block.settings.role }}</p>{%- endif -%}
+            <h3 class="lx-angel__name">{{ block.settings.name }}</h3>
+            {%- if block.settings.text != blank -%}<p class="mc-figure__text" style="color:var(--lx-marble-cool)">{{ block.settings.text }}</p>{%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if has_model -%}
+    <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>
+    <script>window.addEventListener('load',function(){if(window.Shopify&&Shopify.loadFeatures){Shopify.loadFeatures([{name:'model-viewer-ui',version:'1.0',onLoad:function(){}}]);}});</script>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Archangels (3D)",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Archangels" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Guardians in marble and bronze" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Michael the defender, Gabriel the messenger, Raphael the healer — carved as sculpture, and rendered in three dimensions." }
+  ],
+  "blocks": [
+    {
+      "type": "angel",
+      "name": "Archangel",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Marble sculpture image" },
+        { "type": "text", "id": "model_url", "label": "3D model URL (.glb, optional)", "info": "Upload a .glb to Settings → Files and paste its URL for a real rotatable 3D sculpture." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Saint Michael" },
+        { "type": "text", "id": "role", "label": "Role", "default": "The Defender" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Captain of the host of Heaven." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Archangels (3D)",
+      "blocks": [
+        { "type": "angel", "settings": { "name": "Saint Michael", "role": "The Defender", "text": "Quis ut Deus? — captain of the host of Heaven." } },
+        { "type": "angel", "settings": { "name": "Saint Gabriel", "role": "The Messenger", "text": "Who carried the word that changed the world." } },
+        { "type": "angel", "settings": { "name": "Saint Raphael", "role": "The Healer", "text": "God heals — companion of the traveler." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+{%- comment -%}
+  Roman section divider. Usage: {% render 'divider', style: 'arch' %}
+  style: 'line' (bronze hairline, default), 'arch' (Roman arch), 'laurel'
+{%- endcomment -%}
+<div class="lx-divider" role="presentation" aria-hidden="true">
+  {%- case style -%}
+    {%- when 'arch' -%}
+      <div class="lx-divider__arch"></div>
+    {%- when 'laurel' -%}
+      <span class="lx-divider__laurel">{% render 'icon', name: 'laurel', size: 40 %}</span>
+    {%- else -%}
+      <div class="lx-divider__line"></div>
+  {%- endcase -%}
+</div>

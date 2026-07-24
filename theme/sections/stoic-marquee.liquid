@@ -1,0 +1,28 @@
+{%- comment -%} Infinite marquee of Stoic maxims and virtues. Content duplicated for a seamless loop. {%- endcomment -%}
+<section class="mc-scheme--{{ section.settings.scheme }}" style="padding-block:8px">
+  <div class="lx-marquee" aria-label="{{ section.settings.aria | default: 'Stoic maxims' }}">
+    <div class="lx-marquee__track">
+      {%- assign items = section.settings.items | default: 'Amor Fati · Memento Mori · Sustine et Abstine · Virtue is the only good · Discipline equals freedom · Premeditatio Malorum · The obstacle is the way · Esse quam videri' | split: '·' -%}
+      {%- for pass in (1..2) -%}
+        <span class="lx-marquee__item" {% if pass == 2 %}aria-hidden="true"{% endif %}>
+          {%- for item in items -%}
+            {{ item | strip }}<span>&#10022;</span>
+          {%- endfor -%}
+        </span>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Stoic marquee",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "textarea", "id": "items", "label": "Maxims (separate with · )", "default": "Amor Fati · Memento Mori · Sustine et Abstine · Virtue is the only good · Discipline equals freedom · Premeditatio Malorum · The obstacle is the way · Esse quam videri" }
+  ],
+  "presets": [{ "name": "Stoic marquee" }]
+}
+{% endschema %}

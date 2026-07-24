@@ -1,0 +1,57 @@
+{%- comment -%} The four cardinal virtues — illuminate as they scroll into view. {%- endcomment -%}
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow lx-fade">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="lx-h2" data-lx-words>{{ section.settings.heading }}</h2>{%- endif -%}
+    </div>
+    <div class="lx-virtues">
+      {%- for block in section.blocks -%}
+        <div class="lx-virtue" {{ block.shopify_attributes }}>
+          {% render 'icon', name: block.settings.icon, size: 46 %}
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Virtues (illuminated)",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Cardinal Virtues" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Courage. Wisdom. Justice. Temperance." }
+  ],
+  "blocks": [
+    {
+      "type": "virtue",
+      "name": "Virtue",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "shield", "label": "Shield" }, { "value": "lamp", "label": "Lamp" }, { "value": "book", "label": "Book" },
+          { "value": "cross", "label": "Cross" }, { "value": "olive", "label": "Olive" }, { "value": "laurel", "label": "Laurel" }, { "value": "crown", "label": "Crown" }
+        ], "default": "shield" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Courage" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "To act rightly in the face of fear." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Virtues (illuminated)",
+      "blocks": [
+        { "type": "virtue", "settings": { "icon": "shield", "title": "Courage", "text": "To act rightly in the face of fear." } },
+        { "type": "virtue", "settings": { "icon": "lamp", "title": "Wisdom", "text": "To see clearly and choose well." } },
+        { "type": "virtue", "settings": { "icon": "cross", "title": "Justice", "text": "To give each their due." } },
+        { "type": "virtue", "settings": { "icon": "olive", "title": "Temperance", "text": "To master oneself before all else." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

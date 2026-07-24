@@ -1,0 +1,65 @@
+{%- comment -%}
+  Cinematic hero — layered depth, fog, light rays, particles, marble overlay,
+  slow zoom, word-by-word headline. Mouse moves the layers (see mc-cinematic.js).
+{%- endcomment -%}
+<section class="lx-hero mc-scheme--basilica">
+  {%- comment -%} Background layer (slow zoom + mouse depth) {%- endcomment -%}
+  <div class="lx-hero__layer" data-lx-depth="18" style="animation: lx-heroZoom 24s ease-in-out infinite alternate;">
+    {%- if section.settings.image != blank -%}
+      {{ section.settings.image | image_url: width: 2600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '900,1400,2000,2600', sizes: '100vw', alt: section.settings.image.alt | default: shop.name }}
+    {%- else -%}
+      {% render 'placeholder', label: 'Temple hero' %}
+    {%- endif -%}
+  </div>
+  {%- comment -%} Midground (statue / columns) moves faster {%- endcomment -%}
+  {%- if section.settings.midground != blank -%}
+    <div class="lx-hero__layer" data-lx-depth="42" style="z-index:-2;background:transparent;">
+      {{ section.settings.midground | image_url: width: 1800 | image_tag: loading: 'eager', widths: '700,1100,1800', sizes: '100vw', alt: '' }}
+    </div>
+  {%- endif -%}
+
+  <div class="lx-hero__marble" aria-hidden="true"></div>
+  <div class="lx-hero__rays" data-lx-depth="8" aria-hidden="true"></div>
+  <div class="lx-hero__scrim" aria-hidden="true"></div>
+  <div class="lx-hero__fog" aria-hidden="true"></div>
+  {%- if settings.enable_particles -%}<div class="lx-particles" aria-hidden="true"></div>{%- endif -%}
+
+  <div class="mc-container">
+    <div class="lx-hero__inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="mc-eyebrow lx-hero__eyebrow lx-fade">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h1 class="lx-display" data-lx-words>{{ section.settings.heading | default: 'Discipline. Excellence. Mastery.' }}</h1>
+      {%- if section.settings.subheading != blank -%}
+        <p class="mc-hero__sub lx-fade" style="max-width:56ch">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+      <div class="mc-hero__cta lx-fade">
+        {%- if section.settings.cta_text != blank -%}<a class="mc-btn" data-magnetic href="{{ section.settings.cta_link }}">{{ section.settings.cta_text }}</a>{%- endif -%}
+        {%- if section.settings.cta2_text != blank -%}<a class="mc-btn mc-btn--ghost" data-magnetic href="{{ section.settings.cta2_link }}">{{ section.settings.cta2_text }}</a>{%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="lx-hero__cue" aria-hidden="true">{{ section.settings.cue_text | default: 'Enter' }}</div>
+</section>
+
+<style>@keyframes lx-heroZoom { from { transform: scale(1.06); } to { transform: scale(1.16); } }</style>
+
+{% schema %}
+{
+  "name": "Hero — Temple",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background image", "info": "Marble temple / basilica interior, candlelight, dramatic light." },
+    { "type": "image_picker", "id": "midground", "label": "Midground image (optional)", "info": "A cut-out statue or columns (transparent PNG) that moves independently for depth." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Milites Christi — Soldiers of Christ" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Discipline. Excellence. Mastery." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Heirloom goods for an elite order devoted to virtue — forged from the beauty of Rome and dedicated to the glory of God." },
+    { "type": "text", "id": "cta_text", "label": "Primary button", "default": "Enter the collections" },
+    { "type": "url", "id": "cta_link", "label": "Primary link" },
+    { "type": "text", "id": "cta2_text", "label": "Secondary button", "default": "The Wisdom of the Stoics" },
+    { "type": "url", "id": "cta2_link", "label": "Secondary link" },
+    { "type": "text", "id": "cue_text", "label": "Scroll cue text", "default": "Enter" }
+  ],
+  "presets": [{ "name": "Hero — Temple" }]
+}
+{% endschema %}

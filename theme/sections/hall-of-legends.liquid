@@ -1,0 +1,68 @@
+{%- comment -%} Hall of Legends — cinematic marble portraits, 3D tilt, timeline, nuanced summaries. {%- endcomment -%}
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow lx-fade">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="lx-h2" data-lx-words>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="mc-lead lx-fade">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <div class="lx-legends">
+      {%- for block in section.blocks -%}
+        <article class="lx-legend lx-fade" data-lx-tilt="6" tabindex="0" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            <div class="lx-legend__img">
+              {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500,750,1000', sizes: '(min-width:1200px) 33vw, 100vw', alt: block.settings.name }}
+            </div>
+          {%- else -%}
+            <div class="lx-legend__ph">{% render 'icon', name: 'laurel', size: 64 %}</div>
+          {%- endif -%}
+          <div class="lx-legend__body">
+            {%- if block.settings.era != blank -%}<p class="lx-legend__era">{{ block.settings.era }}</p>{%- endif -%}
+            <h3 class="lx-legend__name">{{ block.settings.name }}</h3>
+            {%- if block.settings.summary != blank -%}<p class="lx-legend__desc">{{ block.settings.summary }}</p>{%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hall of Legends",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Hall of Legends" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Studied, not worshipped" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Figures of history — remembered for leadership, courage, and excellence, and for the hard lessons their lives still teach. Sources of inspiration, held with nuance." }
+  ],
+  "blocks": [
+    {
+      "type": "legend",
+      "name": "Figure",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Marble portrait image" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Marcus Aurelius" },
+        { "type": "text", "id": "era", "label": "Era / dates", "default": "Roman Emperor · r. 161–180 AD" },
+        { "type": "textarea", "id": "summary", "label": "Historical summary", "default": "The philosopher-emperor who governed through war and plague, and left the Meditations — a private record of duty, restraint, and Stoic resolve." }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Hall of Legends",
+      "blocks": [
+        { "type": "legend", "settings": { "name": "Marcus Aurelius", "era": "Roman Emperor · r. 161–180 AD", "summary": "The philosopher-emperor who governed through war and plague, and left the Meditations — a private record of duty, restraint, and Stoic resolve." } },
+        { "type": "legend", "settings": { "name": "Scipio Africanus", "era": "Roman General · 236–183 BC", "summary": "The commander who ended the Second Punic War at Zama. Remembered for strategy and clemency — and for withdrawing from public life rather than clinging to power." } },
+        { "type": "legend", "settings": { "name": "Leonidas I", "era": "King of Sparta · d. 480 BC", "summary": "Led the stand at Thermopylae against overwhelming odds. A lasting symbol of duty and sacrifice in service of others." } },
+        { "type": "legend", "settings": { "name": "Julius Caesar", "era": "Roman Statesman · 100–44 BC", "summary": "General, reformer, and author whose ambition reshaped Rome — and ended its Republic. A study in brilliance and its costs." } },
+        { "type": "legend", "settings": { "name": "Alexander the Great", "era": "King of Macedon · 356–323 BC", "summary": "Carried Greek culture across three continents by his early thirties. His empire fragmented at his death — a lesson in the limits of conquest." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

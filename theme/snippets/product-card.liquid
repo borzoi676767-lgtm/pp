@@ -1,8 +1,13 @@
 {%- comment -%}
-  Product card. Params: product (required)
+  Premium product card. Params: product (required)
+  3D tilt + gradient glow + image zoom + quick-add (ajax via mc.js). No Shopify
+  functionality changed — quick-add adds the first available variant to the cart.
 {%- endcomment -%}
-<a class="mc-card mc-reveal" href="{{ product.url }}">
-  <div class="mc-card__media">
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+-%}
+<div class="lx-card lx-fade" data-lx-tilt="6">
+  <a class="lx-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
     {%- if product.featured_media -%}
       {{ product.featured_media | image_url: width: 720 | image_tag:
           loading: 'lazy', widths: '360,540,720,1080', sizes: '(min-width:1100px) 300px, (min-width:750px) 33vw, 50vw',
@@ -10,8 +15,19 @@
     {%- else -%}
       {% render 'placeholder', label: product.title %}
     {%- endif -%}
-    <span class="mc-card__seal">{% render 'icon', name: 'chi-rho', size: 30 %}</span>
+    <span class="lx-card__seal">{% render 'icon', name: 'chi-rho', size: 30 %}</span>
+  </a>
+
+  {%- if product.available -%}
+    <form action="{{ routes.cart_url }}/add" method="post" enctype="multipart/form-data" class="lx-card__quick" data-mc-add-form="true">
+      <input type="hidden" name="id" value="{{ variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button type="submit" class="mc-btn mc-btn--full" data-magnetic>{{ 'products.quick_add' | t | default: 'Quick add' }}</button>
+    </form>
+  {%- endif -%}
+
+  <div class="lx-card__body">
+    <a href="{{ product.url }}"><h3 class="lx-card__title">{{ product.title }}</h3></a>
+    {% render 'price', product: product %}
   </div>
-  <h3 class="mc-card__title">{{ product.title }}</h3>
-  {% render 'price', product: product %}
-</a>
+</div>

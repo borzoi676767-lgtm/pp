@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}" class="mc-scheme--basilica">
+<html lang="{{ request.locale.iso_code }}" class="mc-scheme--basilica no-js">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,13 +67,22 @@
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'components.css' | asset_url | stylesheet_tag }}
+    {{ 'mc-luxury.css' | asset_url | stylesheet_tag }}
+    <noscript><style>.lx-fade,.lx-scale,.lx-blur,.mc-reveal,.lx-virtue{opacity:1!important;transform:none!important;filter:none!important}</style></noscript>
+
+    {%- comment -%} Functional JS (always) + cinematic motion engine (progressive) {%- endcomment -%}
     <script src="{{ 'mc.js' | asset_url }}" defer></script>
+    <script src="{{ 'vendor-gsap.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'vendor-scrolltrigger.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'vendor-lenis.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'mc-cinematic.js' | asset_url }}" defer></script>
 
     {{ content_for_header }}
   </head>
 
   <body class="template-{{ request.page_type | handle }}">
     <a class="mc-skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t | default: 'Skip to content' }}</a>
+    <div class="lx-progress" aria-hidden="true"></div>
     <div class="mc-grain" aria-hidden="true"></div>
 
     {% section 'announcement-bar' %}

@@ -1,0 +1,75 @@
+{%- comment -%} Wisdom of the Stoics — marble busts, attributed quotes, scroll motion. {%- endcomment -%}
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow lx-fade">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="lx-h2" data-lx-words>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="mc-lead lx-fade">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <div class="lx-stoics">
+      {%- for block in section.blocks -%}
+        <article class="lx-bust lx-fade" data-lx-tilt="5" {{ block.shopify_attributes }}>
+          <div class="lx-bust__img">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '360,540,800', sizes: '(min-width:1100px) 25vw, 50vw', alt: block.settings.name }}
+            {%- else -%}
+              <div class="lx-bust__ph">{% render 'icon', name: 'laurel', size: 60 %}</div>
+            {%- endif -%}
+            <span class="lx-bust__light" aria-hidden="true"></span>
+            <span class="lx-bust__dust" aria-hidden="true"></span>
+          </div>
+          <div class="lx-bust__body">
+            {%- if block.settings.role != blank -%}<p class="lx-bust__role">{{ block.settings.role }}</p>{%- endif -%}
+            <h3 class="lx-bust__name">{{ block.settings.name }}</h3>
+            {%- if block.settings.quote != blank -%}
+              <blockquote class="lx-bust__quote">&ldquo;{{ block.settings.quote }}&rdquo;</blockquote>
+              {%- if block.settings.source != blank -%}<p class="lx-bust__role" style="color:var(--mc-text-muted)">&mdash; {{ block.settings.source }}</p>{%- endif -%}
+            {%- endif -%}
+            {%- if block.settings.virtue != blank -%}<p class="lx-bust__virtue">{{ block.settings.virtue }}</p>{%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Wisdom of the Stoics",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Wisdom of the Stoics" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The discipline of the inner citadel" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Long before our order, the Stoics taught that virtue is the only good — and that a life of discipline, resilience, and self-mastery is freedom. We build in that same spirit." }
+  ],
+  "blocks": [
+    {
+      "type": "bust",
+      "name": "Philosopher",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Marble bust image" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Marcus Aurelius" },
+        { "type": "text", "id": "role", "label": "Role / era", "default": "Emperor & Philosopher" },
+        { "type": "textarea", "id": "quote", "label": "Quotation", "default": "You have power over your mind — not outside events. Realize this, and you will find strength." },
+        { "type": "text", "id": "source", "label": "Attribution", "default": "Meditations" },
+        { "type": "text", "id": "virtue", "label": "Virtue link", "default": "On self-mastery" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Wisdom of the Stoics",
+      "blocks": [
+        { "type": "bust", "settings": { "name": "Marcus Aurelius", "role": "Emperor & Philosopher", "quote": "You have power over your mind — not outside events. Realize this, and you will find strength.", "source": "Meditations", "virtue": "On self-mastery" } },
+        { "type": "bust", "settings": { "name": "Seneca", "role": "Statesman & Philosopher", "quote": "We suffer more often in imagination than in reality.", "source": "Letters to Lucilius", "virtue": "On resilience" } },
+        { "type": "bust", "settings": { "name": "Epictetus", "role": "Freed Slave & Teacher", "quote": "It is not what happens to you, but how you react to it that matters.", "source": "Discourses / Enchiridion", "virtue": "On discipline" } },
+        { "type": "bust", "settings": { "name": "Cato the Younger", "role": "Senator of the Republic", "quote": "Esse quam videri — to be, rather than to seem.", "source": "A maxim associated with Cato", "virtue": "On integrity" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
