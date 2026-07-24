@@ -40,6 +40,14 @@
     ]
   },
   {
+    "name": "Ambient audio",
+    "settings": [
+      { "type": "paragraph", "content": "A reverent, optional soundscape. It is always OFF by default and only ever begins when a visitor chooses to play it." },
+      { "type": "checkbox", "id": "enable_audio", "label": "Enable ambient audio toggle", "default": false },
+      { "type": "text", "id": "audio_url", "label": "Audio file URL", "info": "Upload an MP3 to Settings → Files, copy its URL, and paste it here." }
+    ]
+  },
+  {
     "name": "Social",
     "settings": [
       { "type": "text", "id": "social_instagram", "label": "Instagram URL" },

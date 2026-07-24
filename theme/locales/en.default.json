@@ -17,7 +17,19 @@
     "sold_out": "Sold out",
     "from_price": "From",
     "share": "Share",
-    "view_image": "View image"
+    "view_image": "View image",
+    "video": "Video",
+    "model": "3D · drag to rotate"
+  },
+  "audio": {
+    "toggle": "Play reverent ambience"
+  },
+  "password": {
+    "coming_soon": "Opening soon. The workshop is preparing.",
+    "notify": "Notify me",
+    "enter": "Enter using password",
+    "password": "Password",
+    "submit": "Enter"
   },
   "collections": {
     "pieces": "pieces",

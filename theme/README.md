@@ -57,11 +57,20 @@ graceful empty states (stone/parchment placeholders — never a broken image).
   seal, custom accordions, and share — reading `custom.materials` / `custom.care` metafields.
 - **Gift card** page and a **contact** page template (`page.contact`).
 
-## Not yet built (Phase 3+)
+## Added in Phase 3
 
-- `password.liquid` + `layout/password.liquid` (storefront password page)
-- Optional 3D relic viewer, ambient-audio opt-in, and a Figma-exported token sync
+- **Storefront password page** — `layout/password.liquid` + `main-password` section +
+  `password.json` (message, email capture, password entry, Shopify attribution).
+- **Ambient audio opt-in** — a floating toggle that is **off by default** and remembered
+  per visitor; playback only ever starts on a click. Merchant supplies an MP3 URL under
+  Theme settings → Ambient audio.
+- **3D relic viewer** — the product gallery now renders images, video, and **3D models**
+  as slides; Shopify's `model-viewer` feature loads only when a product has a model.
 
-See the roadmap in `../milites-christi/BRAND-PROMPT.md` (§10).
+## Roadmap beyond Phase 3
+
+The theme is now feature-complete for a premium storefront. Optional future polish:
+Figma-exported token sync, product bundles, and liturgical-calendar merchandising.
+See `../milites-christi/BRAND-PROMPT.md` (§10).
 
 > Earthly empires rise and fall, but the Kingdom of Christ endures forever.

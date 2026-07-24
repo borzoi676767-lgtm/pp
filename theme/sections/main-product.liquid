@@ -1,21 +1,42 @@
 <section class="mc-section">
   <div class="mc-container">
     <div class="mc-product">
-      {%- comment -%} Gallery {%- endcomment -%}
-      <div class="mc-product__gallery">
-        <div class="mc-product__main-img">
-          {%- if product.featured_media -%}
-            {{ product.featured_media | image_url: width: 1200 | image_tag:
-               loading: 'eager', fetchpriority: 'high', widths: '500,750,1000,1200', sizes: '(min-width:900px) 50vw, 100vw',
-               id: 'mc-main-image', alt: product.featured_media.alt | default: product.title }}
-          {%- else -%}{% render 'placeholder', label: product.title %}{%- endif -%}
+      {%- comment -%} Gallery — image / video / 3D model {%- endcomment -%}
+      <div class="mc-product__gallery" data-mc-gallery>
+        <div class="mc-product__stage">
+          {%- if product.media.size > 0 -%}
+            {%- for media in product.media -%}
+              <div class="mc-media-slide" data-index="{{ forloop.index0 }}"{% unless forloop.first %} hidden{% endunless %}>
+                {%- case media.media_type -%}
+                  {%- when 'image' -%}
+                    {{ media | image_url: width: 1200 | image_tag:
+                       loading: forloop.first, fetchpriority: 'high', widths: '500,750,1000,1200',
+                       sizes: '(min-width:900px) 50vw, 100vw', alt: media.alt | default: product.title }}
+                  {%- when 'video' -%}
+                    <span class="mc-media-badge">{{ 'products.video' | t | default: 'Video' }}</span>
+                    {{ media | video_tag: image_size: '1200x', controls: true, loop: true, muted: true }}
+                  {%- when 'external_video' -%}
+                    <span class="mc-media-badge">{{ 'products.video' | t | default: 'Video' }}</span>
+                    {{ media | external_video_tag }}
+                  {%- when 'model' -%}
+                    <span class="mc-media-badge">{{ 'products.model' | t | default: '3D · drag to rotate' }}</span>
+                    {{ media | model_viewer_tag: image_size: '1200x', reveal: 'interaction', toggleable: true }}
+                  {%- else -%}
+                    {{ media | image_url: width: 1200 | image_tag: loading: 'lazy', alt: product.title }}
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="mc-media-slide" data-index="0">{% render 'placeholder', label: product.title %}</div>
+          {%- endif -%}
         </div>
+
         {%- if product.media.size > 1 -%}
           <div class="mc-product__thumbs">
-            {%- for media in product.media limit: 6 -%}
-              <button type="button" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="{{ 'products.view_image' | t | default: 'View image' }} {{ forloop.index }}"
-                onclick="var m=document.getElementById('mc-main-image'); if(m){m.src='{{ media | image_url: width: 1200 }}'; m.srcset='';} this.parentNode.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-current','false')}); this.setAttribute('aria-current','true');">
-                {{ media | image_url: width: 160 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}
+            {%- for media in product.media limit: 8 -%}
+              <button type="button" data-mc-thumb="{{ forloop.index0 }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+                      aria-label="{{ 'products.view_image' | t | default: 'View image' }} {{ forloop.index }}">
+                {{ media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}
               </button>
             {%- endfor -%}
           </div>
@@ -117,6 +138,20 @@
       </div>
     </div>
   </div>
+
+  {%- comment -%} Load model-viewer only when the product has a 3D model {%- endcomment -%}
+  {%- assign has_model = false -%}
+  {%- for media in product.media -%}{%- if media.media_type == 'model' -%}{%- assign has_model = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+  {%- if has_model -%}
+    <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>
+    <script>
+      window.addEventListener('load', function () {
+        if (window.Shopify && Shopify.loadFeatures) {
+          Shopify.loadFeatures([{ name: 'model-viewer-ui', version: '1.0', onLoad: function () {} }]);
+        }
+      });
+    </script>
+  {%- endif -%}
 </section>
 
 {% schema %}

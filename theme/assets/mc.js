@@ -245,7 +245,54 @@
     });
   }
 
-  function init() { initReveals(); initHeader(); initMenu(); initCart(); initParticles(); initSearch(); initFacets(); initProductForm(); }
+  /* --- Ambient audio (opt-in, remembered) --- */
+  function initAudio() {
+    var host = document.querySelector('[data-mc-audio]');
+    if (!host) return;
+    var audio = host.querySelector('[data-mc-audio-el]');
+    var btn = host.querySelector('[data-mc-audio-toggle]');
+    if (!audio || !btn) return;
+    var KEY = 'mc-audio', started = false;
+
+    function setOn(on) { host.classList.toggle('is-on', on); btn.setAttribute('aria-pressed', String(on)); }
+    function play() { audio.volume = 0.35; var p = audio.play(); if (p && p.catch) p.catch(function () {}); setOn(true); started = true; }
+    function pause() { audio.pause(); setOn(false); }
+    function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+
+    btn.addEventListener('click', function () {
+      if (host.classList.contains('is-on')) { pause(); save('off'); }
+      else { play(); save('on'); }
+    });
+
+    var remembered = null;
+    try { remembered = localStorage.getItem(KEY); } catch (e) {}
+    if (remembered === 'on') {
+      var resume = function () { if (!started) play(); document.removeEventListener('pointerdown', resume); document.removeEventListener('keydown', resume); };
+      document.addEventListener('pointerdown', resume, { once: true });
+      document.addEventListener('keydown', resume, { once: true });
+    }
+  }
+
+  /* --- Product media gallery: switch active slide --- */
+  function initGallery() {
+    document.querySelectorAll('[data-mc-gallery]').forEach(function (gallery) {
+      var slides = gallery.querySelectorAll('.mc-media-slide');
+      var thumbs = gallery.querySelectorAll('[data-mc-thumb]');
+      if (thumbs.length < 2) return;
+      thumbs.forEach(function (thumb) {
+        thumb.addEventListener('click', function () {
+          var idx = thumb.getAttribute('data-mc-thumb');
+          slides.forEach(function (s) { s.hidden = s.getAttribute('data-index') !== idx; });
+          thumbs.forEach(function (t) { t.setAttribute('aria-current', t === thumb ? 'true' : 'false'); });
+          var active = gallery.querySelector('.mc-media-slide[data-index="' + idx + '"]');
+          var vid = active && active.querySelector('video');
+          if (vid && vid.paused && vid.hasAttribute('data-autoplay')) { vid.play().catch(function () {}); }
+        });
+      });
+    });
+  }
+
+  function init() { initReveals(); initHeader(); initMenu(); initCart(); initParticles(); initSearch(); initFacets(); initProductForm(); initAudio(); initGallery(); }
   if (document.readyState !== 'loading') init();
   else document.addEventListener('DOMContentLoaded', init);
 })();

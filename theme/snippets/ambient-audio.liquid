@@ -1,0 +1,15 @@
+{%- comment -%}
+  Ambient audio opt-in. Default OFF, remembered per visitor (localStorage).
+  Only renders when enabled in theme settings and an audio URL is provided.
+  Playback only ever begins on an explicit user gesture.
+{%- endcomment -%}
+{%- if settings.enable_audio and settings.audio_url != blank -%}
+  <div class="mc-audio" data-mc-audio>
+    <audio data-mc-audio-el loop preload="none" src="{{ settings.audio_url }}"></audio>
+    <button type="button" class="mc-audio__btn" data-mc-audio-toggle aria-pressed="false"
+            aria-label="{{ 'audio.toggle' | t | default: 'Play reverent ambience' }}">
+      <svg class="mc-audio__on" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="2.5"/><circle cx="16" cy="16" r="2.5"/></svg>
+      <svg class="mc-audio__off" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V6l10-2v12"/><circle cx="6" cy="18" r="2.5"/><circle cx="16" cy="16" r="2.5"/><line x1="3" y1="3" x2="21" y2="21"/></svg>
+    </button>
+  </div>
+{%- endif -%}
