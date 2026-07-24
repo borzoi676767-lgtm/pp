@@ -79,6 +79,24 @@ graceful empty states (stone/parchment placeholders — never a broken image).
 - **Robust `<head>`** — SEO/meta/JSON-LD inlined into the layouts (no fragile snippet
   render), which resolves the "Could not find asset snippets/meta-tags.liquid" error.
 
+## Luxury cinematic layer
+
+A premium "marble temple" experience layered on top — **UI/UX only, no Shopify
+functionality changed**.
+
+- **Motion engine** (`assets/mc-cinematic.js`) with vendored **GSAP + ScrollTrigger
+  + Lenis**: smooth scroll, scroll-progress bar, reveals, parallax, optional pinned
+  horizontal, **bronze magnetic custom cursor**, glass navbar hide/show/shrink, 3D
+  tilt, count-ups, virtue illumination, hero mouse-depth. Full IntersectionObserver
+  fallback; everything disabled under `prefers-reduced-motion`.
+- **Design system** (`assets/mc-luxury.css`): glassmorphism, bronze/gold/marble,
+  huge type + word-reveal masks, Roman dividers, premium 3D-tilt product cards with
+  glow + quick-add + skeletons, magnetic buttons.
+- **New sections**: `hero-temple`, `wisdom-of-stoics` (attributed quotes),
+  `hall-of-legends` (nuanced summaries), `archangels-3d` (Michael/Gabriel/Raphael
+  tilt + optional `.glb` model-viewer), `virtues-illuminated`, `stoic-marquee`,
+  `trust-counters`; `divider` snippet.
+
 ## Roadmap beyond Phase 3
 
 The theme is now feature-complete for a premium storefront. Optional future polish:
