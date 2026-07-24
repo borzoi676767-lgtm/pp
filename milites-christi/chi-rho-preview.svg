@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" width="640" height="300" font-family="Georgia, 'Times New Roman', serif">
+  <rect width="640" height="300" fill="#1A1818"/>
+  <rect x="0.5" y="0.5" width="639" height="299" fill="none" stroke="#B08A45" stroke-opacity="0.35"/>
+  <!-- Large glyph -->
+  <g transform="translate(150 150) scale(4.2)" fill="none" stroke="#B08A45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(-24 -24)">
+      <line x1="11" y1="13" x2="37" y2="37"/>
+      <line x1="37" y1="13" x2="11" y2="37"/>
+      <line x1="24" y1="5" x2="24" y2="43"/>
+      <path d="M24 5h4.5a7.5 7.5 0 0 1 0 15H24"/>
+    </g>
+  </g>
+  <!-- Small sizes -->
+  <g fill="none" stroke="#B08A45" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(360 60) scale(1.5)"><g transform="translate(-24 -24)"><line x1="11" y1="13" x2="37" y2="37"/><line x1="37" y1="13" x2="11" y2="37"/><line x1="24" y1="5" x2="24" y2="43"/><path d="M24 5h4.5a7.5 7.5 0 0 1 0 15H24"/></g></g>
+    <g transform="translate(430 60) scale(0.9)"><g transform="translate(-24 -24)"><line x1="11" y1="13" x2="37" y2="37"/><line x1="37" y1="13" x2="11" y2="37"/><line x1="24" y1="5" x2="24" y2="43"/><path d="M24 5h4.5a7.5 7.5 0 0 1 0 15H24"/></g></g>
+  </g>
+  <text x="360" y="150" fill="#E9E4DA" font-size="26" letter-spacing="3">MILITES CHRISTI</text>
+  <text x="360" y="182" fill="#8A8177" font-size="15" font-style="italic">The corrected Chi-Rho (☧) — Rho stem &amp; loop, crossed by Chi</text>
+  <text x="360" y="230" fill="#B08A45" font-size="13" letter-spacing="2">SOLDIERS OF CHRIST</text>
+</svg>
