@@ -98,7 +98,9 @@
 .mc-gallery__cap { position: absolute; inset-inline: 0; bottom: 0; padding: var(--mc-sp-4); background: linear-gradient(0deg, rgba(20,16,14,.85), transparent); font-size: 0.9rem; color: var(--mc-aged-parchment); }
 
 /* --- Product card -------------------------------------------------------- */
-.mc-card { display: grid; gap: var(--mc-sp-3); }
+.mc-card { display: grid; gap: var(--mc-sp-3); transition: transform .5s var(--mc-ease); }
+.mc-card:hover { transform: translateY(-4px); }
+.mc-card__media { box-shadow: 0 10px 30px -22px rgba(0,0,0,.9); }
 .mc-card__media { position: relative; overflow: hidden; border-radius: var(--mc-radius); background: var(--mc-surface); aspect-ratio: 4/5; }
 .mc-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--mc-ease); }
 .mc-card:hover .mc-card__media img { transform: scale(1.04); }
@@ -197,6 +199,21 @@
 .mc-search__results .mc-search__t { color: var(--mc-text); }
 .mc-search__results .mc-search__p { color: var(--mc-text-muted); font-size: .9rem; margin-inline-start: auto; }
 .mc-search__group { font-size: .78rem; letter-spacing: var(--mc-tracking-caps); text-transform: uppercase; color: var(--mc-accent); margin: var(--mc-sp-4) 0 var(--mc-sp-2); }
+
+/* --- Hall of Figures ----------------------------------------------------- */
+.mc-figures { display: grid; gap: var(--mc-sp-5) var(--mc-sp-4); grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 700px)  { .mc-figures { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1100px) { .mc-figures { grid-template-columns: repeat(6, 1fr); } }
+.mc-figure { text-align: center; display: grid; gap: 4px; justify-items: center; }
+.mc-figure__portrait { position: relative; width: 100%; aspect-ratio: 3/4; border-radius: var(--mc-radius); overflow: hidden; background: var(--mc-surface); margin-bottom: var(--mc-sp-2); }
+.mc-figure__portrait img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--mc-ease); }
+.mc-figure:hover .mc-figure__portrait img { transform: scale(1.05); }
+.mc-figure__ph { display: grid; place-items: center; width: 100%; height: 100%; color: var(--mc-accent); background: radial-gradient(120% 100% at 50% 0%, #322d29, transparent 60%), var(--mc-surface); }
+.mc-figure__frame { position: absolute; inset: 8px; border: 1px solid var(--mc-hairline); border-radius: 2px; pointer-events: none; }
+.mc-figure__epithet { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mc-accent); }
+.mc-figure__name { font-family: var(--mc-font-display); font-size: var(--mc-fs-md); line-height: 1.15; }
+.mc-figure__latin { font-style: italic; color: var(--mc-accent); font-size: .82rem; }
+.mc-figure__text { color: var(--mc-text-muted); font-size: .84rem; }
 
 /* --- Ambient audio ------------------------------------------------------- */
 .mc-audio { position: fixed; inset-inline-start: 20px; inset-block-end: 20px; z-index: 60; }

@@ -67,6 +67,18 @@ graceful empty states (stone/parchment placeholders — never a broken image).
 - **3D relic viewer** — the product gallery now renders images, video, and **3D models**
   as slides; Shopify's `model-viewer` feature loads only when a product has a model.
 
+## Brand & UX enhancements
+
+- **Hall of Figures** section — a communion of saints and heroes (Christ the King,
+  Saint Michael, Our Lady, Saint George, Constantine, Julius Caesar) with epithets,
+  translated Latin mottoes, and gold-framed portraits; added to the homepage journey.
+- **Layered depth effects** — scroll parallax on hero/sanctuary media, a fixed film-grain
+  overlay, hero vignette, animated gold rules, section seams, and card lift on hover.
+  All disabled under `prefers-reduced-motion`.
+- **Chi-Rho glyph** redrawn as a proper ☧ (Rho stem + loop, crossed by Chi).
+- **Robust `<head>`** — SEO/meta/JSON-LD inlined into the layouts (no fragile snippet
+  render), which resolves the "Could not find asset snippets/meta-tags.liquid" error.
+
 ## Roadmap beyond Phase 3
 
 The theme is now feature-complete for a premium storefront. Optional future polish:

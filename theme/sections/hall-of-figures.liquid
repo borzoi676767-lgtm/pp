@@ -1,0 +1,76 @@
+<section class="mc-section mc-scheme--{{ section.settings.scheme }}">
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow mc-reveal">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="mc-h2 mc-reveal" data-delay="1">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="mc-lead mc-reveal" data-delay="1">{{ section.settings.text }}</p>{%- endif -%}
+      <hr class="mc-rule mc-reveal is-visible" data-delay="1">
+    </div>
+
+    <div class="mc-figures">
+      {%- for block in section.blocks -%}
+        <article class="mc-figure mc-reveal mc-reveal--zoom" {{ block.shopify_attributes }}>
+          <div class="mc-figure__portrait">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '300,450,700', sizes: '(min-width:900px) 25vw, 50vw', alt: block.settings.name }}
+            {%- else -%}
+              <div class="mc-figure__ph">{% render 'icon', name: block.settings.icon, size: 56 %}</div>
+            {%- endif -%}
+            <span class="mc-figure__frame" aria-hidden="true"></span>
+          </div>
+          {%- if block.settings.epithet != blank -%}<p class="mc-figure__epithet">{{ block.settings.epithet }}</p>{%- endif -%}
+          <h3 class="mc-figure__name">{{ block.settings.name }}</h3>
+          {%- if block.settings.latin != blank -%}<p class="mc-figure__latin">{{ block.settings.latin }}</p>{%- endif -%}
+          {%- if block.settings.text != blank -%}<p class="mc-figure__text">{{ block.settings.text }}</p>{%- endif -%}
+          {%- if block.settings.link != blank -%}<a class="mc-link-gold mc-caps" href="{{ block.settings.link }}" style="font-size:.78rem">{{ block.settings.link_text | default: 'See the collection' }}</a>{%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hall of Figures",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Hall of Figures" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A communion of saints and heroes" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Carved in marble and cast in bronze — the faithful, the valiant, and the wise who carried the light across the ages." }
+  ],
+  "blocks": [
+    {
+      "type": "figure",
+      "name": "Figure",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Portrait / sculpture image" },
+        { "type": "select", "id": "icon", "label": "Fallback icon", "options": [
+          { "value": "crown", "label": "Crown" }, { "value": "shield", "label": "Shield" }, { "value": "cross", "label": "Cross" }, { "value": "laurel", "label": "Laurel" }, { "value": "chi-rho", "label": "Chi-Rho" }
+        ], "default": "crown" },
+        { "type": "text", "id": "epithet", "label": "Epithet", "default": "Rex Regum" },
+        { "type": "text", "id": "name", "label": "Name", "default": "Christ the King" },
+        { "type": "text", "id": "latin", "label": "Latin / motto (translated)", "default": "" },
+        { "type": "textarea", "id": "text", "label": "Description", "default": "The kingdom that outlasts every empire." },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "link_text", "label": "Link text", "default": "See the collection" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Hall of Figures",
+      "blocks": [
+        { "type": "figure", "settings": { "icon": "crown", "epithet": "Rex Regum", "name": "Christ the King", "latin": "King of Kings", "text": "The kingdom that outlasts every empire — the center of all we make." } },
+        { "type": "figure", "settings": { "icon": "shield", "epithet": "Archangel", "name": "Saint Michael", "latin": "Quis ut Deus? — Who is like God?", "text": "Captain of the host of Heaven, defender against the ancient enemy." } },
+        { "type": "figure", "settings": { "icon": "cross", "epithet": "Theotokos", "name": "Our Lady", "latin": "Mother of God", "text": "The first disciple; her yes carried into the world." } },
+        { "type": "figure", "settings": { "icon": "shield", "epithet": "Martyr & Knight", "name": "Saint George", "latin": "", "text": "The soldier-saint who faced the dragon — courage in service of the innocent." } },
+        { "type": "figure", "settings": { "icon": "laurel", "epithet": "Emperor", "name": "Constantine", "latin": "In hoc signo vinces — In this sign", "text": "Who saw the Chi-Rho and turned an empire toward the faith." } },
+        { "type": "figure", "settings": { "icon": "laurel", "epithet": "Roman Statesman", "name": "Julius Caesar", "latin": "", "text": "The order and craft of Rome — the classical inheritance faith would later refine." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

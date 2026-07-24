@@ -1,5 +1,5 @@
-<section class="mc-hero mc-scheme--basilica" style="min-height:clamp(440px,62vh,680px)">
-  <div class="mc-hero__media">
+<section class="mc-hero mc-scheme--basilica mc-vignette" style="min-height:clamp(440px,62vh,680px)">
+  <div class="mc-hero__media mc-parallax" data-mc-parallax="0.1">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750,1100,1500,2400', sizes: '100vw', alt: section.settings.heading | default: 'Sanctuary' }}
     {%- else -%}{% render 'placeholder', label: 'Sanctuary' %}{%- endif -%}

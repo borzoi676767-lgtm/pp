@@ -12,7 +12,46 @@
 
     <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.page' | t | default: 'Page' }} {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
 
-    {% render 'meta-tags' %}
+    {%- comment -%} SEO / Open Graph / Twitter / JSON-LD (inlined for robustness) {%- endcomment -%}
+    {%- liquid
+      assign og_desc = page_description | default: shop.description | default: shop.name
+      assign og_image = settings.share_image
+      if product.featured_media
+        assign og_image = product.featured_media
+      elsif collection.featured_image
+        assign og_image = collection.featured_image
+      elsif article.image
+        assign og_image = article.image
+      endif
+    -%}
+    <meta name="description" content="{{ og_desc | escape }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <meta property="og:site_name" content="{{ shop.name | escape }}">
+    <meta property="og:title" content="{{ page_title | escape }}">
+    <meta property="og:description" content="{{ og_desc | escape }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:type" content="{% if request.page_type == 'product' %}product{% elsif request.page_type == 'article' %}article{% else %}website{% endif %}">
+    {%- if og_image -%}
+      <meta property="og:image" content="https:{{ og_image | image_url: width: 1200 }}">
+      <meta name="twitter:card" content="summary_large_image">
+    {%- else -%}
+      <meta name="twitter:card" content="summary">
+    {%- endif -%}
+    <meta name="twitter:title" content="{{ page_title | escape }}">
+    <meta name="twitter:description" content="{{ og_desc | escape }}">
+    {%- if request.page_type == 'index' -%}
+      <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"Organization","name":{{ shop.name | json }},"url":{{ shop.url | append: '/' | json }},"slogan":{{ shop.metafields.custom.tagline | default: 'Soldiers of Christ' | json }}}
+      </script>
+      <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"WebSite","name":{{ shop.name | json }},"url":{{ shop.url | append: '/' | json }},"potentialAction":{"@type":"SearchAction","target":{{ shop.url | append: '/search?q={search_term_string}' | json }},"query-input":"required name=search_term_string"}}
+      </script>
+    {%- endif -%}
+    {%- if request.page_type == 'product' -%}
+      <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"Product","name":{{ product.title | json }},"description":{{ product.description | strip_html | truncate: 300 | json }},{% if product.featured_media %}"image":["https:{{ product.featured_media | image_url: width: 1200 }}"],{% endif %}"brand":{"@type":"Brand","name":{{ shop.name | json }}},"offers":{"@type":"Offer","priceCurrency":{{ cart.currency.iso_code | json }},"price":{{ product.price | divided_by: 100.0 | json }},"availability":"https://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}","url":{{ product.url | prepend: shop.url | json }}}}
+      </script>
+    {%- endif -%}
 
     {%- comment -%} Font wiring from theme settings {%- endcomment -%}
     {%- if settings.type_body_font -%}{{ settings.type_body_font | font_face: font_display: 'swap' }}{%- endif -%}
@@ -35,6 +74,7 @@
 
   <body class="template-{{ request.page_type | handle }}">
     <a class="mc-skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t | default: 'Skip to content' }}</a>
+    <div class="mc-grain" aria-hidden="true"></div>
 
     {% section 'announcement-bar' %}
     {% section 'header' %}

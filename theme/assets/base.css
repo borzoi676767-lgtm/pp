@@ -151,6 +151,28 @@ p, li { max-width: var(--mc-measure); }
 .mc-reveal[data-delay="1"] { transition-delay: 90ms; }
 .mc-reveal[data-delay="2"] { transition-delay: 180ms; }
 .mc-reveal[data-delay="3"] { transition-delay: 270ms; }
+.mc-reveal--zoom { transform: translateY(18px) scale(.965); }
+.mc-reveal--zoom.is-visible { transform: none; }
+
+/* --- Layered depth: grain, vignette, animated rule ----------------------- */
+.mc-grain {
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .035; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.mc-vignette::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 45%, transparent 55%, rgba(12,9,8,.55) 100%);
+}
+/* Gold rule draws in on reveal */
+.mc-rule { transition: width .8s var(--mc-ease); }
+.mc-reveal .mc-rule, .mc-reveal.mc-rule { width: 0; }
+.mc-reveal.is-visible .mc-rule, .mc-reveal.is-visible.mc-rule { width: 84px; }
+/* Section top seam for layered separation between schemes */
+.mc-section { position: relative; }
+.mc-section + .mc-section::before {
+  content: ""; position: absolute; inset-inline: 0; top: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--mc-hairline), transparent); opacity: .5;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

@@ -292,7 +292,31 @@
     });
   }
 
-  function init() { initReveals(); initHeader(); initMenu(); initCart(); initParticles(); initSearch(); initFacets(); initProductForm(); initAudio(); initGallery(); }
+  /* --- Parallax layers (depth) --- */
+  function initParallax() {
+    if (reduceMotion) return;
+    var layers = document.querySelectorAll('[data-mc-parallax]');
+    if (!layers.length) return;
+    var ticking = false;
+    function frame() {
+      var vh = window.innerHeight;
+      layers.forEach(function (el) {
+        var host = el.closest('.mc-hero') || el.parentElement;
+        var rect = host.getBoundingClientRect();
+        if (rect.bottom < -200 || rect.top > vh + 200) return; // offscreen
+        var speed = parseFloat(el.getAttribute('data-mc-parallax')) || 0.12;
+        var offset = (rect.top + rect.height / 2 - vh / 2) * -speed;
+        el.style.transform = 'translate3d(0,' + offset.toFixed(1) + 'px,0) scale(1.12)';
+      });
+      ticking = false;
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    frame();
+  }
+
+  function init() { initReveals(); initHeader(); initMenu(); initCart(); initParticles(); initSearch(); initFacets(); initProductForm(); initAudio(); initGallery(); initParallax(); }
   if (document.readyState !== 'loading') init();
   else document.addEventListener('DOMContentLoaded', init);
 })();
