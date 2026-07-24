@@ -1,0 +1,23 @@
+<section class="mc-section">
+  <div class="mc-container mc-container--narrow" style="max-width:520px;text-align:center">
+    <div style="color:var(--mc-accent)">{% render 'icon', name: 'chi-rho', size: 48 %}</div>
+    <p class="mc-eyebrow" style="margin-top:12px">{{ shop.name }}</p>
+    <h1 class="mc-h2">{{ 'gift_cards.issued.title' | t | default: 'A gift of heirloom craft' }}</h1>
+    <p class="mc-lead">{{ 'gift_cards.issued.subtext' | t | default: 'Present this code at checkout.' }}</p>
+
+    <div style="margin:32px 0;padding:32px;border:1px solid var(--mc-hairline);border-radius:var(--mc-radius);background:var(--mc-surface)">
+      <div class="mc-product__price" style="font-size:var(--mc-fs-3xl)">{{ gift_card.balance | money }}</div>
+      <div class="mc-caps" style="letter-spacing:.18em;font-size:1.4rem;margin-top:16px;word-break:break-all;color:var(--mc-text)">{{ gift_card.code | format_code }}</div>
+      {%- if gift_card.expired -%}
+        <p style="color:var(--mc-accent-strong);margin-top:12px">{{ 'gift_cards.issued.expired' | t | default: 'This gift card has expired.' }}</p>
+      {%- elsif gift_card.expires_on -%}
+        <p style="color:var(--mc-text-muted);margin-top:12px">{{ 'gift_cards.issued.expires' | t | default: 'Expires' }} {{ gift_card.expires_on | date: '%B %e, %Y' }}</p>
+      {%- endif -%}
+    </div>
+
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a class="mc-btn" href="{{ shop.url }}">{{ 'gift_cards.issued.shop' | t | default: 'Begin shopping' }}</a>
+      <button type="button" class="mc-btn mc-btn--ghost" onclick="window.print()">{{ 'gift_cards.issued.print' | t | default: 'Print' }}</button>
+    </div>
+  </div>
+</section>

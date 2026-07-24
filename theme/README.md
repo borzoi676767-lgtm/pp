@@ -19,10 +19,14 @@ theme/
 ├── sections/       header, footer, announcement-bar, the homepage scroll-journey
 │                   (hero-basilica → hall-of-virtues → gallery-civilization →
 │                    cathedral-marketplace → story-of-endurance → library-of-faith →
-│                    final-sanctuary), rich-text, main-product, main-collection,
-│                    main-list-collections, main-page, main-search, main-cart
-├── snippets/       icon, price, product-card, placeholder, meta-tags (JSON-LD), cart-drawer
-└── templates/      index, product, collection, list-collections, page, cart, search, 404
+│                    final-sanctuary), rich-text, contact-form, main-product (with
+│                    provenance/care/heraldry/share blocks), main-collection (facets
+│                    + sort), main-list-collections, main-page, main-search, main-blog,
+│                    main-article, main-cart, and the customer-account sections
+├── snippets/       icon, price, product-card, placeholder, meta-tags (JSON-LD),
+│                   cart-drawer, search-panel (predictive search)
+└── templates/      index, product, collection, list-collections, page, page.contact,
+                    cart, search, blog, article, 404, gift_card.liquid, customers/*
 ```
 
 Design tokens live in `assets/base.css` (`:root`) and are overridable from the theme editor
@@ -40,12 +44,23 @@ graceful empty states (stone/parchment placeholders — never a broken image).
    Household, Armory, Pilgrim's Kit), and pages (About, Our Story, Faith & History) already
    exist in the store.
 
-## Not yet built (Phase 2+)
+## Added in Phase 2
 
-- `blog.json` / `article.json` + sections (Library of Faith editorial)
-- Customer account templates (`customers/*`), `password.json`, `gift_card.liquid`
-- Predictive-search dropdown, faceted collection filters, product provenance/heraldry blocks
-- Optional 3D relic viewer and ambient-audio opt-in
+- **Library of Faith** blog + article templates and sections (editorial styling, share links).
+- **Customer accounts**: login (with password recovery), register, account + order history,
+  order detail, addresses (add/edit/delete with country–province selectors), reset &
+  activate password.
+- **Predictive search** overlay in the header (live suggestions via `/search/suggest.json`).
+- **Faceted filters + sort** on collection pages (`collection.filters`, auto-submit,
+  active-filter chips).
+- **Richer product page**: reorderable blocks for provenance/materials, care, heraldry
+  seal, custom accordions, and share — reading `custom.materials` / `custom.care` metafields.
+- **Gift card** page and a **contact** page template (`page.contact`).
+
+## Not yet built (Phase 3+)
+
+- `password.liquid` + `layout/password.liquid` (storefront password page)
+- Optional 3D relic viewer, ambient-audio opt-in, and a Figma-exported token sync
 
 See the roadmap in `../milites-christi/BRAND-PROMPT.md` (§10).
 

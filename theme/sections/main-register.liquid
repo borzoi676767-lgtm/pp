@@ -1,0 +1,41 @@
+<section class="mc-section">
+  <div class="mc-container mc-container--narrow" style="max-width:520px">
+    <header class="mc-section__head">
+      <p class="mc-eyebrow">{% render 'icon', name: 'chi-rho', size: 20 %}</p>
+      <h1 class="mc-h2">{{ 'customer.register.title' | t | default: 'Create an account' }}</h1>
+      <hr class="mc-rule">
+    </header>
+
+    {%- form 'create_customer', novalidate: 'novalidate' -%}
+      {{ form.errors | default_errors }}
+      <div class="mc-stack">
+        <div class="mc-field">
+          <label for="reg_first">{{ 'customer.first_name' | t | default: 'First name' }}</label>
+          <input type="text" name="customer[first_name]" id="reg_first" autocomplete="given-name">
+        </div>
+        <div class="mc-field">
+          <label for="reg_last">{{ 'customer.last_name' | t | default: 'Last name' }}</label>
+          <input type="text" name="customer[last_name]" id="reg_last" autocomplete="family-name">
+        </div>
+        <div class="mc-field">
+          <label for="reg_email">{{ 'customer.email' | t | default: 'Email' }}</label>
+          <input type="email" name="customer[email]" id="reg_email" autocomplete="email" required>
+        </div>
+        <div class="mc-field">
+          <label for="reg_password">{{ 'customer.password' | t | default: 'Password' }}</label>
+          <input type="password" name="customer[password]" id="reg_password" autocomplete="new-password" required>
+        </div>
+        <button type="submit" class="mc-btn mc-btn--full">{{ 'customer.register.submit' | t | default: 'Create account' }}</button>
+      </div>
+    {%- endform -%}
+
+    <p style="text-align:center;margin-top:32px;color:var(--mc-text-muted)">
+      {{ 'customer.register.has_account' | t | default: 'Already have an account?' }}
+      <a class="mc-link-gold" href="{{ routes.account_login_url }}">{{ 'customer.login.sign_in' | t | default: 'Sign in' }}</a>
+    </p>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Register", "settings": [], "enabled_on": { "templates": ["customers/register"] } }
+{% endschema %}

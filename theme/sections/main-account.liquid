@@ -1,0 +1,65 @@
+<section class="mc-section">
+  <div class="mc-container">
+    <header class="mc-section__head">
+      <p class="mc-eyebrow">{{ 'customer.account.title' | t | default: 'Your account' }}</p>
+      <h1 class="mc-h2">{{ 'customer.account.welcome' | t | default: 'Welcome' }}{% if customer.first_name != blank %}, {{ customer.first_name }}{% endif %}</h1>
+      <hr class="mc-rule">
+      <a class="mc-link-gold mc-caps" href="{{ routes.account_logout_url }}">{{ 'customer.account.logout' | t | default: 'Sign out' }}</a>
+    </header>
+
+    <div class="mc-grid" style="grid-template-columns:1fr;gap:48px">
+      <div>
+        <h2 class="mc-h3" style="margin-bottom:16px">{{ 'customer.orders.title' | t | default: 'Order history' }}</h2>
+        {%- paginate customer.orders by 12 -%}
+          {%- if customer.orders.size > 0 -%}
+            <div style="overflow-x:auto">
+              <table style="width:100%;border-collapse:collapse;min-width:560px">
+                <thead>
+                  <tr style="text-align:left;border-bottom:1px solid var(--mc-border)">
+                    <th style="padding:12px 8px" class="mc-eyebrow">{{ 'customer.orders.order' | t | default: 'Order' }}</th>
+                    <th style="padding:12px 8px" class="mc-eyebrow">{{ 'customer.orders.date' | t | default: 'Date' }}</th>
+                    <th style="padding:12px 8px" class="mc-eyebrow">{{ 'customer.orders.payment' | t | default: 'Payment' }}</th>
+                    <th style="padding:12px 8px" class="mc-eyebrow">{{ 'customer.orders.fulfillment' | t | default: 'Fulfillment' }}</th>
+                    <th style="padding:12px 8px" class="mc-eyebrow">{{ 'customer.orders.total' | t | default: 'Total' }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%- for order in customer.orders -%}
+                    <tr style="border-bottom:1px solid var(--mc-border)">
+                      <td style="padding:12px 8px"><a class="mc-link-gold" href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                      <td style="padding:12px 8px;color:var(--mc-text-muted)">{{ order.created_at | date: '%b %e, %Y' }}</td>
+                      <td style="padding:12px 8px;color:var(--mc-text-muted)">{{ order.financial_status_label }}</td>
+                      <td style="padding:12px 8px;color:var(--mc-text-muted)">{{ order.fulfillment_status_label }}</td>
+                      <td style="padding:12px 8px">{{ order.total_net_amount | money }}</td>
+                    </tr>
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+            {%- if paginate.pages > 1 -%}
+              <nav style="display:flex;gap:16px;justify-content:center;margin-top:32px">
+                {%- if paginate.previous -%}<a class="mc-link-gold" href="{{ paginate.previous.url }}">&larr;</a>{%- endif -%}
+                <span class="mc-caps" style="color:var(--mc-text-muted)">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+                {%- if paginate.next -%}<a class="mc-link-gold" href="{{ paginate.next.url }}">&rarr;</a>{%- endif -%}
+              </nav>
+            {%- endif -%}
+          {%- else -%}
+            <p class="mc-lead">{{ 'customer.orders.none' | t | default: 'You have not placed any orders yet.' }}</p>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+
+      <div>
+        <h2 class="mc-h3" style="margin-bottom:16px">{{ 'customer.account.details' | t | default: 'Account details' }}</h2>
+        {%- if customer.default_address -%}
+          <div class="rte" style="color:var(--mc-text-muted)">{{ customer.default_address | format_address }}</div>
+        {%- endif -%}
+        <p style="margin-top:16px"><a class="mc-btn mc-btn--ghost" href="{{ routes.account_addresses_url }}">{{ 'customer.account.view_addresses' | t | default: 'Manage addresses' }}</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Account", "settings": [], "enabled_on": { "templates": ["customers/account"] } }
+{% endschema %}

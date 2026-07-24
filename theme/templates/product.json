@@ -1,6 +1,17 @@
 {
   "sections": {
-    "main": { "type": "main-product" },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "description": { "type": "description" },
+        "provenance": { "type": "provenance", "settings": { "heading": "Provenance & materials" } },
+        "care": { "type": "care", "settings": { "heading": "Care" } },
+        "shipping": { "type": "text", "settings": { "heading": "Shipping & returns", "text": "<p>Dispatched within 3–5 days, wrapped for the long road. Returns welcome within 30 days.</p>" } },
+        "heraldry": { "type": "heraldry" },
+        "share": { "type": "share" }
+      },
+      "block_order": ["description", "provenance", "care", "shipping", "heraldry", "share"]
+    },
     "recommendations": {
       "type": "cathedral-marketplace",
       "settings": {

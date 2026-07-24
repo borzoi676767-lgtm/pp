@@ -1,0 +1,14 @@
+{%- comment -%} Predictive search overlay. Degrades to a normal search form without JS. {%- endcomment -%}
+<div class="mc-search" data-mc-search hidden>
+  <div class="mc-search__scrim" data-mc-search-close></div>
+  <div class="mc-search__panel" role="dialog" aria-modal="true" aria-label="{{ 'general.search' | t | default: 'Search' }}">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="mc-search__form">
+      {% render 'icon', name: 'search', size: 22 %}
+      <label class="mc-visually-hidden" for="mc-predictive">{{ 'general.search' | t | default: 'Search' }}</label>
+      <input id="mc-predictive" type="search" name="q" autocomplete="off" data-mc-search-input
+             placeholder="{{ 'search.placeholder' | t | default: 'Seek and you shall find…' }}">
+      <button type="button" class="mc-icon-btn" data-mc-search-close aria-label="{{ 'cart.close' | t | default: 'Close' }}">{% render 'icon', name: 'close' %}</button>
+    </form>
+    <div class="mc-search__results" data-mc-search-results aria-live="polite"></div>
+  </div>
+</div>

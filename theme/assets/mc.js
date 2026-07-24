@@ -137,7 +137,115 @@
     });
   }
 
-  function init() { initReveals(); initHeader(); initMenu(); initCart(); initParticles(); }
+  /* --- Predictive search --- */
+  function initSearch() {
+    var panel = document.querySelector('[data-mc-search]');
+    if (!panel) return;
+    var input = panel.querySelector('[data-mc-search-input]');
+    var results = panel.querySelector('[data-mc-search-results]');
+    var lastFocus = null, timer = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      panel.hidden = false;
+      requestAnimationFrame(function () { input.focus(); });
+      document.addEventListener('keydown', onKey);
+    }
+    function close() {
+      panel.hidden = true;
+      document.removeEventListener('keydown', onKey);
+      if (lastFocus) lastFocus.focus();
+    }
+    function onKey(e) { if (e.key === 'Escape') close(); }
+
+    document.querySelectorAll('[data-mc-search-open]').forEach(function (o) {
+      o.addEventListener('click', function (e) { e.preventDefault(); open(); });
+    });
+    panel.querySelectorAll('[data-mc-search-close]').forEach(function (c) { c.addEventListener('click', close); });
+
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+    function render(data) {
+      var r = (data.resources && data.resources.results) || {};
+      var html = '';
+      if (r.products && r.products.length) {
+        html += '<div class="mc-search__group">Products</div>';
+        r.products.forEach(function (p) {
+          var img = p.image ? '<img src="' + esc(p.image) + '" alt="" loading="lazy">' : '<span class="mc-search__ph"></span>';
+          var price = p.price ? '<span class="mc-search__p">' + esc(p.price) + '</span>' : '';
+          html += '<a href="' + esc(p.url) + '">' + img + '<span class="mc-search__t">' + esc(p.title) + '</span>' + price + '</a>';
+        });
+      }
+      ['collections', 'articles', 'pages'].forEach(function (key) {
+        if (r[key] && r[key].length) {
+          html += '<div class="mc-search__group">' + key.charAt(0).toUpperCase() + key.slice(1) + '</div>';
+          r[key].forEach(function (it) {
+            html += '<a href="' + esc(it.url) + '"><span class="mc-search__ph"></span><span class="mc-search__t">' + esc(it.title) + '</span></a>';
+          });
+        }
+      });
+      results.innerHTML = html || '<p class="mc-lead" style="padding:16px 0">Nothing found yet.</p>';
+    }
+
+    input.addEventListener('input', function () {
+      var q = input.value.trim();
+      clearTimeout(timer);
+      if (q.length < 2) { results.innerHTML = ''; return; }
+      timer = setTimeout(function () {
+        var url = '/search/suggest.json?q=' + encodeURIComponent(q) +
+          '&resources[type]=product,collection,article,page&resources[limit]=6&resources[options][unavailable_products]=last';
+        fetch(url, { headers: { 'Accept': 'application/json' } })
+          .then(function (res) { return res.json(); })
+          .then(render).catch(function () {});
+      }, 220);
+    });
+  }
+
+  /* --- Collection facets: auto-submit on change --- */
+  function initFacets() {
+    var form = document.querySelector('[data-mc-facets]');
+    if (!form) return;
+    var t = null;
+    form.addEventListener('change', function () {
+      clearTimeout(t);
+      t = setTimeout(function () { form.submit(); }, 250);
+    });
+  }
+
+  /* --- Product variant picker: sync hidden id, price, availability --- */
+  function initProductForm() {
+    document.querySelectorAll('[data-mc-add-form]').forEach(function (form) {
+      var dataEl = form.querySelector('[data-mc-variants]');
+      var optionSelects = form.querySelectorAll('select[name^="options"]');
+      if (!dataEl || !optionSelects.length) return; // single-variant: nothing to sync
+      var variants;
+      try { variants = JSON.parse(dataEl.textContent); } catch (e) { return; }
+      var idField = form.querySelector('select[name="id"]');
+      var info = form.closest('.mc-product__info');
+      var priceEl = info ? info.querySelector('[data-mc-price-current]') : null;
+      var addBtn = form.querySelector('[data-mc-add-btn]');
+
+      function update() {
+        var chosen = Array.prototype.map.call(optionSelects, function (s) { return s.value; });
+        var match = variants.find(function (v) {
+          return v.options.length === chosen.length && v.options.every(function (o, i) { return o === chosen[i]; });
+        });
+        if (!match) return;
+        if (idField) idField.value = match.id;
+        if (priceEl && match.price) priceEl.textContent = match.price;
+        if (addBtn) {
+          addBtn.disabled = !match.available;
+          addBtn.textContent = match.available
+            ? (addBtn.getAttribute('data-add-label') || 'Add to cart')
+            : (addBtn.getAttribute('data-sold-label') || 'Sold out');
+        }
+      }
+      optionSelects.forEach(function (s) { s.addEventListener('change', update); });
+      update();
+    });
+  }
+
+  function init() { initReveals(); initHeader(); initMenu(); initCart(); initParticles(); initSearch(); initFacets(); initProductForm(); }
   if (document.readyState !== 'loading') init();
   else document.addEventListener('DOMContentLoaded', init);
 })();

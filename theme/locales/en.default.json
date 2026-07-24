@@ -15,10 +15,18 @@
   "products": {
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",
-    "from_price": "From"
+    "from_price": "From",
+    "share": "Share",
+    "view_image": "View image"
   },
   "collections": {
-    "pieces": "pieces"
+    "pieces": "pieces",
+    "sort": "Sort",
+    "apply": "Apply",
+    "clear": "Clear all",
+    "no_matches": "No pieces match these filters yet.",
+    "price_from": "From",
+    "price_to": "To"
   },
   "cart": {
     "title": "Your Satchel",
@@ -36,5 +44,113 @@
     "email": "Email",
     "subscribe": "Join",
     "success": "Welcome, pilgrim."
+  },
+  "search": {
+    "title": "Search",
+    "label": "Search",
+    "placeholder": "Seek and you shall find…",
+    "submit": "Search",
+    "results_for": "results for",
+    "no_results": "Nothing found. Try another word."
+  },
+  "contact": {
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send message",
+    "success": "Thank you — we will reply soon."
+  },
+  "customer": {
+    "email": "Email",
+    "password": "Password",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "company": "Company",
+    "address1": "Address",
+    "address2": "Apartment, suite, etc.",
+    "city": "City",
+    "country": "Country",
+    "province": "State / Province",
+    "zip": "Postal / ZIP code",
+    "phone": "Phone",
+    "login": {
+      "title": "Enter",
+      "sign_in": "Sign in",
+      "forgot": "Forgot your password?",
+      "no_account": "New here?"
+    },
+    "recover": {
+      "submit": "Send reset link",
+      "success": "We have sent you an email with a link to reset your password."
+    },
+    "register": {
+      "title": "Create an account",
+      "submit": "Create account",
+      "has_account": "Already have an account?"
+    },
+    "account": {
+      "title": "Your account",
+      "welcome": "Welcome",
+      "logout": "Sign out",
+      "details": "Account details",
+      "addresses": "Addresses",
+      "view_addresses": "Manage addresses"
+    },
+    "orders": {
+      "title": "Order history",
+      "order": "Order",
+      "date": "Date",
+      "payment": "Payment",
+      "fulfillment": "Fulfillment",
+      "total": "Total",
+      "none": "You have not placed any orders yet."
+    },
+    "order": {
+      "title": "Order",
+      "back": "Back to account",
+      "product": "Product",
+      "price": "Price",
+      "quantity": "Qty",
+      "total": "Total",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "billing": "Billing address",
+      "shipping_address": "Shipping address"
+    },
+    "addresses": {
+      "title": "Your addresses",
+      "add": "Add a new address",
+      "edit": "Edit",
+      "update": "Update address",
+      "delete": "Delete",
+      "confirm": "Delete this address?",
+      "default": "Default",
+      "set_default": "Set as default address"
+    },
+    "reset_password": {
+      "title": "Reset your password",
+      "new": "New password",
+      "confirm": "Confirm password",
+      "submit": "Reset password"
+    },
+    "activate_account": {
+      "title": "Activate your account",
+      "subtext": "Create your password to activate your account.",
+      "password": "Password",
+      "confirm": "Confirm password",
+      "submit": "Activate account",
+      "decline": "Decline invitation"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "A gift of heirloom craft",
+      "subtext": "Present this code at checkout.",
+      "expired": "This gift card has expired.",
+      "expires": "Expires",
+      "shop": "Begin shopping",
+      "print": "Print"
+    }
   }
 }

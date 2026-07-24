@@ -1,0 +1,32 @@
+<section class="mc-section">
+  <div class="mc-container mc-container--narrow" style="max-width:520px">
+    <header class="mc-section__head">
+      <p class="mc-eyebrow">{% render 'icon', name: 'chi-rho', size: 20 %}</p>
+      <h1 class="mc-h2">{{ 'customer.activate_account.title' | t | default: 'Activate your account' }}</h1>
+      <p class="mc-lead">{{ 'customer.activate_account.subtext' | t | default: 'Create your password to activate your account.' }}</p>
+      <hr class="mc-rule">
+    </header>
+
+    {%- form 'activate_customer_password' -%}
+      {{ form.errors | default_errors }}
+      <div class="mc-stack">
+        <div class="mc-field">
+          <label for="password">{{ 'customer.activate_account.password' | t | default: 'Password' }}</label>
+          <input type="password" name="customer[password]" id="password" autocomplete="new-password" required>
+        </div>
+        <div class="mc-field">
+          <label for="password_confirmation">{{ 'customer.activate_account.confirm' | t | default: 'Confirm password' }}</label>
+          <input type="password" name="customer[password_confirmation]" id="password_confirmation" autocomplete="new-password" required>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button type="submit" name="commit" class="mc-btn">{{ 'customer.activate_account.submit' | t | default: 'Activate account' }}</button>
+          <button type="submit" name="decline" class="mc-btn mc-btn--ghost">{{ 'customer.activate_account.decline' | t | default: 'Decline invitation' }}</button>
+        </div>
+      </div>
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Activate account", "settings": [], "enabled_on": { "templates": ["customers/activate_account"] } }
+{% endschema %}

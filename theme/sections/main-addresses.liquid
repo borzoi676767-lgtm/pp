@@ -1,0 +1,86 @@
+<section class="mc-section">
+  <div class="mc-container mc-container--narrow">
+    <header class="mc-section__head">
+      <p class="mc-eyebrow">{{ 'customer.addresses.title' | t | default: 'Your addresses' }}</p>
+      <h1 class="mc-h2">{{ 'customer.account.addresses' | t | default: 'Addresses' }}</h1>
+      <hr class="mc-rule">
+      <a class="mc-link-gold mc-caps" href="{{ routes.account_url }}">&larr; {{ 'customer.order.back' | t | default: 'Back to account' }}</a>
+    </header>
+
+    {%- comment -%} Add new address {%- endcomment -%}
+    <details style="margin-bottom:40px">
+      <summary class="mc-btn mc-btn--ghost" style="display:inline-flex">{{ 'customer.addresses.add' | t | default: 'Add a new address' }}</summary>
+      <div style="margin-top:24px">
+        {%- form 'customer_address', customer.new_address, aria-label: 'New address' -%}
+          <div class="mc-stack">
+            <div class="mc-field"><label for="AddressFirstNameNew">{{ 'customer.first_name' | t | default: 'First name' }}</label><input type="text" id="AddressFirstNameNew" name="address[first_name]" autocomplete="given-name"></div>
+            <div class="mc-field"><label for="AddressLastNameNew">{{ 'customer.last_name' | t | default: 'Last name' }}</label><input type="text" id="AddressLastNameNew" name="address[last_name]" autocomplete="family-name"></div>
+            <div class="mc-field"><label for="AddressCompanyNew">{{ 'customer.company' | t | default: 'Company' }}</label><input type="text" id="AddressCompanyNew" name="address[company]" autocomplete="organization"></div>
+            <div class="mc-field"><label for="AddressAddress1New">{{ 'customer.address1' | t | default: 'Address' }}</label><input type="text" id="AddressAddress1New" name="address[address1]" autocomplete="address-line1"></div>
+            <div class="mc-field"><label for="AddressAddress2New">{{ 'customer.address2' | t | default: 'Apartment, suite, etc.' }}</label><input type="text" id="AddressAddress2New" name="address[address2]" autocomplete="address-line2"></div>
+            <div class="mc-field"><label for="AddressCityNew">{{ 'customer.city' | t | default: 'City' }}</label><input type="text" id="AddressCityNew" name="address[city]" autocomplete="address-level2"></div>
+            <div class="mc-field"><label for="AddressCountryNew">{{ 'customer.country' | t | default: 'Country' }}</label>
+              <select id="AddressCountryNew" name="address[country]" data-default="{{ customer.new_address.country }}">{{ country_option_tags }}</select></div>
+            <div class="mc-field" id="AddressProvinceContainerNew"><label for="AddressProvinceNew">{{ 'customer.province' | t | default: 'State / Province' }}</label>
+              <select id="AddressProvinceNew" name="address[province]" data-default="{{ customer.new_address.province }}"></select></div>
+            <div class="mc-field"><label for="AddressZipNew">{{ 'customer.zip' | t | default: 'Postal / ZIP code' }}</label><input type="text" id="AddressZipNew" name="address[zip]" autocomplete="postal-code"></div>
+            <div class="mc-field"><label for="AddressPhoneNew">{{ 'customer.phone' | t | default: 'Phone' }}</label><input type="tel" id="AddressPhoneNew" name="address[phone]" autocomplete="tel"></div>
+            <label style="display:flex;gap:8px;align-items:center;color:var(--mc-text-muted)">{{ form.set_as_default_checkbox }} {{ 'customer.addresses.set_default' | t | default: 'Set as default address' }}</label>
+            <button type="submit" class="mc-btn">{{ 'customer.addresses.add' | t | default: 'Add address' }}</button>
+          </div>
+        {%- endform -%}
+      </div>
+    </details>
+
+    {%- comment -%} Existing addresses {%- endcomment -%}
+    {%- for address in customer.addresses -%}
+      <div style="padding:24px 0;border-top:1px solid var(--mc-border)">
+        {%- if address == customer.default_address -%}<p class="mc-eyebrow">{{ 'customer.addresses.default' | t | default: 'Default' }}</p>{%- endif -%}
+        <div class="rte" style="color:var(--mc-text-muted)">{{ address | format_address }}</div>
+        <div style="display:flex;gap:16px;margin-top:12px">
+          <details>
+            <summary class="mc-link-gold" style="cursor:pointer">{{ 'customer.addresses.edit' | t | default: 'Edit' }}</summary>
+            <div style="margin-top:16px">
+              {%- form 'customer_address', address -%}
+                <div class="mc-stack">
+                  <div class="mc-field"><label for="AddressFirstName{{ address.id }}">{{ 'customer.first_name' | t | default: 'First name' }}</label><input type="text" id="AddressFirstName{{ address.id }}" name="address[first_name]" value="{{ address.first_name }}" autocomplete="given-name"></div>
+                  <div class="mc-field"><label for="AddressLastName{{ address.id }}">{{ 'customer.last_name' | t | default: 'Last name' }}</label><input type="text" id="AddressLastName{{ address.id }}" name="address[last_name]" value="{{ address.last_name }}" autocomplete="family-name"></div>
+                  <div class="mc-field"><label for="AddressAddress1{{ address.id }}">{{ 'customer.address1' | t | default: 'Address' }}</label><input type="text" id="AddressAddress1{{ address.id }}" name="address[address1]" value="{{ address.address1 }}" autocomplete="address-line1"></div>
+                  <div class="mc-field"><label for="AddressAddress2{{ address.id }}">{{ 'customer.address2' | t | default: 'Apartment, suite, etc.' }}</label><input type="text" id="AddressAddress2{{ address.id }}" name="address[address2]" value="{{ address.address2 }}" autocomplete="address-line2"></div>
+                  <div class="mc-field"><label for="AddressCity{{ address.id }}">{{ 'customer.city' | t | default: 'City' }}</label><input type="text" id="AddressCity{{ address.id }}" name="address[city]" value="{{ address.city }}" autocomplete="address-level2"></div>
+                  <div class="mc-field"><label for="AddressCountry{{ address.id }}">{{ 'customer.country' | t | default: 'Country' }}</label>
+                    <select id="AddressCountry{{ address.id }}" name="address[country]" data-default="{{ address.country }}" data-address-country>{{ country_option_tags }}</select></div>
+                  <div class="mc-field" id="AddressProvinceContainer{{ address.id }}"><label for="AddressProvince{{ address.id }}">{{ 'customer.province' | t | default: 'State / Province' }}</label>
+                    <select id="AddressProvince{{ address.id }}" name="address[province]" data-default="{{ address.province }}"></select></div>
+                  <div class="mc-field"><label for="AddressZip{{ address.id }}">{{ 'customer.zip' | t | default: 'Postal / ZIP code' }}</label><input type="text" id="AddressZip{{ address.id }}" name="address[zip]" value="{{ address.zip }}" autocomplete="postal-code"></div>
+                  <div class="mc-field"><label for="AddressPhone{{ address.id }}">{{ 'customer.phone' | t | default: 'Phone' }}</label><input type="tel" id="AddressPhone{{ address.id }}" name="address[phone]" value="{{ address.phone }}" autocomplete="tel"></div>
+                  <label style="display:flex;gap:8px;align-items:center;color:var(--mc-text-muted)">{{ form.set_as_default_checkbox }} {{ 'customer.addresses.set_default' | t | default: 'Set as default address' }}</label>
+                  <button type="submit" class="mc-btn">{{ 'customer.addresses.update' | t | default: 'Update address' }}</button>
+                </div>
+              {%- endform -%}
+            </div>
+          </details>
+          <button type="button" class="mc-link-gold" style="background:none;border:0;cursor:pointer;color:var(--mc-accent-strong)"
+            onclick="if(confirm('{{ 'customer.addresses.confirm' | t | default: 'Delete this address?' }}')){Shopify.postLink('{{ address.url }}', {parameters: {_method: 'delete'}});}">
+            {{ 'customer.addresses.delete' | t | default: 'Delete' }}
+          </button>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>
+<script>
+  window.addEventListener('load', function () {
+    if (typeof Shopify === 'undefined' || !Shopify.CountryProvinceSelector) return;
+    new Shopify.CountryProvinceSelector('AddressCountryNew', 'AddressProvinceNew', { hideElement: 'AddressProvinceContainerNew' });
+    {%- for address in customer.addresses -%}
+      new Shopify.CountryProvinceSelector('AddressCountry{{ address.id }}', 'AddressProvince{{ address.id }}', { hideElement: 'AddressProvinceContainer{{ address.id }}' });
+    {%- endfor -%}
+  });
+</script>
+
+{% schema %}
+{ "name": "Addresses", "settings": [], "enabled_on": { "templates": ["customers/addresses"] } }
+{% endschema %}

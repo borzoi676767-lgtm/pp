@@ -1,0 +1,55 @@
+<section class="mc-section">
+  <div class="mc-container mc-container--narrow" style="max-width:520px">
+    <header class="mc-section__head">
+      <p class="mc-eyebrow">{% render 'icon', name: 'chi-rho', size: 20 %}</p>
+      <h1 class="mc-h2">{{ 'customer.login.title' | t | default: 'Enter' }}</h1>
+      <hr class="mc-rule">
+    </header>
+
+    {%- comment -%} Login {%- endcomment -%}
+    <div id="login">
+      {%- form 'customer_login', novalidate: 'novalidate' -%}
+        {{ form.errors | default_errors }}
+        <div class="mc-stack">
+          <div class="mc-field">
+            <label for="customer_email">{{ 'customer.email' | t | default: 'Email' }}</label>
+            <input type="email" name="customer[email]" id="customer_email" autocomplete="email" required>
+          </div>
+          {%- if form.password_needed -%}
+            <div class="mc-field">
+              <label for="customer_password">{{ 'customer.password' | t | default: 'Password' }}</label>
+              <input type="password" name="customer[password]" id="customer_password" autocomplete="current-password" required>
+            </div>
+          {%- endif -%}
+          <button type="submit" class="mc-btn mc-btn--full">{{ 'customer.login.sign_in' | t | default: 'Sign in' }}</button>
+        </div>
+      {%- endform -%}
+
+      <details style="margin-top:24px">
+        <summary class="mc-link-gold" style="cursor:pointer">{{ 'customer.login.forgot' | t | default: 'Forgot your password?' }}</summary>
+        {%- form 'recover_customer_password' -%}
+          {{ form.errors | default_errors }}
+          {%- if form.posted_successfully? -%}
+            <p class="mc-eyebrow" style="margin-top:12px">{{ 'customer.recover.success' | t | default: 'We have sent you an email.' }}</p>
+          {%- endif -%}
+          <div class="mc-stack" style="margin-top:16px">
+            <div class="mc-field">
+              <label for="recover_email">{{ 'customer.email' | t | default: 'Email' }}</label>
+              <input type="email" name="email" id="recover_email" autocomplete="email" required>
+            </div>
+            <button type="submit" class="mc-btn mc-btn--ghost">{{ 'customer.recover.submit' | t | default: 'Send reset link' }}</button>
+          </div>
+        {%- endform -%}
+      </details>
+    </div>
+
+    <p style="text-align:center;margin-top:32px;color:var(--mc-text-muted)">
+      {{ 'customer.login.no_account' | t | default: 'New here?' }}
+      <a class="mc-link-gold" href="{{ routes.account_register_url }}">{{ 'customer.register.title' | t | default: 'Create an account' }}</a>
+    </p>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Login", "settings": [], "enabled_on": { "templates": ["customers/login"] } }
+{% endschema %}

@@ -7,8 +7,73 @@
       <hr class="mc-rule">
     </header>
 
-    {%- if collection.products.size > 0 -%}
-      {%- paginate collection.products by section.settings.per_page -%}
+    {%- paginate collection.products by section.settings.per_page -%}
+      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+        <form class="mc-facets" data-mc-facets method="get">
+          <div class="mc-facets__filters">
+            {%- if section.settings.enable_filtering -%}
+              {%- for filter in collection.filters -%}
+                <details>
+                  <summary>{{ filter.label }}{% if filter.active_values.size > 0 %} · {{ filter.active_values.size }}{% endif %}</summary>
+                  <div class="mc-facets__pop">
+                    {%- case filter.type -%}
+                      {%- when 'list', 'boolean' -%}
+                        {%- for value in filter.values -%}
+                          <label>
+                            <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                            <span>{{ value.label }}</span><span class="mc-facets__count">{{ value.count }}</span>
+                          </label>
+                        {%- endfor -%}
+                      {%- when 'price_range' -%}
+                        <label>{{ 'collections.price_from' | t | default: 'From' }}
+                          <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" min="0" max="{{ filter.range_max | money_without_currency | remove: ',' }}" placeholder="0" inputmode="decimal">
+                        </label>
+                        <label>{{ 'collections.price_to' | t | default: 'To' }}
+                          <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" min="0" max="{{ filter.range_max | money_without_currency | remove: ',' }}" placeholder="{{ filter.range_max | money_without_currency }}" inputmode="decimal">
+                        </label>
+                    {%- endcase -%}
+                  </div>
+                </details>
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+
+          {%- if section.settings.enable_sorting -%}
+            <div class="mc-facets__sort">
+              <label for="mc-sort" class="mc-eyebrow" style="color:var(--mc-text-muted)">{{ 'collections.sort' | t | default: 'Sort' }}</label>
+              <select id="mc-sort" name="sort_by" data-mc-sort>
+                {%- assign current = collection.sort_by | default: collection.default_sort_by -%}
+                {%- for option in collection.sort_options -%}
+                  <option value="{{ option.value }}"{% if option.value == current %} selected{% endif %}>{{ option.name }}</option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- endif -%}
+
+          <noscript><button type="submit" class="mc-btn mc-btn--ghost">{{ 'collections.apply' | t | default: 'Apply' }}</button></noscript>
+        </form>
+
+        {%- comment -%} Active filter chips {%- endcomment -%}
+        {%- assign active_count = 0 -%}
+        {%- for filter in collection.filters -%}{%- assign active_count = active_count | plus: filter.active_values.size -%}{%- endfor -%}
+        {%- if active_count > 0 -%}
+          <div class="mc-facets__active">
+            {%- for filter in collection.filters -%}
+              {%- for value in filter.active_values -%}
+                <a class="mc-facets__chip" href="{{ value.url_to_remove }}">{{ value.label }} {% render 'icon', name: 'close', size: 14 %}</a>
+              {%- endfor -%}
+              {%- if filter.type == 'price_range' -%}
+                {%- if filter.min_value.value or filter.max_value.value -%}
+                  <a class="mc-facets__chip" href="{{ filter.url_to_remove }}">{{ filter.label }} {% render 'icon', name: 'close', size: 14 %}</a>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            <a class="mc-link-gold mc-caps" href="{{ collection.url }}" style="font-size:.8rem">{{ 'collections.clear' | t | default: 'Clear all' }}</a>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if collection.products.size > 0 -%}
         <div class="mc-collection-grid">
           {%- for product in collection.products -%}
             {% render 'product-card', product: product %}
@@ -22,10 +87,10 @@
             {%- if paginate.next -%}<a class="mc-link-gold" href="{{ paginate.next.url }}">{{ 'general.next' | t | default: 'Next' }} &rarr;</a>{%- endif -%}
           </nav>
         {%- endif -%}
-      {%- endpaginate -%}
-    {%- else -%}
-      <p class="mc-lead" style="text-align:center">This collection awaits its first heirloom pieces.</p>
-    {%- endif -%}
+      {%- else -%}
+        <p class="mc-lead" style="text-align:center">{{ 'collections.no_matches' | t | default: 'No pieces match these filters yet.' }}</p>
+      {%- endif -%}
+    {%- endpaginate -%}
   </div>
 </section>
 
@@ -33,7 +98,9 @@
 {
   "name": "Collection",
   "settings": [
-    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 12 }
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 24, "step": 4, "default": 12 },
+    { "type": "checkbox", "id": "enable_filtering", "label": "Enable filtering", "default": true, "info": "Add filters under Online Store → Navigation → Collection filters." },
+    { "type": "checkbox", "id": "enable_sorting", "label": "Enable sorting", "default": true }
   ],
   "enabled_on": { "templates": ["collection"] }
 }
