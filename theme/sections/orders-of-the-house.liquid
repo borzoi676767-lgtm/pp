@@ -1,0 +1,74 @@
+{%- comment -%}
+  Orders of the House — the military/monastic pillars of the brand, framed by a
+  Roman colonnade. Original heraldry only; discipline and service, never conquest.
+{%- endcomment -%}
+<section class="mc-section lx-colonnade mc-scheme--{{ section.settings.scheme }}">
+  {%- if section.settings.show_columns -%}
+    <span class="lx-colonnade__col lx-colonnade__col--l" aria-hidden="true"></span>
+    <span class="lx-colonnade__col lx-colonnade__col--r" aria-hidden="true"></span>
+  {%- endif -%}
+
+  <div class="mc-container">
+    <div class="mc-section__head">
+      {%- if section.settings.eyebrow != blank -%}<p class="mc-eyebrow lx-fade">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="lx-h2" data-lx-words>{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<p class="mc-lead lx-fade">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <div class="mc-grid mc-grid--4">
+      {%- for block in section.blocks -%}
+        <div class="mc-virtue lx-fade" {{ block.shopify_attributes }}>
+          {% render 'icon', name: block.settings.icon, size: 44 %}
+          <h3>{{ block.settings.title }}</h3>
+          {%- if block.settings.latin != blank -%}<p class="lx-bust__role">{{ block.settings.latin }}</p>{%- endif -%}
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Orders of the House",
+  "settings": [
+    { "type": "select", "id": "scheme", "label": "Color scheme", "options": [
+      { "value": "basilica", "label": "Basilica (dark)" }, { "value": "parchment", "label": "Parchment (light)" }
+    ], "default": "basilica" },
+    { "type": "checkbox", "id": "show_columns", "label": "Show Roman columns", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Orders of the House" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Built like a legion, kept like a monastery" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Discipline from the ranks, devotion from the cloister — the two habits every piece we make is built around." }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "standard", "label": "Standard" }, { "value": "eagle", "label": "Eagle" }, { "value": "helmet", "label": "Helmet" },
+          { "value": "gladius", "label": "Sword" }, { "value": "shield", "label": "Shield" }, { "value": "chalice", "label": "Chalice" },
+          { "value": "crucifix", "label": "Crucifix" }, { "value": "dove", "label": "Dove" }, { "value": "rosary", "label": "Rosary" },
+          { "value": "column", "label": "Column" }, { "value": "arch", "label": "Arch" }, { "value": "temple", "label": "Temple" },
+          { "value": "stained-glass", "label": "Stained glass" }, { "value": "laurel", "label": "Laurel" }, { "value": "chi-rho", "label": "Chi-Rho" }
+        ], "default": "standard" },
+        { "type": "text", "id": "title", "label": "Title", "default": "The Standard" },
+        { "type": "text", "id": "latin", "label": "Latin (translated)" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "What we march under." }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Orders of the House",
+      "blocks": [
+        { "type": "pillar", "settings": { "icon": "standard", "title": "The Standard", "latin": "Signum — the sign we carry", "text": "Every piece bears an original mark of the house. You know your own." } },
+        { "type": "pillar", "settings": { "icon": "helmet", "title": "The Watch", "latin": "Vigilia — the night watch", "text": "Made to be relied upon, in the cold hours as much as the bright ones." } },
+        { "type": "pillar", "settings": { "icon": "chalice", "title": "The Altar", "latin": "Sursum corda — lift up your hearts", "text": "Objects for prayer and the table, made with the same care as armor." } },
+        { "type": "pillar", "settings": { "icon": "column", "title": "The Column", "latin": "Firmitas — steadfastness", "text": "Roman bones under everything: proportion, weight, and permanence." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

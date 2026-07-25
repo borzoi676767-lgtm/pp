@@ -25,9 +25,9 @@
   </div>
 
   {%- comment -%} Mobile nav {%- endcomment -%}
-  <nav id="mc-mobile-nav" class="mc-container" data-mc-nav-mobile hidden aria-label="{{ 'general.primary' | t | default: 'Primary' }}" style="padding-bottom:16px;display:grid;gap:8px">
+  <nav id="mc-mobile-nav" class="mc-container mc-nav-mobile" data-mc-nav-mobile hidden aria-label="{{ 'general.primary' | t | default: 'Primary' }}">
     {%- for link in section.settings.menu.links -%}
-      <a href="{{ link.url }}" class="mc-caps" style="padding:8px 0">{{ link.title }}</a>
+      <a href="{{ link.url }}" class="mc-caps">{{ link.title }}</a>
     {%- endfor -%}
   </nav>
 

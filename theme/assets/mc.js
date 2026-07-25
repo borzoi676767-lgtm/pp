@@ -31,7 +31,12 @@
   function initHeader() {
     var header = document.querySelector('[data-mc-header]');
     if (!header) return;
-    var onScroll = function () { header.classList.toggle('is-scrolled', window.scrollY > 24); };
+    var onScroll = function () {
+      // The cinematic engine owns header state when it loads — avoid two
+      // scroll handlers writing the same class on every frame.
+      if (window.__lxCinematic) return;
+      header.classList.toggle('is-scrolled', window.scrollY > 24);
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
   }
@@ -310,7 +315,12 @@
       });
       ticking = false;
     }
-    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    function onScroll() {
+      // Cinematic engine drives parallax through GSAP/Lenis when present;
+      // running this second rAF loop as well is what made scrolling judder.
+      if (window.__lxCinematic) return;
+      if (!ticking) { ticking = true; requestAnimationFrame(frame); }
+    }
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     frame();

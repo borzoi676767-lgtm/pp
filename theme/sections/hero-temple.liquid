@@ -3,8 +3,12 @@
   slow zoom, word-by-word headline. Mouse moves the layers (see mc-cinematic.js).
 {%- endcomment -%}
 <section class="lx-hero mc-scheme--basilica">
-  {%- comment -%} Background layer (slow zoom + mouse depth) {%- endcomment -%}
-  <div class="lx-hero__layer" data-lx-depth="18" style="animation: lx-heroZoom 24s ease-in-out infinite alternate;">
+  {%- comment -%}
+    Background layer. The slow zoom lives on the <img> (see .lx-hero__layer img
+    below) while JS drives mouse-depth on the wrapper — two elements, so the two
+    transforms never fight.
+  {%- endcomment -%}
+  <div class="lx-hero__layer lx-hero__layer--zoom" data-lx-depth="18">
     {%- if section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 2600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '900,1400,2000,2600', sizes: '100vw', alt: section.settings.image.alt | default: shop.name }}
     {%- else -%}
@@ -43,7 +47,11 @@
   <div class="lx-hero__cue" aria-hidden="true">{{ section.settings.cue_text | default: 'Enter' }}</div>
 </section>
 
-<style>@keyframes lx-heroZoom { from { transform: scale(1.06); } to { transform: scale(1.16); } }</style>
+<style>
+  @keyframes lx-heroZoom { from { transform: scale(1.04); } to { transform: scale(1.14); } }
+  .lx-hero__layer--zoom img { animation: lx-heroZoom 28s ease-in-out infinite alternate; will-change: transform; }
+  @media (prefers-reduced-motion: reduce) { .lx-hero__layer--zoom img { animation: none; } }
+</style>
 
 {% schema %}
 {

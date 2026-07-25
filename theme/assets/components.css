@@ -43,7 +43,12 @@
 .mc-icon-btn { background: none; border: 0; padding: var(--mc-sp-2); color: var(--mc-text); cursor: pointer; display: inline-flex; }
 .mc-icon-btn svg { width: 22px; height: 22px; }
 .mc-cart-count { font-size: 0.72rem; background: var(--mc-accent); color: #1a1512; border-radius: 999px; padding: 0 .45em; min-width: 1.4em; text-align: center; }
-@media (min-width: 990px) { .mc-nav { display: flex; } .mc-header__menu-toggle { display: none; } }
+@media (min-width: 990px) { .mc-nav { display: flex; } .mc-header__menu-toggle { display: none; } .mc-nav-mobile { display: none !important; } }
+
+/* Mobile drawer nav. [hidden] must win — never set display in an inline style here. */
+.mc-nav-mobile { display: grid; gap: 8px; padding-bottom: 16px; }
+.mc-nav-mobile a { padding: 8px 0; }
+[hidden] { display: none !important; }
 
 /* --- Footer -------------------------------------------------------------- */
 .mc-footer { background: #141110; border-top: 1px solid var(--mc-border); padding-block: var(--mc-sp-8) var(--mc-sp-6); }

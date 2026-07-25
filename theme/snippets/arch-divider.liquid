@@ -1,0 +1,21 @@
+{%- comment -%}
+  Roman arch divider that draws itself as it scrolls into view.
+  Usage: {% render 'arch-divider' %}  or  {% render 'arch-divider', motto: 'Deus Vult' %}
+{%- endcomment -%}
+<div class="lx-arch-divider lx-fade" role="presentation" aria-hidden="true">
+  <svg viewBox="0 0 560 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- springing line -->
+    <path class="lx-arch-path" d="M10 118 H160" stroke="currentColor" stroke-width="1.5"/>
+    <path class="lx-arch-path" d="M400 118 H550" stroke="currentColor" stroke-width="1.5"/>
+    <!-- the arch -->
+    <path class="lx-arch-path" d="M160 118 V64 a120 120 0 0 1 240 0 v54" stroke="currentColor" stroke-width="1.5"/>
+    <!-- impost blocks -->
+    <rect class="lx-arch-divider__key" x="152" y="60" width="16" height="7" rx="1"/>
+    <rect class="lx-arch-divider__key" x="392" y="60" width="16" height="7" rx="1"/>
+    <!-- keystone -->
+    <path class="lx-arch-divider__key" d="M272 14 h16 l4 18 h-24 z"/>
+  </svg>
+  {%- if motto != blank -%}
+    <p class="mc-eyebrow" style="margin-top:10px">{{ motto }}</p>
+  {%- endif -%}
+</div>

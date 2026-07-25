@@ -95,6 +95,45 @@ html.lx-cursor .lx-cursor-dot, html.lx-cursor .lx-cursor-ring { display: block; 
   border-start-start-radius: 100px; border-start-end-radius: 100px; opacity: .5; }
 .lx-divider__laurel { color: var(--lx-bronze); opacity: .6; }
 
+/* --- Roman colonnade frame ----------------------------------------------
+   Fluted marble columns flanking a section, with capitals and an entablature.
+   Pure CSS so it costs nothing to load; hidden on small screens.            */
+.lx-colonnade { position: relative; }
+.lx-colonnade__col {
+  position: absolute; top: 0; bottom: 0; width: 62px; pointer-events: none; z-index: 0; opacity: .5;
+  background:
+    /* fluting */
+    repeating-linear-gradient(90deg, transparent 0 7px, rgba(237,231,218,.06) 7px 8px, transparent 8px 15px),
+    /* shaft body */
+    linear-gradient(90deg, #201a16, #352d26 22%, #4a4038 50%, #352d26 78%, #201a16);
+  border-inline: 1px solid rgba(216,184,114,.16);
+}
+.lx-colonnade__col--l { inset-inline-start: max(8px, 2vw); }
+.lx-colonnade__col--r { inset-inline-end: max(8px, 2vw); }
+/* capital + base */
+.lx-colonnade__col::before, .lx-colonnade__col::after {
+  content: ""; position: absolute; inset-inline: -9px; height: 22px;
+  background: linear-gradient(180deg, #574b40, #2a231d);
+  border: 1px solid rgba(216,184,114,.22);
+}
+.lx-colonnade__col::before { top: 0; border-start-start-radius: 3px; border-start-end-radius: 3px; }
+.lx-colonnade__col::after { bottom: 0; }
+.lx-colonnade > .mc-container { position: relative; z-index: 1; }
+@media (max-width: 1100px) { .lx-colonnade__col { display: none; } }
+
+/* --- Roman arch divider (scroll-drawn) ----------------------------------- */
+.lx-arch-divider { position: relative; display: grid; place-items: center; padding-block: clamp(28px, 5vw, 64px); }
+.lx-arch-divider svg { width: min(560px, 86%); height: auto; color: var(--lx-bronze); }
+.lx-arch-divider .lx-arch-path { stroke-dasharray: 1200; stroke-dashoffset: 1200; transition: stroke-dashoffset 1.8s var(--lx-ease); }
+.lx-arch-divider.lx-in .lx-arch-path, .lx-reveal.is-visible .lx-arch-path { stroke-dashoffset: 0; }
+.lx-arch-divider__key { fill: var(--lx-gold); opacity: 0; transition: opacity .8s var(--lx-ease) .6s; }
+.lx-arch-divider.lx-in .lx-arch-divider__key { opacity: 1; }
+
+/* --- Laurel / motto band -------------------------------------------------- */
+.lx-motto-band { display: flex; align-items: center; justify-content: center; gap: clamp(12px, 3vw, 32px); padding-block: 12px; color: var(--lx-bronze); }
+.lx-motto-band__text { font-family: var(--mc-font-display); font-style: italic; font-size: clamp(1rem, 2vw, 1.5rem); color: var(--lx-marble-cool); text-align: center; }
+.lx-motto-band svg { flex: none; opacity: .85; }
+
 /* --- Big typographic helpers -------------------------------------------- */
 .lx-display { font-family: var(--mc-font-display); font-size: var(--lx-display); line-height: 0.98; letter-spacing: -0.01em; }
 .lx-h2 { font-family: var(--mc-font-display); font-size: var(--lx-h2); line-height: 1.05; }

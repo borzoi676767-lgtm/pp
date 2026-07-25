@@ -313,13 +313,121 @@
         "cta_link": "shopify://collections",
         "image": "shopify://shop_images/mc-sanctuary-christ.png"
       }
+    },
+    "orders": {
+      "type": "orders-of-the-house",
+      "settings": {
+        "scheme": "basilica",
+        "show_columns": true,
+        "eyebrow": "Orders of the House",
+        "heading": "Built like a legion, kept like a monastery",
+        "text": "Discipline from the ranks, devotion from the cloister — the two habits every piece we make is built around."
+      },
+      "blocks": {
+        "p1": {
+          "type": "pillar",
+          "settings": {
+            "icon": "standard",
+            "title": "The Standard",
+            "latin": "Signum — the sign we carry",
+            "text": "Every piece bears an original mark of the house. You know your own."
+          }
+        },
+        "p2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "helmet",
+            "title": "The Watch",
+            "latin": "Vigilia — the night watch",
+            "text": "Made to be relied upon, in the cold hours as much as the bright ones."
+          }
+        },
+        "p3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "chalice",
+            "title": "The Altar",
+            "latin": "Sursum corda — lift up your hearts",
+            "text": "Objects for prayer and the table, made with the same care as armor."
+          }
+        },
+        "p4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "column",
+            "title": "The Column",
+            "latin": "Firmitas — steadfastness",
+            "text": "Roman bones under everything: proportion, weight, and permanence."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ]
+    },
+    "gallery": {
+      "type": "gallery-civilization",
+      "settings": {
+        "scheme": "basilica",
+        "eyebrow": "A Gallery of Christian Civilization",
+        "heading": "Rome, made new"
+      },
+      "blocks": {
+        "g1": {
+          "type": "scene",
+          "settings": {
+            "image": "shopify://shop_images/mc-roman-colonnade.png",
+            "caption": "A colonnade that has stood for centuries"
+          }
+        },
+        "g2": {
+          "type": "scene",
+          "settings": {
+            "image": "shopify://shop_images/mc-rose-window.png",
+            "caption": "Light through the rose window"
+          }
+        },
+        "g3": {
+          "type": "scene",
+          "settings": {
+            "image": "shopify://shop_images/mc-altar-still-life.png",
+            "caption": "Chalice, missal, and rosary"
+          }
+        },
+        "g4": {
+          "type": "scene",
+          "settings": {
+            "image": "shopify://shop_images/mc-armory-display.png",
+            "caption": "The armory of the house"
+          }
+        },
+        "g5": {
+          "type": "scene",
+          "settings": {
+            "image": "shopify://shop_images/mc-story-monastery.png",
+            "caption": "A monastery on Roman foundations"
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4",
+        "g5"
+      ]
     }
   },
   "order": [
     "hero",
     "marquee",
     "virtues",
+    "orders",
     "marketplace",
+    "gallery",
     "stoics",
     "legends",
     "archangels",

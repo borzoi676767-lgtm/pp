@@ -12,6 +12,8 @@
   'use strict';
   var root = document.documentElement;
   root.classList.remove('no-js'); root.classList.add('js', 'lx-reveal-ready');
+  // Claim ownership of scroll-driven motion so mc.js stands down (see mc.js).
+  window.__lxCinematic = true;
 
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -109,16 +111,28 @@
     el.addEventListener('mouseleave', function () { el.style.transform = ''; });
   });
 
-  /* ---- Hero mouse-depth ---- */
+  /* ---- Hero mouse-depth ----
+     Pointer events fire faster than frames, so record the target on move and
+     ease toward it once per frame. Smooth glide instead of stepped snapping. */
   var depths = document.querySelectorAll('[data-lx-depth]');
   if (depths.length && fine) {
+    var tx = 0, ty = 0, cx = 0, cy = 0, depthRunning = false;
+    depths.forEach(function (l) { l.style.willChange = 'transform'; });
     document.addEventListener('mousemove', function (e) {
-      var x = (e.clientX / innerWidth - 0.5), y = (e.clientY / innerHeight - 0.5);
+      tx = (e.clientX / innerWidth - 0.5);
+      ty = (e.clientY / innerHeight - 0.5);
+      if (!depthRunning) { depthRunning = true; requestAnimationFrame(depthFrame); }
+    }, { passive: true });
+    function depthFrame() {
+      cx += (tx - cx) * 0.06;
+      cy += (ty - cy) * 0.06;
       depths.forEach(function (l) {
         var d = parseFloat(l.getAttribute('data-lx-depth')) || 10;
-        l.style.transform = 'translate3d(' + (-x * d) + 'px,' + (-y * d) + 'px,0) scale(1.06)';
+        l.style.transform = 'translate3d(' + (-cx * d).toFixed(2) + 'px,' + (-cy * d).toFixed(2) + 'px,0)';
       });
-    }, { passive: true });
+      if (Math.abs(tx - cx) > 0.0005 || Math.abs(ty - cy) > 0.0005) requestAnimationFrame(depthFrame);
+      else depthRunning = false;
+    }
   }
 
   /* ---- Navbar hide/show/shrink ---- */
@@ -143,7 +157,15 @@
 
     var lenis = null;
     if (hasLenis && fine) {
-      lenis = new Lenis({ duration: 1.1, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1.6 });
+      // lerp-based easing glides more evenly than a fixed duration, and the
+      // exponential ease removes the "stepped" feel at the end of a wheel tick.
+      lenis = new Lenis({
+        lerp: 0.09,
+        easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        syncTouch: false
+      });
       lenis.on('scroll', function (e) { ScrollTrigger.update(); if (window.__lxScroll) window.__lxScroll(e.animatedScroll || window.scrollY); if (progress) progress.style.transform = 'scaleX(' + (e.progress || 0) + ')'; });
       gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
       gsap.ticker.lagSmoothing(0);
@@ -162,10 +184,16 @@
     gsap.utils.toArray('.lx-words').forEach(function (el) {
       ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: function () { el.classList.add('is-in'); } });
     });
-    /* Parallax */
-    gsap.utils.toArray('[data-lx-parallax]').forEach(function (el) {
-      var speed = parseFloat(el.getAttribute('data-lx-parallax')) || 0.2;
-      gsap.to(el, { yPercent: -speed * 100, ease: 'none', scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: true } });
+    /* Parallax — covers both the luxury and legacy selectors so only one
+       engine ever animates a layer. scrub:1 adds inertia instead of snapping. */
+    gsap.utils.toArray('[data-lx-parallax], [data-mc-parallax]').forEach(function (el) {
+      var attr = el.getAttribute('data-lx-parallax') || el.getAttribute('data-mc-parallax');
+      var speed = parseFloat(attr) || 0.15;
+      gsap.set(el, { willChange: 'transform', force3D: true });
+      gsap.to(el, {
+        yPercent: -speed * 100, ease: 'none', force3D: true,
+        scrollTrigger: { trigger: el.parentElement, start: 'top bottom', end: 'bottom top', scrub: 1 }
+      });
     });
     /* Virtues illuminate */
     gsap.utils.toArray('.lx-virtue').forEach(function (el, i) {

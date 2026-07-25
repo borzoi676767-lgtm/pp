@@ -53,10 +53,14 @@
       </script>
     {%- endif -%}
 
-    {%- comment -%} Font wiring from theme settings {%- endcomment -%}
-    {%- if settings.type_body_font -%}{{ settings.type_body_font | font_face: font_display: 'swap' }}{%- endif -%}
-    {%- if settings.type_heading_font -%}{{ settings.type_heading_font | font_face: font_display: 'swap' }}{%- endif -%}
+    {%- comment -%}
+      Font wiring from theme settings. The font_face filter emits raw CSS, so it
+      MUST live inside {% style %} — bare in <head> the browser treats it as text,
+      closes <head> early, and prints it at the top of the page.
+    {%- endcomment -%}
     {%- style -%}
+      {%- if settings.type_body_font -%}{{ settings.type_body_font | font_face: font_display: 'swap' }}{%- endif -%}
+      {%- if settings.type_heading_font -%}{{ settings.type_heading_font | font_face: font_display: 'swap' }}{%- endif -%}
       :root {
         {%- if settings.type_body_font -%}--font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};{%- endif -%}
         {%- if settings.type_heading_font -%}--font-display: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};{%- endif -%}

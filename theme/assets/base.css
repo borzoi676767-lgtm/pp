@@ -79,7 +79,15 @@
 /* --- Reset --------------------------------------------------------------- */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* Native smooth scroll only when Lenis is NOT driving the page (they fight and judder). */
+html:not(.lenis) { scroll-behavior: smooth; }
+
+/* --- Lenis smooth-scroll required styles ------------------------------- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
 body {
   background: var(--mc-bg);
   color: var(--mc-text);
@@ -155,10 +163,14 @@ p, li { max-width: var(--mc-measure); }
 .mc-reveal--zoom.is-visible { transform: none; }
 
 /* --- Layered depth: grain, vignette, animated rule ----------------------- */
+/* Fixed grain. No mix-blend-mode: a full-screen blended fixed layer forces the
+   whole page to re-composite every frame and makes scrolling judder. */
 .mc-grain {
-  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .035; mix-blend-mode: overlay;
+  position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .04;
+  transform: translateZ(0); will-change: transform; contain: strict;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+@media (max-width: 749px) { .mc-grain { display: none; } }
 .mc-vignette::after {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background: radial-gradient(120% 100% at 50% 45%, transparent 55%, rgba(12,9,8,.55) 100%);
