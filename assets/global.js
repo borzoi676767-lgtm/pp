@@ -417,7 +417,7 @@
       const names = { "first-brew": "First Brew", collector: "Trail Collector", storyteller: "Story Seeker", "night-owl": "Night Owl", "bean-hunter": "Bean Hunter" };
       toast(`🏅 Badge earned: ${names[id] || id}`);
       if (list.length === this.all.length) {
-        setTimeout(() => toast("🌲 Full Camp Badge set complete — use code TRAILBLAZER for 15% off!"), 1200);
+        setTimeout(() => toast("🌲 Full Camp Badge set complete — use code TRAILBLAZER for 20% off!"), 1200);
       }
     },
     paint() {
