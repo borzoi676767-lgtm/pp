@@ -1,0 +1,81 @@
+{%- comment -%}
+  Storefront analytics / retargeting pixels.
+
+  IMPORTANT — scope of this snippet:
+  Theme code does NOT run on Shopify's checkout pages (non-Plus), so these tags
+  capture storefront behaviour (pageviews, product views, add-to-cart) but NOT
+  purchases. For full-funnel tracking including Purchase/Conversion events, also
+  add a custom pixel under Settings → Customer events (see docs/customer-events-pixel.js),
+  or install the official Meta / Google / TikTok sales-channel apps.
+
+  IDs are entered in Theme settings → Marketing → Tracking & pixels.
+{%- endcomment -%}
+
+{%- liquid
+  assign ga4 = settings.ga4_measurement_id | strip
+  assign meta_pixel = settings.meta_pixel_id | strip
+  assign tiktok_pixel = settings.tiktok_pixel_id | strip
+-%}
+
+{%- if ga4 != blank -%}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ ga4 | escape }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', {{ ga4 | json }});
+    {%- if template contains 'product' and product -%}
+      gtag('event', 'view_item', {
+        currency: {{ cart.currency.iso_code | json }},
+        value: {{ product.selected_or_first_available_variant.price | divided_by: 100.0 }},
+        items: [{
+          item_id: {{ product.selected_or_first_available_variant.sku | default: product.id | json }},
+          item_name: {{ product.title | json }},
+          item_brand: {{ product.vendor | json }},
+          item_category: {{ product.type | json }},
+          price: {{ product.selected_or_first_available_variant.price | divided_by: 100.0 }}
+        }]
+      });
+    {%- endif -%}
+  </script>
+{%- endif -%}
+
+{%- if meta_pixel != blank -%}
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', {{ meta_pixel | json }});
+    fbq('track', 'PageView');
+    {%- if template contains 'product' and product -%}
+      fbq('track', 'ViewContent', {
+        content_ids: [{{ product.selected_or_first_available_variant.sku | default: product.id | json }}],
+        content_name: {{ product.title | json }},
+        content_type: 'product',
+        value: {{ product.selected_or_first_available_variant.price | divided_by: 100.0 }},
+        currency: {{ cart.currency.iso_code | json }}
+      });
+    {%- endif -%}
+  </script>
+  <noscript><img height="1" width="1" style="display:none" alt=""
+    src="https://www.facebook.com/tr?id={{ meta_pixel | escape }}&ev=PageView&noscript=1"></noscript>
+{%- endif -%}
+
+{%- if tiktok_pixel != blank -%}
+  <script>
+    !function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
+    ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+    ttq.setAndDefer=function(e,n){e[n]=function(){e.push([n].concat(Array.prototype.slice.call(arguments,0)))}};
+    for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+    ttq.instance=function(e){for(var n=ttq._i[e]||[],i=0;i<ttq.methods.length;i++)ttq.setAndDefer(n,ttq.methods[i]);return n};
+    ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";
+    ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};
+    var o=d.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;
+    var a=d.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+    ttq.load({{ tiktok_pixel | json }});
+    ttq.page();
+    }(window,document,'ttq');
+  </script>
+{%- endif -%}
