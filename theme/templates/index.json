@@ -10,23 +10,63 @@
         "cta_link": "shopify://collections",
         "cta2_text": "The Wisdom of the Stoics",
         "cta2_link": "#shopify-section-stoics",
-        "cue_text": "Enter"
+        "cue_text": "Enter",
+        "image": "shopify://shop_images/mc-hero-basilica.png"
       }
     },
     "marquee": {
       "type": "stoic-marquee",
-      "settings": { "scheme": "basilica" }
+      "settings": {
+        "scheme": "basilica"
+      }
     },
     "virtues": {
       "type": "virtues-illuminated",
-      "settings": { "scheme": "basilica", "eyebrow": "The Cardinal Virtues", "heading": "Courage. Wisdom. Justice. Temperance." },
-      "blocks": {
-        "c": { "type": "virtue", "settings": { "icon": "shield", "title": "Courage", "text": "To act rightly in the face of fear." } },
-        "w": { "type": "virtue", "settings": { "icon": "lamp", "title": "Wisdom", "text": "To see clearly and choose well." } },
-        "j": { "type": "virtue", "settings": { "icon": "cross", "title": "Justice", "text": "To give each their due." } },
-        "t": { "type": "virtue", "settings": { "icon": "olive", "title": "Temperance", "text": "To master oneself before all else." } }
+      "settings": {
+        "scheme": "basilica",
+        "eyebrow": "The Cardinal Virtues",
+        "heading": "Courage. Wisdom. Justice. Temperance."
       },
-      "block_order": ["c", "w", "j", "t"]
+      "blocks": {
+        "c": {
+          "type": "virtue",
+          "settings": {
+            "icon": "shield",
+            "title": "Courage",
+            "text": "To act rightly in the face of fear."
+          }
+        },
+        "w": {
+          "type": "virtue",
+          "settings": {
+            "icon": "lamp",
+            "title": "Wisdom",
+            "text": "To see clearly and choose well."
+          }
+        },
+        "j": {
+          "type": "virtue",
+          "settings": {
+            "icon": "cross",
+            "title": "Justice",
+            "text": "To give each their due."
+          }
+        },
+        "t": {
+          "type": "virtue",
+          "settings": {
+            "icon": "olive",
+            "title": "Temperance",
+            "text": "To master oneself before all else."
+          }
+        }
+      },
+      "block_order": [
+        "c",
+        "w",
+        "j",
+        "t"
+      ]
     },
     "marketplace": {
       "type": "cathedral-marketplace",
@@ -41,47 +81,217 @@
     },
     "stoics": {
       "type": "wisdom-of-stoics",
-      "settings": { "scheme": "basilica", "eyebrow": "Wisdom of the Stoics", "heading": "The discipline of the inner citadel", "text": "Long before our order, the Stoics taught that virtue is the only good — and that a life of discipline, resilience, and self-mastery is freedom. We build in that same spirit." },
-      "blocks": {
-        "s1": { "type": "bust", "settings": { "name": "Marcus Aurelius", "role": "Emperor & Philosopher", "quote": "You have power over your mind — not outside events. Realize this, and you will find strength.", "source": "Meditations", "virtue": "On self-mastery" } },
-        "s2": { "type": "bust", "settings": { "name": "Seneca", "role": "Statesman & Philosopher", "quote": "We suffer more often in imagination than in reality.", "source": "Letters to Lucilius", "virtue": "On resilience" } },
-        "s3": { "type": "bust", "settings": { "name": "Epictetus", "role": "Freed Slave & Teacher", "quote": "It is not what happens to you, but how you react to it that matters.", "source": "Discourses / Enchiridion", "virtue": "On discipline" } },
-        "s4": { "type": "bust", "settings": { "name": "Cato the Younger", "role": "Senator of the Republic", "quote": "Esse quam videri — to be, rather than to seem.", "source": "A maxim associated with Cato", "virtue": "On integrity" } }
+      "settings": {
+        "scheme": "basilica",
+        "eyebrow": "Wisdom of the Stoics",
+        "heading": "The discipline of the inner citadel",
+        "text": "Long before our order, the Stoics taught that virtue is the only good — and that a life of discipline, resilience, and self-mastery is freedom. We build in that same spirit."
       },
-      "block_order": ["s1", "s2", "s3", "s4"]
+      "blocks": {
+        "s1": {
+          "type": "bust",
+          "settings": {
+            "name": "Marcus Aurelius",
+            "role": "Emperor & Philosopher",
+            "quote": "You have power over your mind — not outside events. Realize this, and you will find strength.",
+            "source": "Meditations",
+            "virtue": "On self-mastery",
+            "image": "shopify://shop_images/mc-stoic-aurelius.png"
+          }
+        },
+        "s2": {
+          "type": "bust",
+          "settings": {
+            "name": "Seneca",
+            "role": "Statesman & Philosopher",
+            "quote": "We suffer more often in imagination than in reality.",
+            "source": "Letters to Lucilius",
+            "virtue": "On resilience",
+            "image": "shopify://shop_images/mc-stoic-seneca.png"
+          }
+        },
+        "s3": {
+          "type": "bust",
+          "settings": {
+            "name": "Epictetus",
+            "role": "Freed Slave & Teacher",
+            "quote": "It is not what happens to you, but how you react to it that matters.",
+            "source": "Discourses / Enchiridion",
+            "virtue": "On discipline",
+            "image": "shopify://shop_images/mc-stoic-epictetus.png"
+          }
+        },
+        "s4": {
+          "type": "bust",
+          "settings": {
+            "name": "Cato the Younger",
+            "role": "Senator of the Republic",
+            "quote": "Esse quam videri — to be, rather than to seem.",
+            "source": "A maxim associated with Cato",
+            "virtue": "On integrity",
+            "image": "shopify://shop_images/mc-stoic-cato.png"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4"
+      ]
     },
     "legends": {
       "type": "hall-of-legends",
-      "settings": { "scheme": "basilica", "eyebrow": "The Hall of Legends", "heading": "Studied, not worshipped", "text": "Figures of history — remembered for leadership, courage, and excellence, and for the hard lessons their lives still teach. Sources of inspiration, held with nuance." },
-      "blocks": {
-        "l1": { "type": "legend", "settings": { "name": "Marcus Aurelius", "era": "Roman Emperor · r. 161–180 AD", "summary": "The philosopher-emperor who governed through war and plague, and left the Meditations — a private record of duty, restraint, and Stoic resolve." } },
-        "l2": { "type": "legend", "settings": { "name": "Scipio Africanus", "era": "Roman General · 236–183 BC", "summary": "The commander who ended the Second Punic War at Zama. Remembered for strategy and clemency — and for withdrawing from public life rather than clinging to power." } },
-        "l3": { "type": "legend", "settings": { "name": "Leonidas I", "era": "King of Sparta · d. 480 BC", "summary": "Led the stand at Thermopylae against overwhelming odds. A lasting symbol of duty and sacrifice in service of others." } },
-        "l4": { "type": "legend", "settings": { "name": "Julius Caesar", "era": "Roman Statesman · 100–44 BC", "summary": "General, reformer, and author whose ambition reshaped Rome — and ended its Republic. A study in brilliance and its costs." } },
-        "l5": { "type": "legend", "settings": { "name": "Alexander the Great", "era": "King of Macedon · 356–323 BC", "summary": "Carried Greek culture across three continents by his early thirties. His empire fragmented at his death — a lesson in the limits of conquest." } }
+      "settings": {
+        "scheme": "basilica",
+        "eyebrow": "The Hall of Legends",
+        "heading": "Studied, not worshipped",
+        "text": "Figures of history — remembered for leadership, courage, and excellence, and for the hard lessons their lives still teach. Sources of inspiration, held with nuance."
       },
-      "block_order": ["l1", "l2", "l3", "l4", "l5"]
+      "blocks": {
+        "l1": {
+          "type": "legend",
+          "settings": {
+            "name": "Marcus Aurelius",
+            "era": "Roman Emperor · r. 161–180 AD",
+            "summary": "The philosopher-emperor who governed through war and plague, and left the Meditations — a private record of duty, restraint, and Stoic resolve.",
+            "image": "shopify://shop_images/mc-stoic-aurelius.png"
+          }
+        },
+        "l2": {
+          "type": "legend",
+          "settings": {
+            "name": "Scipio Africanus",
+            "era": "Roman General · 236–183 BC",
+            "summary": "The commander who ended the Second Punic War at Zama. Remembered for strategy and clemency — and for withdrawing from public life rather than clinging to power.",
+            "image": "shopify://shop_images/mc-legend-scipio.png"
+          }
+        },
+        "l3": {
+          "type": "legend",
+          "settings": {
+            "name": "Leonidas I",
+            "era": "King of Sparta · d. 480 BC",
+            "summary": "Led the stand at Thermopylae against overwhelming odds. A lasting symbol of duty and sacrifice in service of others.",
+            "image": "shopify://shop_images/mc-legend-leonidas.png"
+          }
+        },
+        "l4": {
+          "type": "legend",
+          "settings": {
+            "name": "Julius Caesar",
+            "era": "Roman Statesman · 100–44 BC",
+            "summary": "General, reformer, and author whose ambition reshaped Rome — and ended its Republic. A study in brilliance and its costs.",
+            "image": "shopify://shop_images/mc-legend-caesar.png"
+          }
+        },
+        "l5": {
+          "type": "legend",
+          "settings": {
+            "name": "Alexander the Great",
+            "era": "King of Macedon · 356–323 BC",
+            "summary": "Carried Greek culture across three continents by his early thirties. His empire fragmented at his death — a lesson in the limits of conquest.",
+            "image": "shopify://shop_images/mc-legend-alexander.png"
+          }
+        }
+      },
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4",
+        "l5"
+      ]
     },
     "archangels": {
       "type": "archangels-3d",
-      "settings": { "scheme": "basilica", "eyebrow": "The Archangels", "heading": "Guardians in marble and bronze", "text": "Michael the defender, Gabriel the messenger, Raphael the healer — carved as sculpture, and rendered in three dimensions." },
-      "blocks": {
-        "a1": { "type": "angel", "settings": { "name": "Saint Michael", "role": "The Defender", "text": "Quis ut Deus? — captain of the host of Heaven." } },
-        "a2": { "type": "angel", "settings": { "name": "Saint Gabriel", "role": "The Messenger", "text": "Who carried the word that changed the world." } },
-        "a3": { "type": "angel", "settings": { "name": "Saint Raphael", "role": "The Healer", "text": "God heals — companion of the traveler." } }
+      "settings": {
+        "scheme": "basilica",
+        "eyebrow": "The Archangels",
+        "heading": "Guardians in marble and bronze",
+        "text": "Michael the defender, Gabriel the messenger, Raphael the healer — carved as sculpture, and rendered in three dimensions."
       },
-      "block_order": ["a1", "a2", "a3"]
+      "blocks": {
+        "a1": {
+          "type": "angel",
+          "settings": {
+            "name": "Saint Michael",
+            "role": "The Defender",
+            "text": "Quis ut Deus? — captain of the host of Heaven.",
+            "image": "shopify://shop_images/mc-angel-michael.png"
+          }
+        },
+        "a2": {
+          "type": "angel",
+          "settings": {
+            "name": "Saint Gabriel",
+            "role": "The Messenger",
+            "text": "Who carried the word that changed the world.",
+            "image": "shopify://shop_images/mc-angel-gabriel.png"
+          }
+        },
+        "a3": {
+          "type": "angel",
+          "settings": {
+            "name": "Saint Raphael",
+            "role": "The Healer",
+            "text": "God heals — companion of the traveler.",
+            "image": "shopify://shop_images/mc-angel-raphael.png"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3"
+      ]
     },
     "counters": {
       "type": "trust-counters",
-      "settings": { "scheme": "parchment", "heading": "Trusted by an order that endures" },
-      "blocks": {
-        "t1": { "type": "counter", "settings": { "number": "4.9", "suffix": "★", "label": "Average rating" } },
-        "t2": { "type": "counter", "settings": { "number": "12000", "suffix": "+", "label": "Pilgrims served" } },
-        "t3": { "type": "counter", "settings": { "number": "100", "suffix": "%", "label": "Heirloom guarantee" } },
-        "t4": { "type": "counter", "settings": { "number": "1700", "suffix": "yrs", "label": "Of inspiration" } }
+      "settings": {
+        "scheme": "parchment",
+        "heading": "Trusted by an order that endures"
       },
-      "block_order": ["t1", "t2", "t3", "t4"]
+      "blocks": {
+        "t1": {
+          "type": "counter",
+          "settings": {
+            "number": "4.9",
+            "suffix": "★",
+            "label": "Average rating"
+          }
+        },
+        "t2": {
+          "type": "counter",
+          "settings": {
+            "number": "12000",
+            "suffix": "+",
+            "label": "Pilgrims served"
+          }
+        },
+        "t3": {
+          "type": "counter",
+          "settings": {
+            "number": "100",
+            "suffix": "%",
+            "label": "Heirloom guarantee"
+          }
+        },
+        "t4": {
+          "type": "counter",
+          "settings": {
+            "number": "1700",
+            "suffix": "yrs",
+            "label": "Of inspiration"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
     },
     "story": {
       "type": "story-of-endurance",
@@ -90,7 +300,8 @@
         "heading": "What endures",
         "text": "<p>Christ is King. His is the kingdom that outlasts every empire. We tell the old story of light and shadow to remember what endures — and to make things worthy of it.</p>",
         "cta_text": "Read our story",
-        "cta_link": "shopify://pages/our-story"
+        "cta_link": "shopify://pages/our-story",
+        "image": "shopify://shop_images/mc-story-monastery.png"
       }
     },
     "sanctuary": {
@@ -99,9 +310,21 @@
         "heading": "The Kingdom that endures",
         "text": "Earthly empires rise and fall, but the Kingdom of Christ endures forever.",
         "cta_text": "Begin with the collections",
-        "cta_link": "shopify://collections"
+        "cta_link": "shopify://collections",
+        "image": "shopify://shop_images/mc-sanctuary-christ.png"
       }
     }
   },
-  "order": ["hero", "marquee", "virtues", "marketplace", "stoics", "legends", "archangels", "counters", "story", "sanctuary"]
+  "order": [
+    "hero",
+    "marquee",
+    "virtues",
+    "marketplace",
+    "stoics",
+    "legends",
+    "archangels",
+    "counters",
+    "story",
+    "sanctuary"
+  ]
 }

@@ -5,7 +5,8 @@
     "type_heading_font": "playfair_display_n4",
     "type_body_font": "lora_n4",
     "motion_intensity": "subtle",
-    "enable_particles": true
+    "enable_particles": true,
+    "share_image": "shopify://shop_images/mc-hero-basilica.png"
   },
   "presets": {
     "Milites Christi": {
@@ -14,7 +15,8 @@
       "type_heading_font": "playfair_display_n4",
       "type_body_font": "lora_n4",
       "motion_intensity": "subtle",
-      "enable_particles": true
+      "enable_particles": true,
+      "share_image": "shopify://shop_images/mc-hero-basilica.png"
     }
   }
 }
