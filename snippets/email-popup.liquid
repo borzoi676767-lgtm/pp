@@ -19,7 +19,16 @@
           <input class="input" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.placeholder' | t }}" aria-label="{{ 'general.newsletter.label' | t }}" required>
           <button type="submit" class="btn btn--accent">{{ settings.popup_button | default: 'Send my code' }}</button>
         </div>
-        {%- if form.posted_successfully? -%}<p class="form-success" style="color:var(--forest-700)">You're in! Check your inbox for your code.</p>{%- endif -%}
+        {%- if form.posted_successfully? -%}
+          {%- assign popup_code = settings.popup_discount_code | default: 'WELCOME10' -%}
+          <div class="form-success email-popup__reveal">
+            <p style="margin:0 0 .4rem">You're in! Here's your code — it's also good right now:</p>
+            <div class="email-popup__code-row">
+              <code class="email-popup__code" data-popup-code>{{ popup_code }}</code>
+              <button type="button" class="btn btn--accent" data-copy-popup-code>Copy</button>
+            </div>
+          </div>
+        {%- endif -%}
       {%- endform -%}
       <button type="button" class="email-popup__decline" data-popup-close>No thanks, I'll pay full price</button>
     </div>
@@ -34,6 +43,9 @@
   .email-popup__body { padding: clamp(1.4rem, 4vw, 2.2rem); }
   .email-popup__body h2 { margin: .2rem 0 .5rem; }
   .email-popup__decline { display: block; margin-top: .8rem; background: none; border: 0; color: var(--ink-mute); text-decoration: underline; font-size: .85rem; cursor: pointer; }
+  .email-popup__reveal { margin-top: .8rem; color: var(--forest-700); }
+  .email-popup__code-row { display: flex; align-items: center; gap: .6rem; }
+  .email-popup__code { font-size: 1.25rem; font-weight: 800; letter-spacing: .08em; background: var(--surface-2); border: 1.5px dashed var(--forest-700); border-radius: var(--r-md); padding: .45rem .9rem; }
   @media (max-width: 599px){ .email-popup__card { grid-template-columns: 1fr; } .email-popup__art { display: none; } }
 </style>
 <script>
@@ -41,10 +53,23 @@
     var dlg = document.getElementById('email-popup');
     if(!dlg) return;
     var KEY='sq_popup_seen';
-    var seen; try{ seen = localStorage.getItem(KEY); }catch(e){}
-    if(seen) return;
     var shown=false;
     function show(){ if(shown||!dlg.showModal) return; shown=true; try{localStorage.setItem(KEY,'1');}catch(e){} dlg.showModal(); }
+    // Just signed up: the page reloaded with the success state — reopen to reveal the code
+    var reveal = dlg.querySelector('.email-popup__reveal');
+    if(reveal){
+      var copyBtn = dlg.querySelector('[data-copy-popup-code]');
+      if(copyBtn) copyBtn.addEventListener('click', function(){
+        var code = dlg.querySelector('[data-popup-code]');
+        if(code && navigator.clipboard) navigator.clipboard.writeText(code.textContent.trim()).then(function(){ copyBtn.textContent='Copied!'; });
+      });
+      show();
+      dlg.querySelectorAll('[data-popup-close]').forEach(function(b){ b.addEventListener('click', function(){ dlg.close(); }); });
+      dlg.addEventListener('click', function(e){ if(e.target===dlg) dlg.close(); });
+      return;
+    }
+    var seen; try{ seen = localStorage.getItem(KEY); }catch(e){}
+    if(seen) return;
     // Exit intent (desktop) + timed fallback
     document.addEventListener('mouseout', function(e){ if(e.clientY<=0 && !e.relatedTarget) show(); });
     setTimeout(show, 35000);

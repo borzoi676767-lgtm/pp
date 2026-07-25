@@ -336,6 +336,13 @@
         "default": "Send my code"
       },
       {
+        "type": "text",
+        "id": "popup_discount_code",
+        "label": "Discount code to reveal",
+        "default": "WELCOME10",
+        "info": "Shown instantly after signup. Must match a live discount code."
+      },
+      {
         "type": "image_picker",
         "id": "popup_image",
         "label": "Popup image"
