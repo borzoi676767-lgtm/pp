@@ -289,3 +289,8 @@ body.entering-shop { }
 .data-table { width: 100%; border-collapse: collapse; }
 .data-table th, .data-table td { text-align: left; padding: .7rem; border-bottom: 1px solid var(--line); font-size: .92rem; }
 .data-table th { font-family: var(--font-head); }
+
+/* Klaviyo SMS capture */
+.newsletter-form__phone { margin-top: .5rem; width: 100%; }
+.newsletter-form__consent { margin-top: .4rem; font-size: .68rem; line-height: 1.45; color: var(--ink-mute); max-width: 46ch; }
+.site-footer .newsletter-form__consent { color: rgba(255,255,255,.6); }

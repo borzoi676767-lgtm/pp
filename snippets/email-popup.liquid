@@ -13,12 +13,18 @@
       <p class="eyebrow">Trail dispatches</p>
       <h2>{{ settings.popup_heading }}</h2>
       <p>{{ settings.popup_text }}</p>
-      {%- form 'customer', class: 'newsletter-form' -%}
+      {%- form 'customer', class: 'newsletter-form js-klaviyo-form' -%}
         <input type="hidden" name="contact[tags]" value="popup,newsletter">
         <div class="input-group">
           <input class="input" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.placeholder' | t }}" aria-label="{{ 'general.newsletter.label' | t }}" required>
           <button type="submit" class="btn btn--accent">{{ settings.popup_button | default: 'Send my code' }}</button>
         </div>
+        {%- if settings.enable_klaviyo_sms -%}
+          <input class="input newsletter-form__phone" type="tel" name="contact[phone]" autocomplete="tel"
+                 placeholder="{{ settings.klaviyo_sms_label | default: 'Mobile (optional)' }}"
+                 aria-label="{{ settings.klaviyo_sms_label | default: 'Mobile (optional)' }}">
+          <p class="newsletter-form__consent">By adding your number you agree to receive recurring automated marketing texts from Sasquatch Coffee. Consent isn't a condition of purchase. Msg &amp; data rates may apply. Reply STOP to opt out.</p>
+        {%- endif -%}
         {%- if form.posted_successfully? -%}
           {%- assign popup_code = settings.popup_discount_code | default: 'WELCOME10' -%}
           <div class="form-success email-popup__reveal">

@@ -372,6 +372,39 @@
         "id": "tiktok_pixel_id",
         "label": "TikTok Pixel ID",
         "info": "From TikTok Events Manager"
+      },
+      {
+        "type": "header",
+        "content": "Klaviyo (email + SMS)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Connects the theme's signup forms directly to a Klaviyo list. Leave blank to disable. Keep the Klaviyo app embed enabled under Theme settings → App embeds."
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_public_key",
+        "label": "Klaviyo public API key (Site ID)",
+        "info": "Klaviyo → Settings → API keys. 6 characters. Safe to expose publicly."
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_list_id",
+        "label": "Klaviyo list ID",
+        "info": "Klaviyo → Audience → Lists → open the list; the ID is in the URL."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_klaviyo_sms",
+        "label": "Collect mobile number for SMS",
+        "default": false,
+        "info": "Adds an optional phone field with TCPA consent wording. Requires SMS enabled in Klaviyo."
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_sms_label",
+        "label": "Phone field label",
+        "default": "Mobile (optional) — trail dispatches by text"
       }
     ]
   },

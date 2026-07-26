@@ -53,13 +53,19 @@
     <div class="site-footer__signup">
       <h3 class="site-footer__heading">{{ section.settings.newsletter_heading | default: 'Join the Camp' }}</h3>
       <p>{{ section.settings.newsletter_text | default: 'Trail dispatches, new roasts, and the occasional secret from Simon.' }}</p>
-      {%- form 'customer', class: 'newsletter-form' -%}
+      {%- form 'customer', class: 'newsletter-form js-klaviyo-form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <input type="hidden" name="contact[context]" value="footer">
         <div class="input-group">
           <input class="input" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.placeholder' | t }}" aria-label="{{ 'general.newsletter.label' | t }}" required>
           <button type="submit" class="btn btn--accent">{{ 'general.newsletter.button' | t }}</button>
         </div>
+        {%- if settings.enable_klaviyo_sms -%}
+          <input class="input newsletter-form__phone" type="tel" name="contact[phone]" autocomplete="tel"
+                 placeholder="{{ settings.klaviyo_sms_label | default: 'Mobile (optional)' }}"
+                 aria-label="{{ settings.klaviyo_sms_label | default: 'Mobile (optional)' }}">
+          <p class="newsletter-form__consent">By adding your number you agree to receive recurring automated marketing texts from Sasquatch Coffee. Consent isn't a condition of purchase. Msg &amp; data rates may apply. Reply STOP to opt out.</p>
+        {%- endif -%}
         {%- if form.posted_successfully? -%}<p class="form-success">{{ 'general.newsletter.success' | t }}</p>{%- endif -%}
         {%- if form.errors -%}<p class="form-error">{{ form.errors | default_errors }}</p>{%- endif -%}
       {%- endform -%}

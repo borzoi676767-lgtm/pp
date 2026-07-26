@@ -4,12 +4,18 @@
       {%- if section.settings.eyebrow != blank -%}<p class="eyebrow" style="justify-content:center">{{ section.settings.eyebrow }}</p>{%- endif -%}
       {%- if section.settings.heading != blank -%}<h2>{{ section.settings.heading }}</h2>{%- endif -%}
       {%- if section.settings.text != blank -%}<p class="lede">{{ section.settings.text }}</p>{%- endif -%}
-      {%- form 'customer', class: 'newsletter-form newsletter-form--big' -%}
+      {%- form 'customer', class: 'newsletter-form newsletter-form--big js-klaviyo-form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
         <div class="input-group">
           <input class="input" type="email" name="contact[email]" placeholder="{{ 'general.newsletter.placeholder' | t }}" aria-label="{{ 'general.newsletter.label' | t }}" required>
           <button type="submit" class="btn btn--accent btn--lg">{{ section.settings.button_label | default: 'Join the Camp' }}</button>
         </div>
+        {%- if settings.enable_klaviyo_sms -%}
+          <input class="input newsletter-form__phone" type="tel" name="contact[phone]" autocomplete="tel"
+                 placeholder="{{ settings.klaviyo_sms_label | default: 'Mobile (optional)' }}"
+                 aria-label="{{ settings.klaviyo_sms_label | default: 'Mobile (optional)' }}">
+          <p class="newsletter-form__consent">By adding your number you agree to receive recurring automated marketing texts from Sasquatch Coffee. Consent isn't a condition of purchase. Msg &amp; data rates may apply. Reply STOP to opt out.</p>
+        {%- endif -%}
         {%- if form.posted_successfully? -%}<p class="form-success">{{ 'general.newsletter.success' | t }}</p>{%- endif -%}
         {%- if form.errors -%}<p class="form-error" style="color:#b23b2b">{{ form.errors | default_errors }}</p>{%- endif -%}
       {%- endform -%}

@@ -1,3 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ *
+ * NOTE: "blocks" below holds APP EMBED blocks (Klaviyo onsite,
+ * Judge.me). Never overwrite this file without preserving them —
+ * removing an entry silently disables that app on the storefront.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "logo_width": 150,
@@ -32,14 +45,69 @@
     "enable_delivery_estimate": true,
     "enable_payment_icons": true,
     "enable_email_popup": true,
-    "popup_heading": "Wait — grab 10% off",
-    "popup_text": "Before you head back down the trail, join the camp and unlock 10% off your first bag — your code appears instantly.",
+    "popup_heading": "Wait — don't leave the woods empty-handed",
+    "popup_text": "Join the camp and we'll hand you 10% off your first bag. Your code appears the second you sign up — no waiting by the mailbox.",
     "popup_button": "Reveal my code",
+    "popup_discount_code": "WELCOME10",
+    "klaviyo_public_key": "",
+    "klaviyo_list_id": "",
+    "enable_klaviyo_sms": false,
+    "klaviyo_sms_label": "Mobile (optional) — trail dispatches by text",
     "social_instagram": "",
     "social_tiktok": "",
     "social_facebook": "",
     "social_youtube": "",
-    "social_twitter_handle": "sasquatchcoffee"
+    "social_twitter_handle": "sasquatchcoffee",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "blocks": {
+          "announcement-bar-0": {
+            "type": "message",
+            "settings": {
+              "text": "Nature Calls, Coffee Answers.",
+              "link": "",
+              "icon": "leaf"
+            }
+          },
+          "announcement-bar-1": {
+            "type": "message",
+            "settings": {
+              "text": "Free shipping over $45 · Roasted to order",
+              "link": "",
+              "icon": "truck"
+            }
+          },
+          "announcement-bar-2": {
+            "type": "message",
+            "settings": {
+              "text": "New to the camp? Code WELCOME10 = 10% off your first order",
+              "link": "",
+              "icon": "star"
+            }
+          }
+        },
+        "block_order": [
+          "announcement-bar-0",
+          "announcement-bar-1",
+          "announcement-bar-2"
+        ],
+        "settings": {}
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "14060646107696862457": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      }
+    }
   },
   "presets": {
     "The Hidden Forest": {}

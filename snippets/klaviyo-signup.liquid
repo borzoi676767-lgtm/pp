@@ -1,0 +1,125 @@
+{%- comment -%}
+  Klaviyo signup bridge.
+
+  THE PROBLEM THIS SOLVES
+  The theme's signup forms are Shopify `{% form 'customer' %}` forms. Those create a
+  Shopify customer, but they do NOT create a Klaviyo profile or add anyone to a Klaviyo
+  list. Klaviyo's Shopify sync only picks up customers who already carry email marketing
+  consent, and it runs on its own schedule — so signups appeared to "not connect".
+
+  WHAT THIS DOES
+  Intercepts submit on any form marked `data-klaviyo-form`, POSTs the subscriber straight
+  to Klaviyo's Client Subscriptions API (creating the profile + consent immediately), then
+  lets the Shopify form submit as normal so the customer record is still created. Both
+  systems end up with the person; Klaviyo gets them instantly.
+
+  SETUP (Theme settings → Marketing → Klaviyo)
+    · Public API key  — Klaviyo → Settings → API keys → "Public API key / Site ID" (6 chars).
+                        Safe to expose client-side; this is what klaviyo.js already uses.
+    · List ID         — Klaviyo → Audience → Lists → open your list → the ID in the URL.
+    · SMS capture     — optional phone field. Requires SMS enabled in your Klaviyo account.
+
+  If either ID is blank this snippet does nothing and forms behave exactly as before.
+{%- endcomment -%}
+
+{%- liquid
+  assign kl_key = settings.klaviyo_public_key | strip
+  assign kl_list = settings.klaviyo_list_id | strip
+-%}
+
+{%- if kl_key != blank and kl_list != blank -%}
+<script>
+  (function () {
+    var KEY  = {{ kl_key | json }};
+    var LIST = {{ kl_list | json }};
+    var ENDPOINT = "https://a.klaviyo.com/client/subscriptions/?company_id=" + encodeURIComponent(KEY);
+
+    function toE164(raw) {
+      if (!raw) return null;
+      var d = String(raw).replace(/[^\d+]/g, "");
+      if (d.indexOf("+") === 0) return d;
+      d = d.replace(/\D/g, "");
+      if (d.length === 10) return "+1" + d;              // US/CA default
+      if (d.length === 11 && d.charAt(0) === "1") return "+" + d;
+      return d.length > 6 ? "+" + d : null;              // otherwise let Klaviyo validate
+    }
+
+    function subscribe(email, phone, source) {
+      var subs = { email: { marketing: { consent: "SUBSCRIBED" } } };
+      var attrs = { email: email };
+      if (phone) {
+        attrs.phone_number = phone;
+        subs.sms = { marketing: { consent: "SUBSCRIBED" } };
+      }
+      attrs.subscriptions = subs;
+      if (source) attrs.properties = { signup_source: source };
+
+      return fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "content-type": "application/json", revision: "2024-10-15" },
+        body: JSON.stringify({
+          data: {
+            type: "subscription",
+            attributes: {
+              custom_source: source || "Storefront",
+              profile: { data: { type: "profile", attributes: attrs } }
+            },
+            relationships: { list: { data: { type: "list", id: LIST } } }
+          }
+        })
+      });
+    }
+
+    // Derive a readable signup source from the hidden fields the forms already carry.
+    function sourceOf(form) {
+      var ctx = form.querySelector('input[name="contact[context]"]');
+      if (ctx && ctx.value) return ctx.value;
+      var tags = form.querySelector('input[name="contact[tags]"]');
+      if (tags && tags.value) return tags.value.split(",")[0];
+      return "Storefront";
+    }
+
+    function bind(form) {
+      if (form.__klaviyoBound) return;
+      form.__klaviyoBound = true;
+
+      form.addEventListener("submit", function (e) {
+        if (form.__klaviyoSent) return;                  // second pass: let it through
+        var emailEl = form.querySelector('input[type="email"]');
+        var email = emailEl && emailEl.value && emailEl.value.trim();
+        if (!email) return;                              // nothing to send; native validation handles it
+
+        e.preventDefault();
+        form.__klaviyoSent = true;
+
+        var phoneEl = form.querySelector('input[type="tel"]');
+        var phone = phoneEl ? toE164(phoneEl.value) : null;
+        var source = sourceOf(form);
+
+        var done = false;
+        function go() {
+          if (done) return;
+          done = true;
+          form.submit();                                 // hand off to Shopify
+        }
+        // Never let a slow/blocked network trap the customer on the form.
+        setTimeout(go, 2500);
+        subscribe(email, phone, source).then(go).catch(go);
+      });
+    }
+
+    function bindAll() {
+      document.querySelectorAll("form.js-klaviyo-form").forEach(bind);
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", bindAll);
+    } else {
+      bindAll();
+    }
+    // Popup and cart drawer inject markup late.
+    document.addEventListener("shopify:section:load", bindAll);
+    setTimeout(bindAll, 1200);
+  })();
+</script>
+{%- endif -%}
