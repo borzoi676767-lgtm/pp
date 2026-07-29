@@ -379,19 +379,19 @@
       },
       {
         "type": "paragraph",
-        "content": "Connects the theme's signup forms directly to a Klaviyo list. Leave blank to disable. Keep the Klaviyo app embed enabled under Theme settings → App embeds."
-      },
-      {
-        "type": "text",
-        "id": "klaviyo_public_key",
-        "label": "Klaviyo public API key (Site ID)",
-        "info": "Klaviyo → Settings → API keys. 6 characters. Safe to expose publicly."
+        "content": "Sends signups straight to Klaviyo the moment someone subscribes, instead of waiting for the Shopify sync. Fill in the list ID below — that is the only value needed. Leave it blank to disable. Keep the Klaviyo app embed enabled under Theme settings → App embeds."
       },
       {
         "type": "text",
         "id": "klaviyo_list_id",
-        "label": "Klaviyo list ID",
-        "info": "Klaviyo → Audience → Lists → open the list; the ID is in the URL."
+        "label": "Klaviyo list ID  ← the only one you need",
+        "info": "Klaviyo → Audience → Lists → open your list; the ID is the code in the URL (e.g. XyZ123)."
+      },
+      {
+        "type": "text",
+        "id": "klaviyo_public_key",
+        "label": "Klaviyo public API key (Site ID) — optional",
+        "info": "Normally leave blank: it is read automatically from the Klaviyo app embed. Only fill this in if you turn that app embed off."
       },
       {
         "type": "checkbox",

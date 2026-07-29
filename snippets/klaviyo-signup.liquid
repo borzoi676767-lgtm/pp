@@ -3,36 +3,67 @@
 
   THE PROBLEM THIS SOLVES
   The theme's signup forms are Shopify `{% form 'customer' %}` forms. Those create a
-  Shopify customer, but they do NOT create a Klaviyo profile or add anyone to a Klaviyo
-  list. Klaviyo's Shopify sync only picks up customers who already carry email marketing
-  consent, and it runs on its own schedule — so signups appeared to "not connect".
+  Shopify customer with marketing consent, but Klaviyo only sees that customer when its
+  Shopify integration next syncs — minutes to hours later, and only if the integration is
+  connected. Until then no welcome flow fires, so the signup looks broken to the visitor.
 
   WHAT THIS DOES
-  Intercepts submit on any form marked `data-klaviyo-form`, POSTs the subscriber straight
-  to Klaviyo's Client Subscriptions API (creating the profile + consent immediately), then
-  lets the Shopify form submit as normal so the customer record is still created. Both
-  systems end up with the person; Klaviyo gets them instantly.
+  Intercepts submit on any `.js-klaviyo-form`, POSTs the subscriber straight to Klaviyo's
+  Client Subscriptions API (profile + consent created immediately), then lets the Shopify
+  form submit as normal so the customer record is still created. Both systems get the
+  person; Klaviyo gets them instantly and any welcome flow fires right away.
 
-  SETUP (Theme settings → Marketing → Klaviyo)
-    · Public API key  — Klaviyo → Settings → API keys → "Public API key / Site ID" (6 chars).
-                        Safe to expose client-side; this is what klaviyo.js already uses.
-    · List ID         — Klaviyo → Audience → Lists → open your list → the ID in the URL.
-    · SMS capture     — optional phone field. Requires SMS enabled in your Klaviyo account.
+  SETUP — you only need ONE value
+    · List ID — Klaviyo → Audience → Lists → open your list → the ID in the URL.
+      Paste it into Theme settings → Marketing → Klaviyo list ID.
 
-  If either ID is blank this snippet does nothing and forms behave exactly as before.
+  The public API key (company ID) is read automatically from the Klaviyo app embed's
+  klaviyo.js tag, so there is nothing to copy for it. If you ever disable that app embed,
+  set `klaviyo_public_key` manually and this keeps working.
+
+  If no list ID is set, this stays completely inert and the forms behave exactly as before
+  (the Shopify customer is still created — nothing is lost, it just isn't instant).
 {%- endcomment -%}
 
 {%- liquid
-  assign kl_key = settings.klaviyo_public_key | strip
-  assign kl_list = settings.klaviyo_list_id | strip
+  comment
+    List ID resolves from the shop metafield first (settable via API, survives theme
+    swaps), then falls back to the theme setting for anyone editing in the admin.
+  endcomment
+  assign kl_list = shop.metafields.custom.klaviyo_list_id.value
+  if kl_list == blank
+    assign kl_list = settings.klaviyo_list_id
+  endif
+  assign kl_list = kl_list | strip
+
+  assign kl_key = shop.metafields.custom.klaviyo_public_key.value
+  if kl_key == blank
+    assign kl_key = settings.klaviyo_public_key
+  endif
+  assign kl_key = kl_key | strip
 -%}
 
-{%- if kl_key != blank and kl_list != blank -%}
+{%- if kl_list != blank -%}
 <script>
   (function () {
-    var KEY  = {{ kl_key | json }};
     var LIST = {{ kl_list | json }};
-    var ENDPOINT = "https://a.klaviyo.com/client/subscriptions/?company_id=" + encodeURIComponent(KEY);
+    var KEY  = {{ kl_key | json }};
+
+    // The Klaviyo app embed loads https://static.klaviyo.com/onsite/js/<COMPANY_ID>/klaviyo.js
+    // (older form: ...klaviyo.js?company_id=XXXXXX). Read the ID from whichever is present
+    // so the merchant never has to copy their public key by hand.
+    function companyId() {
+      if (KEY) return KEY;
+      var tags = document.querySelectorAll('script[src*="klaviyo.com"]');
+      for (var i = 0; i < tags.length; i++) {
+        var src = tags[i].src || "";
+        var q = src.match(/[?&]company_id=([A-Za-z0-9]+)/);
+        if (q) return q[1];
+        var p = src.match(/\/onsite\/js\/([A-Za-z0-9]+)\//);
+        if (p) return p[1];
+      }
+      return null;
+    }
 
     function toE164(raw) {
       if (!raw) return null;
@@ -45,6 +76,9 @@
     }
 
     function subscribe(email, phone, source) {
+      var key = companyId();
+      if (!key) return Promise.reject("no company id");
+
       var subs = { email: { marketing: { consent: "SUBSCRIBED" } } };
       var attrs = { email: email };
       if (phone) {
@@ -54,7 +88,7 @@
       attrs.subscriptions = subs;
       if (source) attrs.properties = { signup_source: source };
 
-      return fetch(ENDPOINT, {
+      return fetch("https://a.klaviyo.com/client/subscriptions/?company_id=" + encodeURIComponent(key), {
         method: "POST",
         headers: { "content-type": "application/json", revision: "2024-10-15" },
         body: JSON.stringify({
@@ -102,7 +136,7 @@
           done = true;
           form.submit();                                 // hand off to Shopify
         }
-        // Never let a slow/blocked network trap the customer on the form.
+        // Never let a slow or blocked network trap the customer on the form.
         setTimeout(go, 2500);
         subscribe(email, phone, source).then(go).catch(go);
       });
@@ -117,7 +151,7 @@
     } else {
       bindAll();
     }
-    // Popup and cart drawer inject markup late.
+    // Popup and cart drawer inject markup late; klaviyo.js may also load after us.
     document.addEventListener("shopify:section:load", bindAll);
     setTimeout(bindAll, 1200);
   })();
