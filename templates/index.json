@@ -195,7 +195,7 @@
       "blocks": {
         "r1": { "type": "reason", "settings": { "icon": "seed", "label": "Small Batch" } },
         "r2": { "type": "reason", "settings": { "icon": "fire", "label": "Fresh Roasted" } },
-        "r3": { "type": "reason", "settings": { "icon": "mountain", "label": "Single Origin" } },
+        "r3": { "type": "reason", "settings": { "icon": "mountain", "label": "Single Origin Options" } },
         "r4": { "type": "reason", "settings": { "icon": "medal", "label": "Premium Arabica" } },
         "r5": { "type": "reason", "settings": { "icon": "star", "label": "Roasted in USA" } },
         "r6": { "type": "reason", "settings": { "icon": "truck", "label": "Fast Shipping" } },

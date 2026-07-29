@@ -81,10 +81,13 @@
           </div>
         {%- endif -%}
 
+        {%- comment -%}
+          Tasting notes only. The product description is NOT repeated here — it lives in
+          the Description accordion below the buy button, and showing a truncated copy
+          above it meant every product read out its description twice.
+        {%- endcomment -%}
         {%- if notes != blank -%}
           <p class="product-info__desc"><strong>Tasting notes:</strong> {{ notes }}</p>
-        {%- elsif product.description != blank -%}
-          <div class="product-info__desc">{{ product.description | strip_html | truncatewords: 40 }}</div>
         {%- endif -%}
 
         {%- comment -%} ---------------- Buy form ---------------- {%- endcomment -%}
