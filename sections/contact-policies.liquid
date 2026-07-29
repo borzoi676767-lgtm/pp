@@ -1,0 +1,211 @@
+{%- comment -%}
+  Contact page: how to reach us, a message form, and every store policy in one place.
+
+  Policy text is pulled live from Shopify (Settings → Policies) via the shop object, so
+  editing a policy in admin updates this page automatically — nothing to re-copy here.
+  Each policy is guarded, so any policy left blank in admin simply doesn't render.
+
+  The one exception is the Contact information policy, which Liquid does not expose as a
+  shop.* object. Those details live in this section's settings below and are also linked
+  through to the hosted /policies/contact-information page.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign has_details = false
+  if s.email != blank or s.phone != blank or s.address != blank
+    assign has_details = true
+  endif
+-%}
+
+<section class="section contact-page" aria-label="{{ page.title | default: 'Contact' }}">
+  <div class="page-width" data-reveal>
+
+    <div class="section-head" style="margin-bottom:1.8rem">
+      <p class="eyebrow" style="justify-content:center">{% render 'icon', name: 'pine', size: 15 %} {{ s.eyebrow }}</p>
+      <h1>{{ page.title | default: 'Contact' }}</h1>
+      {%- if s.intro != blank -%}<p class="contact-page__intro">{{ s.intro }}</p>{%- endif -%}
+    </div>
+
+    <div class="contact-grid">
+
+      {%- comment -%} ---- Reach us ---- {%- endcomment -%}
+      {%- if has_details -%}
+        <div class="contact-card">
+          <h2 class="contact-card__title">{{ s.details_heading }}</h2>
+          <ul class="contact-list">
+            {%- if s.trade_name != blank -%}
+              <li><span class="contact-list__label">Trade name</span><span class="contact-list__value">{{ s.trade_name }}</span></li>
+            {%- endif -%}
+            {%- if s.email != blank -%}
+              <li><span class="contact-list__label">Email</span><a class="contact-list__value" href="mailto:{{ s.email }}">{{ s.email }}</a></li>
+            {%- endif -%}
+            {%- if s.phone != blank -%}
+              {%- assign tel = s.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' -%}
+              <li><span class="contact-list__label">Phone</span><a class="contact-list__value" href="tel:{{ tel }}">{{ s.phone }}</a></li>
+            {%- endif -%}
+            {%- if s.address != blank -%}
+              <li><span class="contact-list__label">Address</span><span class="contact-list__value">{{ s.address }}</span></li>
+            {%- endif -%}
+            {%- if s.hours != blank -%}
+              <li><span class="contact-list__label">Reply time</span><span class="contact-list__value">{{ s.hours }}</span></li>
+            {%- endif -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} ---- Message form ---- {%- endcomment -%}
+      <div class="contact-card">
+        <h2 class="contact-card__title">{{ s.form_heading }}</h2>
+        {%- form 'contact', class: 'contact-form' -%}
+          {%- if form.posted_successfully? -%}
+            <p class="form-success">{{ s.success_text }}</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p class="form-error">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+          <label class="contact-field">
+            <span>Name</span>
+            <input class="input" type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}" required>
+          </label>
+          <label class="contact-field">
+            <span>Email</span>
+            <input class="input" type="email" name="contact[email]" autocomplete="email" value="{{ form.email }}" required>
+          </label>
+          <label class="contact-field">
+            <span>How can we help?</span>
+            <textarea class="input" name="contact[body]" rows="5" required>{{ form.body }}</textarea>
+          </label>
+          <button type="submit" class="btn btn--accent btn--block">{{ s.form_button }}</button>
+        {%- endform -%}
+      </div>
+
+    </div>
+
+    {%- comment -%} ---- Policies, straight from Shopify ---- {%- endcomment -%}
+    <div class="contact-policies">
+      <div class="section-head" style="margin:2.6rem 0 1.2rem">
+        <p class="eyebrow" style="justify-content:center">{% render 'icon', name: 'shield', size: 15 %} {{ s.policies_eyebrow }}</p>
+        <h2>{{ s.policies_heading }}</h2>
+      </div>
+
+      <div class="product-accordion">
+        {%- if s.email != blank or s.address != blank -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">Contact information <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte">
+              {%- if s.trade_name != blank -%}<p>Trade name: {{ s.trade_name }}</p>{%- endif -%}
+              {%- if s.phone != blank -%}<p>Phone number: {{ s.phone }}</p>{%- endif -%}
+              {%- if s.email != blank -%}<p>Email: {{ s.email }}</p>{%- endif -%}
+              {%- if s.address != blank -%}<p>Physical address: {{ s.address }}</p>{%- endif -%}
+              <p><a href="/policies/contact-information">View as a standalone page</a></p>
+            </div>
+          </details>
+        {%- endif -%}
+
+        {%- if shop.refund_policy.body != blank -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">{{ shop.refund_policy.title }} <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte">
+              {{ shop.refund_policy.body }}
+              <p><a href="{{ shop.refund_policy.url }}">View as a standalone page</a></p>
+            </div>
+          </details>
+        {%- endif -%}
+
+        {%- if shop.shipping_policy.body != blank -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">{{ shop.shipping_policy.title }} <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte">
+              {{ shop.shipping_policy.body }}
+              <p><a href="{{ shop.shipping_policy.url }}">View as a standalone page</a></p>
+            </div>
+          </details>
+        {%- endif -%}
+
+        {%- if shop.subscription_policy.body != blank -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">{{ shop.subscription_policy.title }} <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte">
+              {{ shop.subscription_policy.body }}
+              <p><a href="{{ shop.subscription_policy.url }}">View as a standalone page</a></p>
+            </div>
+          </details>
+        {%- endif -%}
+
+        {%- if shop.terms_of_service.body != blank -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">{{ shop.terms_of_service.title }} <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte">
+              {{ shop.terms_of_service.body }}
+              <p><a href="{{ shop.terms_of_service.url }}">View as a standalone page</a></p>
+            </div>
+          </details>
+        {%- endif -%}
+
+        {%- if shop.privacy_policy.body != blank -%}
+          <details class="product-accordion__item">
+            <summary class="product-accordion__summary">{{ shop.privacy_policy.title }} <span class="plus">{% render 'icon', name: 'plus', size: 18 %}</span></summary>
+            <div class="product-accordion__body rte">
+              {{ shop.privacy_policy.body }}
+              <p><a href="{{ shop.privacy_policy.url }}">View as a standalone page</a></p>
+            </div>
+          </details>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if page.content != blank -%}
+      <div class="rte page-content" style="margin-top:2rem">{{ page.content }}</div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  .contact-page__intro { max-width: 58ch; margin: .6rem auto 0; text-align: center; color: var(--ink-mute); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2.5vw, 1.8rem); align-items: start; }
+  @media (max-width: 849px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: clamp(1.2rem, 3vw, 1.8rem); }
+  .contact-card__title { margin: 0 0 1rem; font-size: 1.15rem; }
+  .contact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
+  .contact-list li { display: grid; gap: .15rem; }
+  .contact-list__label { font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-mute); }
+  .contact-list__value { font-weight: 600; overflow-wrap: anywhere; }
+  a.contact-list__value { color: var(--forest-700); text-decoration: underline; text-underline-offset: 2px; }
+  .contact-form { display: grid; gap: .85rem; }
+  .contact-field { display: grid; gap: .3rem; }
+  .contact-field > span { font-size: .78rem; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-mute); }
+  .contact-form textarea.input { resize: vertical; min-height: 7rem; font: inherit; }
+  .contact-policies .product-accordion__body { max-height: 30rem; overflow-y: auto; }
+</style>
+
+{% schema %}
+{
+  "name": "Contact & policies",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Reach the camp" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Questions about an order, a roast, or a return? Send a note and a real person will get back to you." },
+
+    { "type": "header", "content": "Contact details" },
+    { "type": "text", "id": "details_heading", "label": "Heading", "default": "How to reach us" },
+    { "type": "text", "id": "trade_name", "label": "Trade name", "default": "Sasquatch Coffee" },
+    { "type": "text", "id": "email", "label": "Email", "default": "info4sasquatch@gmail.com" },
+    { "type": "text", "id": "phone", "label": "Phone", "default": "(307) 201-8819" },
+    { "type": "textarea", "id": "address", "label": "Physical address", "default": "30 N Gould St, Sheridan WY 82801, United States" },
+    { "type": "text", "id": "hours", "label": "Reply time", "default": "We reply within 1 business day" },
+
+    { "type": "header", "content": "Message form" },
+    { "type": "text", "id": "form_heading", "label": "Heading", "default": "Send us a message" },
+    { "type": "text", "id": "form_button", "label": "Button", "default": "Send message" },
+    { "type": "textarea", "id": "success_text", "label": "Success message", "default": "Thanks — your message is on its way. We'll be in touch shortly." },
+
+    { "type": "header", "content": "Policies" },
+    { "type": "paragraph", "content": "Policy text is pulled live from Settings → Policies. Edit it there and this page updates itself." },
+    { "type": "text", "id": "policies_eyebrow", "label": "Eyebrow", "default": "The fine print" },
+    { "type": "text", "id": "policies_heading", "label": "Heading", "default": "Store Policies" }
+  ],
+  "enabled_on": { "templates": ["page"] }
+}
+{% endschema %}
