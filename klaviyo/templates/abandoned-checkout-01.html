@@ -1,0 +1,68 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>You left something at the trailhead</title>
+<style>
+@media only screen and (max-width:600px){
+.sq-wrap{width:100%!important}
+.sq-pad{padding-left:22px!important;padding-right:22px!important}
+.sq-h1{font-size:29px!important;line-height:35px!important}
+}
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#F7F3EA;-webkit-font-smoothing:antialiased;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;font-size:1px;line-height:1px;color:#F7F3EA;">Your cart is still saved — we held it for you.&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F7F3EA;">
+<tr><td align="center">
+<table role="presentation" class="sq-wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;">
+
+<tr><td align="center" style="background-color:#1F2E23;padding:22px 30px;">
+<span style="font-family:Georgia,'Times New Roman',serif;font-size:19px;letter-spacing:3px;color:#F7F3EA;text-transform:uppercase;font-weight:bold;">Sasquatch Coffee</span><br>
+<span style="font-family:Helvetica,Arial,sans-serif;font-size:10px;letter-spacing:2.5px;color:#7D8C74;text-transform:uppercase;">Roasted to order &middot; Sheridan, Wyoming</span>
+</td></tr>
+
+<tr><td class="sq-pad" style="background-color:#FFFFFF;padding:46px 48px 34px 48px;">
+<p style="margin:0 0 10px 0;font-family:Helvetica,Arial,sans-serif;font-size:11px;letter-spacing:2px;color:#C8752D;text-transform:uppercase;">Still in your cart</p>
+<h1 class="sq-h1" style="margin:0 0 18px 0;font-family:Georgia,'Times New Roman',serif;font-size:33px;line-height:40px;color:#1F2E23;font-weight:normal;">You left something<br>at the trailhead.</h1>
+<p style="margin:0 0 16px 0;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:26px;color:#2B2B26;">{{ first_name|default:"Hey" }} — no pressure, but your cart is still saved. Nothing gets roasted until you order, so it's exactly as fresh as when you left it.</p>
+<p style="margin:0 0 32px 0;font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:26px;color:#2B2B26;">Pick up where you left off:</p>
+
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto 26px auto;">
+<tr><td align="center" bgcolor="#C8752D" style="border-radius:4px;">
+<a href="{{ event.extra.checkout_url|default:'https://sasquatchcoffee.store/cart' }}" style="display:inline-block;padding:16px 46px;font-family:Helvetica,Arial,sans-serif;font-size:14px;letter-spacing:1.5px;color:#FFFFFF;text-decoration:none;text-transform:uppercase;font-weight:bold;">Finish my order</a>
+</td></tr>
+</table>
+
+<p style="margin:0;font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:21px;color:#7D8C74;text-align:center;">Cart giving you trouble? Just reply to this email — a real person reads it.</p>
+</td></tr>
+
+<tr><td style="background-color:#FFFFFF;padding:0 48px;"><div style="border-top:1px solid #E8E2D6;"></div></td></tr>
+
+<tr><td class="sq-pad" style="background-color:#FFFFFF;padding:32px 48px 40px 48px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td valign="top" width="50%" style="padding-right:16px;">
+<div style="font-family:Georgia,'Times New Roman',serif;font-size:16px;color:#1F2E23;margin-bottom:6px;">Roasted to order</div>
+<div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:21px;color:#7D8C74;">Your beans hit the roaster after you check out — never before.</div>
+</td>
+<td valign="top" width="50%">
+<div style="font-family:Georgia,'Times New Roman',serif;font-size:16px;color:#1F2E23;margin-bottom:6px;">Ground how you brew</div>
+<div style="font-family:Helvetica,Arial,sans-serif;font-size:13px;line-height:21px;color:#7D8C74;">Whole bean, espresso, coarse for cold brew — your call at checkout.</div>
+</td>
+</tr></table>
+</td></tr>
+
+<tr><td class="sq-pad" align="center" style="background-color:#1F2E23;padding:34px 48px;">
+<div style="font-family:Georgia,'Times New Roman',serif;font-size:15px;letter-spacing:2.5px;color:#F7F3EA;text-transform:uppercase;margin-bottom:14px;">Sasquatch Coffee</div>
+<div style="font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:20px;color:#9FAE96;margin-bottom:16px;">Roasted to order in Sheridan, Wyoming<br>30 N Gould St, Sheridan, WY 82801</div>
+<div style="font-family:Helvetica,Arial,sans-serif;font-size:12px;line-height:20px;color:#9FAE96;">
+<span style="color:#C8752D;">{% unsubscribe 'Unsubscribe' %}</span>
+</div>
+</td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>
