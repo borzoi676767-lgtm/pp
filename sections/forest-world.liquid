@@ -5,7 +5,46 @@ stations + collection shelves), campfire story, clickable crew, and the
 3D spinnable mascot Simon in the crew. Everything editable via schema.
 {%- endcomment -%}
 
-<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+{%- comment -%}
+  model-viewer is 253 KB from a third-party CDN, and every <model-viewer> here
+  already carries loading="lazy" plus a .webp poster — so the 3D is decoration,
+  not the first thing a shopper needs. Loading it eagerly spent a quarter of a
+  megabyte before anyone saw a product, on traffic that is ~2/3 mobile.
+
+  Fetch it only once a model actually scrolls into view. If IntersectionObserver
+  is unavailable the posters simply remain, which is the same thing a visitor
+  sees today while the library is still downloading.
+{%- endcomment -%}
+<script>
+  (function () {
+    var SRC = 'https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js';
+    var loaded = false;
+    function load() {
+      if (loaded) return;
+      loaded = true;
+      var s = document.createElement('script');
+      s.type = 'module';
+      s.src = SRC;
+      document.head.appendChild(s);
+    }
+    function watch() {
+      var models = document.querySelectorAll('model-viewer');
+      if (!models.length) return;
+      if (!('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) { load(); io.disconnect(); return; }
+        }
+      }, { rootMargin: '200px' });
+      for (var i = 0; i < models.length; i++) io.observe(models[i]);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', watch);
+    } else {
+      watch();
+    }
+  })();
+</script>
 
 <section class="world" data-parallax-scene aria-label="{{ section.settings.heading | default: 'Welcome to the forest' | escape }}">
 <div class="world__bg" aria-hidden="true">

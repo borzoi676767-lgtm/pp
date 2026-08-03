@@ -90,8 +90,17 @@
           <p class="product-info__desc"><strong>Tasting notes:</strong> {{ notes }}</p>
         {%- endif -%}
 
-        {%- comment -%} ---------------- Buy form ---------------- {%- endcomment -%}
-        <form data-product-form class="product-buy" novalidate>
+        {%- comment -%}
+          ---------------- Buy form ----------------
+          action/method are deliberate. global.js intercepts submit and POSTs to
+          /cart/add.js, but without them a JS failure left this button inert with
+          no fallback — the shopper clicks and nothing happens, silently. Most of
+          our traffic arrives through the Facebook and Instagram in-app browsers,
+          which break third-party JS often enough that this needs to degrade.
+          With them, a failed submit does a normal form POST and still adds to cart.
+        {%- endcomment -%}
+        <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" data-product-form class="product-buy" novalidate>
+          <input type="hidden" name="return_to" value="/cart">
           <div class="variant-picker" data-variant-picker>
             <script type="application/json" data-variant-json>{{ product.variants | json }}</script>
             {%- unless product.has_only_default_variant -%}
