@@ -8,10 +8,11 @@ only shape how Claude approaches certain kinds of work.
 |---|---|---|---|---|
 | Marketing | 49 (`cro`, `copywriting`, `ads`, `emails`, `seo-audit`, …) | [coreyhaines31/marketingskills](https://github.com/coreyhaines31/marketingskills) | v2.10.0 · `7868cb9` (2026-07-27) | MIT |
 | Video | 1 (`watch`) | [bradautomates/claude-video](https://github.com/bradautomates/claude-video) | v0.2.0 · `83da59f` (2026-06-30) | MIT |
+| UI/UX | 7 (`ui-ux-pro-max`, `ui-styling`, `design`, `design-system`, `brand`, `slides`, `banner-design`) | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) | v2.11.0 · `14ddef5` (2026-08-01) | MIT |
 
 ## Why vendored instead of installed as plugins
 
-Both upstreams ship as Claude Code plugins, which install under `~/.claude/`.
+All three upstreams ship as plugins, which install under `~/.claude/`.
 That is the wrong place here: sessions for this repo run in a throwaway
 container that is wiped after a period of inactivity, so a plugin install would
 be gone by the next session. Committing the skills to the repo is what makes
@@ -43,6 +44,30 @@ which only exists for real plugin installs, and it is cosmetic. Run
 `python3 .claude/skills/watch/scripts/setup.py --check` for the same
 information.
 
+## `ui-ux-pro-max` and friends
+
+Seven skills built around CSV databases of styles, palettes, font pairings,
+charts and per-stack guidelines, queried through
+`.claude/skills/ui-ux-pro-max/scripts/search.py`. Python is stdlib-only, so the
+search works with no setup:
+
+```sh
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "dark editorial" -d style
+```
+
+A few of the helper scripts shell out, but only to fixed commands — `npx shadcn
+add <components>` in `ui-styling`, and `node generate-tokens.cjs` in `brand`.
+Those two need Node; everything else does not.
+
+`ui-styling/canvas-fonts/` is 5.5M of TTFs and accounts for most of the size
+here. They are kept because `references/canvas-design-system.md` tells the skill
+to search that directory — delete them and that path breaks.
+
+Upstream's documented install is `npx ui-ux-pro-max-cli init`. That was **not**
+used: it fetches and runs a CLI at install time, and it would write into
+`~/.claude/`, which does not survive this container. Copying the skill
+directories in is equivalent and inspectable.
+
 ## What was left out
 
 - `marketingskills`: the `skills/*/evals/` test fixtures (~420K) and the `tools/`
@@ -50,19 +75,32 @@ information.
   needing its own key.
 - `claude-video`: `tests/`, `hooks/`, `dev-sync.sh`, and the Codex plugin
   manifest — none are used at runtime.
+- `ui-ux-pro-max-skill`: the repo's `cli/`, `gallery/`, `screenshots/`,
+  `preview/`, `projects/`, `src/` and `stack/` trees (~10M of website and CLI
+  assets), plus each skill's `scripts/tests/` suites and coverage files.
 
 ## Updating
 
+Each set updates independently — none of these commands touch the others.
+
 ```sh
-# marketing skills
+# marketing skills (49)
 git clone --depth 1 https://github.com/coreyhaines31/marketingskills /tmp/ms
-find .claude/skills -mindepth 1 -maxdepth 1 -type d ! -name watch -exec rm -rf {} +
-cp -r /tmp/ms/skills/. .claude/skills/
+for s in /tmp/ms/skills/*/; do
+  n=$(basename "$s"); rm -rf ".claude/skills/$n"; cp -r "$s" ".claude/skills/$n"
+done
 find .claude/skills -type d -name evals -prune -exec rm -rf {} +
 
-# watch
+# watch (1)
 git clone --depth 1 https://github.com/bradautomates/claude-video /tmp/cv
 rm -rf .claude/skills/watch && cp -r /tmp/cv/skills/watch .claude/skills/watch
+
+# ui/ux (7)
+git clone --depth 1 https://github.com/nextlevelbuilder/ui-ux-pro-max-skill /tmp/ux
+for n in ui-ux-pro-max design-system design brand slides banner-design ui-styling; do
+  rm -rf ".claude/skills/$n"; cp -r "/tmp/ux/.claude/skills/$n" ".claude/skills/$n"
+done
+find .claude/skills -path "*/scripts/tests" -prune -exec rm -rf {} +
 ```
 
 Then update the version and commit columns in the table above.
