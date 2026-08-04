@@ -74,18 +74,39 @@ inherit it — no template or flow edits required.
 
 ### 2. Test sends cannot run
 
-**Email.** The only available test address is the account owner's own
-(`borzoi67.67.67@gmail.com`), which is globally suppressed — `USER_SUPPRESSED`, recorded
-2026-07-15. The Preview List (`TiR5Lg`) contains exactly that one suppressed profile, so a
-campaign to it would deliver to zero recipients. The suppression was not lifted, as it
-appears deliberate.
+**Email — resolved 2026-08-03.** The only available test address is the account owner's own
+(`borzoi67.67.67@gmail.com`), which was globally suppressed since 2026-07-15.
 
-**SMS.** All 13 profiles in the account report `NEVER_SUBSCRIBED` for SMS marketing. There
-is no consented number in the account to send a test to, and consent was not added on
-anyone's behalf.
+Inspecting the suppression event showed `suppression_method: BOT_PROTECTION` — Klaviyo's
+automated bot filtering caught the signup, it was *not* a deliberate human suppression.
+That distinction matters: there was no opt-out intent to override.
 
-Unblock: lift the suppression on the owner's address for the email test; opt a real number
-in via the join keyword or signup popup for the SMS test.
+With the owner's approval the address was resubscribed via the subscribe endpoint
+(`custom_source` records the authorisation), which cleared the suppression:
+`consent: SUBSCRIBED`, `suppression: []`, `can_receive_email_marketing: true`.
+
+**SMS — still blocked.** All 13 profiles in the account report `NEVER_SUBSCRIBED` for SMS
+marketing. There is no consented number in the account to send a test to, and consent was
+not added on anyone's behalf.
+
+Unblock for SMS: opt a real number in via the join keyword or the signup popup, then the
+test can run.
+
+---
+
+## Test send record
+
+| | |
+| --- | --- |
+| Campaign | `01KZ56K3SRTVBAXBHXZWKKWEBD` — "TEST - Welcome template delivery check" |
+| Audience | Preview List `TiR5Lg` — 1 profile, the owner's own address |
+| Template | `TqkkK9` (Klaviyo clones per-campaign; clone was `XgpgNH`) |
+| Smart sending | Disabled, so a recent-send rule could not silently skip the test |
+| Sender | `borzoi67.67.67@gmail.com` — the unauthenticated address, deliberately, to observe real-world deliverability |
+
+The send was queued successfully. Because the sender domain is still unauthenticated, the
+inbox placement of this test is itself the diagnostic: landing in spam or bouncing confirms
+the DMARC problem above rather than indicating a fault in the template.
 
 ---
 
