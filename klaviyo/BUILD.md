@@ -104,9 +104,29 @@ test can run.
 | Smart sending | Disabled, so a recent-send rule could not silently skip the test |
 | Sender | `borzoi67.67.67@gmail.com` — the unauthenticated address, deliberately, to observe real-world deliverability |
 
-The send was queued successfully. Because the sender domain is still unauthenticated, the
-inbox placement of this test is itself the diagnostic: landing in spam or bouncing confirms
-the DMARC problem above rather than indicating a fault in the template.
+### Outcome — send job `complete`
+
+A `Received Email` event fired at 2026-08-04 01:37:18 UTC. No bounce, drop, or spam-complaint
+event was recorded. The template rendered and the pipeline works end to end.
+
+The event's internal properties are the useful part:
+
+| Property | Value |
+| --- | --- |
+| Inbox Provider | Gmail |
+| Sending Domain | `kocruj.shared.klaviyomail.com` |
+| Friendly From Domain | `gmail.com` |
+| IP Pool | `new_accounts` |
+| Sending IP | 170.203.20.46 |
+
+**That mismatch is the DMARC problem, visible in the data.** The message is signed by
+`klaviyomail.com` but the visible From is `gmail.com`, so SPF/DKIM do not align with the
+From domain and DMARC evaluation fails. Gmail accepted it rather than rejecting outright,
+but acceptance is not inbox placement — `Received Email` only means the mailbox provider
+took delivery. Compounding it, the send went out on the shared `new_accounts` IP pool,
+which carries no established reputation.
+
+Authenticating a sending domain fixes the alignment and moves sends off the mismatch.
 
 ---
 
