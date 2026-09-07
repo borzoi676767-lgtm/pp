@@ -38,6 +38,28 @@ Both shell out to `.claude/skills/impeccable/scripts/impeccable`, a launcher tha
 checksum-verified engine binary to `~/.impeccable/bin/` on first run and no-ops if the script is
 absent. Remove `.claude/settings.json` to disable the hooks while keeping the skill.
 
+### Trading and market research
+
+Seventy-four skills from
+[tradermonty/claude-trading-skills](https://github.com/tradermonty/claude-trading-skills)
+(MIT) — screeners (CANSLIM, VCP, PEAD, dividend growth, Finviz), market-regime and breadth
+analysis, backtesting, position sizing, risk gates, and edge-research pipelines.
+
+Most require API keys before they do anything useful:
+
+```bash
+export FMP_API_KEY=...        # Financial Modeling Prep, free tier 250 req/day — used by most skills
+export FINVIZ_API_KEY=...     # FINVIZ Elite, paid — dividend/pre-screening only
+export ALPACA_API_KEY=...     # Alpaca, paper trading is free — portfolio-manager only
+```
+
+Upstream is explicit that this is for research and education, not financial advice, and
+`portfolio-manager` reaches a broker only through an Alpaca MCP server you configure
+yourself. Nothing here places an order on its own.
+
+These add roughly 7,600 tokens of always-on context. The upstream README supports installing
+individual skill folders — delete the ones you don't want from `.claude/skills/` to trim.
+
 ## MCP servers
 
 `.mcp.json` registers the [21st.dev](https://21st.dev) component MCP server at project
