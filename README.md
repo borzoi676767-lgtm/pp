@@ -26,6 +26,18 @@ installed as authored — no setup step, they work as soon as they're on disk.
 `pick-ui-library`, `prototype` and `review-animations` are user-invoked only
 (`disable-model-invocation`); the rest trigger automatically.
 
+### Design review and polish
+
+- `.claude/skills/impeccable` — [Impeccable](https://github.com/pbakaus/impeccable) (Apache 2.0),
+  a frontend design skill with 23 commands (`/impeccable init`, `polish`, `audit`, `critique`,
+  `animate`, ...) and 61 deterministic detector rules.
+
+Installed with its four subagents (`.claude/agents/impeccable-*.md`) and `.claude/settings.json`,
+which registers two hooks: a fast check after every `Edit`/`Write`, and a deeper pass on `Stop`.
+Both shell out to `.claude/skills/impeccable/scripts/impeccable`, a launcher that downloads a
+checksum-verified engine binary to `~/.impeccable/bin/` on first run and no-ops if the script is
+absent. Remove `.claude/settings.json` to disable the hooks while keeping the skill.
+
 ## MCP servers
 
 `.mcp.json` registers the [21st.dev](https://21st.dev) component MCP server at project
