@@ -8,3 +8,6 @@ aliens
 - `.claude/skills/freqtrade` — build, backtest and validate trading strategies with
   [Freqtrade](https://github.com/freqtrade/freqtrade).
   Run `python .claude/skills/freqtrade/scripts/setup_freqtrade.py` once to install it.
+- `.claude/skills/ollama` — run open-weight LLMs locally with
+  [Ollama](https://github.com/ollama/ollama).
+  Run `bash .claude/skills/ollama/scripts/setup_ollama.sh` once to install it.
