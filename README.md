@@ -25,3 +25,20 @@ installed as authored — no setup step, they work as soon as they're on disk.
 
 `pick-ui-library`, `prototype` and `review-animations` are user-invoked only
 (`disable-model-invocation`); the rest trigger automatically.
+
+## MCP servers
+
+`.mcp.json` registers the [21st.dev](https://21st.dev) component MCP server at project
+scope. It stores `${API_KEY_21ST}` as an environment-variable reference, not the key
+itself, so nothing secret is committed.
+
+To use it:
+
+```bash
+export API_KEY_21ST=<your 21st.dev key>   # from https://21st.dev
+claude                                     # approve the project MCP server when prompted
+```
+
+Project-scoped MCP servers require explicit approval on first use, and the key must be
+present in the environment before starting Claude Code — `claude mcp get 21st` warns if
+it is missing.
