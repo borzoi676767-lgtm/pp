@@ -60,6 +60,10 @@ yourself. Nothing here places an order on its own.
 These add roughly 7,600 tokens of always-on context. The upstream README supports installing
 individual skill folders — delete the ones you don't want from `.claude/skills/` to trim.
 
+- `.claude/skills/design-taste-frontend` — [taste-skill](https://github.com/Leonxlnx/taste-skill)
+  (MIT), an anti-slop frontend skill for landing pages, portfolios and redesigns. Installed with
+  `npx skills add`, which recorded `skills-lock.json` (source + content hash).
+
 ## MCP servers
 
 `.mcp.json` registers the [21st.dev](https://21st.dev) component MCP server at project
