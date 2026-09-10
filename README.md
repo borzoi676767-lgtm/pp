@@ -64,6 +64,11 @@ individual skill folders — delete the ones you don't want from `.claude/skills
   (MIT), an anti-slop frontend skill for landing pages, portfolios and redesigns. Installed with
   `npx skills add`, which recorded `skills-lock.json` (source + content hash).
 
+- `.claude/skills/tradingagents` — run [TradingAgents](https://github.com/TauricResearch/TradingAgents),
+  a multi-agent LLM framework that debates a ticker to a BUY/SELL/HOLD decision. Needs an LLM
+  provider key; price data defaults to keyless yfinance. `scripts/preflight.py` reports config,
+  keys and a cost floor without making any LLM calls.
+
 ## MCP servers
 
 `.mcp.json` registers the [21st.dev](https://21st.dev) component MCP server at project
