@@ -1,0 +1,11 @@
+# Python bytecode — generated when skill scripts are run from the repo
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenvs
+.venv/
+venv/
+
+# OS noise
+.DS_Store
