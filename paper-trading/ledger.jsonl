@@ -1,0 +1,1 @@
+{"seq":1,"ts":"2026-10-12T22:12:09Z","event":"INIT","config":{"balances":{"crypto":1000.0,"pm":1000.0},"max_risk_pct":1.0,"cost_bps":50,"min_rr":1.5,"max_stop_pct":25,"mode":"PAPER"},"prev":"0000000000000000000000000000000000000000000000000000000000000000","hash":"71e5a46631202a9947ce4442796ea6c393c0a0d6e9f934bec8e0022b8ce3b3eb"}
