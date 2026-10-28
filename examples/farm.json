@@ -1,0 +1,103 @@
+{
+  "accounts": [
+    {
+      "name": "fut-eval-trend",
+      "rules": "example_futures_eval_50k",
+      "symbol": "MES",
+      "strategy": {
+        "name": "ema_trend",
+        "params": {
+          "fast": 20,
+          "slow": 50,
+          "trend": 200
+        }
+      },
+      "execution": {
+        "point_value": 5,
+        "qty_step": 1,
+        "max_qty": 10,
+        "slippage": 0.25,
+        "commission_per_unit": 0.5
+      },
+      "risk": {
+        "risk_per_trade": 0.004,
+        "max_trades_per_day": 2
+      }
+    },
+    {
+      "name": "fut-eval-brkout",
+      "rules": "example_futures_eval_50k",
+      "symbol": "MES",
+      "strategy": {
+        "name": "breakout",
+        "params": {
+          "period": 20,
+          "reward_risk": 2.5
+        }
+      },
+      "execution": {
+        "point_value": 5,
+        "qty_step": 1,
+        "max_qty": 10,
+        "slippage": 0.25,
+        "commission_per_unit": 0.5
+      },
+      "risk": {
+        "risk_per_trade": 0.004,
+        "max_trades_per_day": 2
+      }
+    },
+    {
+      "name": "fx-eval-rsi",
+      "rules": "example_forex_2step_100k",
+      "symbol": "EURUSD",
+      "strategy": {
+        "name": "rsi_reversion",
+        "params": {
+          "period": 2,
+          "oversold": 10,
+          "overbought": 90
+        }
+      },
+      "execution": {
+        "point_value": 1,
+        "qty_step": 1000,
+        "max_qty": 2000000,
+        "slippage": 5e-05,
+        "commission_per_unit": 3.5e-06
+      },
+      "risk": {
+        "risk_per_trade": 0.005
+      }
+    },
+    {
+      "name": "fx-funded-trend",
+      "rules": "example_forex_funded_100k",
+      "symbol": "EURUSD",
+      "strategy": {
+        "name": "ema_trend"
+      },
+      "execution": {
+        "point_value": 1,
+        "qty_step": 1000,
+        "max_qty": 2000000,
+        "slippage": 5e-05,
+        "commission_per_unit": 3.5e-06
+      },
+      "risk": {
+        "risk_per_trade": 0.0025
+      }
+    }
+  ],
+  "data": {},
+  "synthetic": {
+    "MES": {
+      "start_price": 5000,
+      "daily_vol": 0.012
+    },
+    "EURUSD": {
+      "start_price": 1.08,
+      "daily_vol": 0.006
+    }
+  }
+}
